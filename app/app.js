@@ -11,11 +11,9 @@ angular
     ])
     //config app constants
     .constant("constant", {
-        "GET_TOKEN_URL": "/wapAccess_Account.msp",
-        "GET_USER_INFO": "/h5/getUserInfo.jsp",
-        "LOGIN_BY_PASSWORD_URL": "/login_Account.msp",
-        "LOGIN_BY_TOKEN_URL": "/wapLogin_Account.msp",
-        "LOGOUT_URL": "/logout_Account.msp"
+        searchUrl : "searchResult.jsp",
+        ipkUrl:'https://itunes.apple.com/cn/app/he-shi-jie/id771718079?mt=8',
+        apkUrl:'http://www.lovev.com/download/android_isj.jsp'
     })
     //config route
     .config(['$routeProvider', function ($routeProvider) {

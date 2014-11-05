@@ -3,7 +3,14 @@
  */
 'use strict';
 angular.module('lovevApp.user', [])
-    .factory("userService", ["$rootScope", "$http", "constant", function ($rootScope, $http, constant) {
+    .constant('userConstant',{
+        "GET_TOKEN_URL": "/wapAccess_Account.msp",
+        "GET_USER_INFO": "/h5/getUserInfo.jsp",
+        "LOGIN_BY_PASSWORD_URL": "/login_Account.msp",
+        "LOGIN_BY_TOKEN_URL": "/wapLogin_Account.msp",
+        "LOGOUT_URL": "/logout_Account.msp"
+    })
+    .factory("userService", ["$rootScope", "$http", "userConstant", function ($rootScope, $http, constant) {
         return {
             /**
              * 获取用户信息
