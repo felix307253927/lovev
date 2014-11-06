@@ -72,7 +72,7 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
                     paths[path]=true;
                     return paths
                 },{}),
-            headNavShowPath = '/l1 /live'.split(' ').reduce(function(paths, path) {
+            headNavShowPath = '/level1 /live'.split(' ').reduce(function(paths, path) {
                 paths[path] = true;
                 return paths;
             },{});
@@ -89,7 +89,7 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
             $rootScope.headNavShow = !!headNavShowPath[path];
 
             //若是二级栏目
-            if(path =='/l2'){
+            if(path =='/level2'){
                 //首次载入二级栏目模板时提取筛选器
                 /*if(!constant.filterKeys && constant.jsonScriptRE.test($route.current.locals.$template)){
                  constant.filterKeys = JSON.parse(RegExp.$2)
