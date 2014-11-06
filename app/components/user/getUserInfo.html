@@ -1,0 +1,30 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+{
+<c:if test="${isLogin}">
+    "isLogin": true,
+    "userInfo":{
+    "nickName":"${userInfo.sname}",
+    "mobile":"${mobile}",
+    <%
+    java.util.Map monthProduct = new java.util.HashMap();
+    for(String id :"2028593920 2028593910 1028593559".split(" "))
+    monthProduct.put(id,true);
+    request.setAttribute("monthProduct",monthProduct);
+    %>
+    <cms:orderList var="myProductList"/>
+    <c:set var="hasMonthOrdered" value="false"/>
+    <c:forEach var="product" items="${myProductList}" varStatus="i">
+        <c:if test="${!empty monthProduct[product.productID] && product.status == 1}">
+            <c:set var="hasMonthOrdered" value="true"/>
+        </c:if>
+    </c:forEach>
+    "hasMonthOrdered": ${hasMonthOrdered}
+    }
+</c:if>
+
+<c:if test="${empty isLogin}">
+    "isLogin":false
+</c:if>
+}

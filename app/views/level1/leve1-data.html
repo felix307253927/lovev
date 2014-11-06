@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+
+<%--
+//response delay test
+String nid = request.getParameter("nid");
+if(nid!=null && nid.equals("40114912")){
+Thread.sleep(3000);
+}
+--%>
+
+<%-- 40114942 频道节点 --%>
+<cms:node var="node" nodeid="${param.nid}"/>
+<%-- 获取bannerid --%>
+<c:forEach var="nn" items="${node.childNodeNets}">
+    <c:if test="${fn:contains(nn.namePath,'banner')}">
+        <c:set var="bannerid" value="${nn.node.nodeId}"/>
+        <cms:node var="bannerNode" nodeid="${bannerid}"/>
+    </c:if>
+</c:forEach>
+<cms:nodecont var="banners" nodeid="${bannerid}" dataobjectid="1" sortKey="ranking" sortType="desc" pagesize="10"/>
+{
+<%-- 设置节点的“更多”路由信息，作为板块路由信息的默认值 --%>
+<c:if test="${!empty node.property1}">
+    <c:set var="nodeRouteMore" value="${node.property1}"/>
+</c:if>
+<%-- 判断是那种类型的banner --%>
+<c:if test="${!empty bannerNode.property2}">
+    <c:set var="bannerType" value="${bannerNode.property2}"/>
+</c:if>
+"bannerType":"${bannerType}",
+"banners":[
+<c:forEach var="banner" items="${banners}" varStatus='i'>
+    {
+    "name":"${banner.name}",
+    "nodeid":"${banner.fields.AUTHOR}",
+    "contid":"${banner.fields.LINKS}",
+    "description":"${banner.fields.CONTENTS}",<c:if test="${!empty banner.fields.LABLE1}">
+    "label":"${banner.fields.LABLE1}",</c:if><%-- 取  角   标  信   息 --%>
+    <c:if test="${fn:length(banner.fields.IMAGES)>0}">
+        <c:forEach var="img" items="${banner.fields.IMAGES}">
+            <c:if test="${fn:contains(img.fileType,'H5_CONTENT')}">
+                <c:set var="imgSrc" value="${portalUrl}${img.src}"/>
+            </c:if>
+        </c:forEach>
+    </c:if>
+    "imgSrc":"${imgSrc}"<c:if test="${bannerType==1}">,
+    "imgType":"${banner.fields.ABSTRACT}"
+</c:if>
+    }<c:if test="${!i.last}">,</c:if>
+</c:forEach>
+],
+"blocks":[
+<c:forEach var="nn" items="${node.childNodeNets}" varStatus='i'>
+    <c:if test="${nn.node.nodeId!=bannerid}">
+        <cms:node var="n" nodeid="${nn.node.nodeId}"/>
+        {
+        "name":"${n.name}",
+        "entities":[
+        <cms:nodecont var="nc" nodeid="${n.nodeId}" dataobjectid="1" sortKey="ranking" sortType="desc" pagesize="8"/>
+        <c:forEach var="cont" items="${nc}" varStatus='j'>
+            {
+            <c:set var="imgSrc" value=""/><%-- 取图 --%>
+            <c:if test="${fn:length(cont.fields.IMAGES) > 0}"><%-- 优先取oms图 --%>
+                <c:forEach var="img" items="${cont.fields.IMAGES}">
+                    <c:if test="${fn:contains(img.fileType,'H5_CONTENT')}">
+                        <c:set var="imgSrc" value="${portalUrl}${img.src}"/>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty imgSrc}"><%-- oms图为空，则取cms图 --%>
+                <cms:content var="ct" contid="${cont.fields.LINKS}"/>
+                <c:forEach var="pic" items="${ct.fields.displayFileLists}">
+                    <c:if test="${fn:contains(pic.dpFileName,'HSJ1080H')}">
+                        <c:set var="imgSrc" value="${contImagePath}${ct.fields.DISPLAYFILELISTS}/${ct.fields.HW_CID}/display/${pic.dpFileName}"/>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${empty imgSrc}">
+                    <c:forEach var="pic" items="${ct.fields.displayFileLists}">
+                        <c:if test="${fn:contains(pic.dpFileName,'HSJ720H')}">
+                            <c:set var="imgSrc" value="${contImagePath}${ct.fields.DISPLAYFILELISTS}/${ct.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty imgSrc}">
+                    <c:forEach var="pic" items="${ct.fields.displayFileLists}">
+                        <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
+                            <c:set var="imgSrc" value="${contImagePath}${ct.fields.DISPLAYFILELISTS}/${ct.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+            </c:if>
+            <%-- 若是电视剧则取集数信息 --%>
+            <cms:node var="tmpNode" nodeid="${cont.fields.AUTHOR}"/>
+            <c:set var="latestEpisode" value=""/>
+            <c:set var="totalEpisode" value=""/>
+            <c:if test="${tmpNode.isContentList && tmpNode.nodeNet.parentId != HollyWoodNodeId}">
+                <cms:nodecont var="conts" nodeid="${cont.fields.AUTHOR}"  dataobjectid="2" pagesize="1000" sortType="desc"/>
+                <c:set var="latestEpisode" value="${fn:length(conts)}"/>
+                <c:set var="totalEpisode" value="${tmpNode.property1}"/>
+            </c:if>
+            "name":"${cont.name}",
+            "latestEpisode":"${latestEpisode}",
+            "totalEpisode":"${totalEpisode}",
+            "imgSrc":"${imgSrc}",<c:if test="${cont.fields.LABLE2 == 'presale'}">
+            "isPresell":true,</c:if>
+            "description":"${cont.fields.CONTENTS}",<c:if test="${!empty cont.fields.LABLE1}">
+            "label":"${cont.fields.LABLE1}",</c:if><%-- 取角标信息 --%>
+            "nodeid":"${cont.fields.AUTHOR}",
+            "contid":"${cont.fields.LINKS}"
+            }<c:if test="${!j.last}">,</c:if>
+        </c:forEach>
+        ]<c:if test="${!empty nodeRouteMore || !empty n.property1}">,
+        <%-- 设置板块上的“更多”路由信息 --%>
+        <c:set var="more" value="${nodeRouteMore}"/>
+        <c:if test="${!empty n.property1}">
+            <c:set var="more" value="${n.property1}"/>
+        </c:if>
+        "routeOfMore":"${more}"
+    </c:if><c:if test="${!empty n.property2 && n.property2 == 1}">,
+        "blockStyle": "column-list yushou-list"
+    </c:if>
+        }<c:if test="${!i.last}">,</c:if>
+    </c:if>
+</c:forEach>
+]
+}

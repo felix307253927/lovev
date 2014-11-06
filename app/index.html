@@ -162,7 +162,7 @@
 <body>
 <header class="header" ng-hide="headerHide">
     <div class="top">
-        <a class="logo" href="#/l1"></a>
+        <a class="logo" href="#/level1"></a>
         <a class="search" href="#/search"></a>
         <a ng-class="{history:isLogin}" href="#/userCenter/history"></a>
         <a class="person" href="#/userCenter"></a>
@@ -170,14 +170,14 @@
     <div class="swiper-container swiper-scroll-container nav_con" ng-show="headNavShow">
         <div class="swiper-wrapper" >
             <div class="swiper-slide sub_nav">
-                <a href="#/l1" ng-class="{cur:''==channel}">精选</a>
-                <a href="#/l1/40114937" ng-class="{cur:'40114937'==channel}">首映</a>
-                <%--<a href="#/l1/40114912" ng-class="{cur:'40114912'==channel}">海外剧场</a>--%>
-                <a href="#/l2/free" ng-class="{cur:'free'==channel}">限免</a>
-                <a href="#/l2/movie" ng-class="{cur:'movie'==channel}">电影</a>
-                <a href="#/l2/drama" ng-class="{cur:'drama'==channel}">电视剧</a>
-                <a href="#/l2/cartoon" ng-class="{cur:'cartoon'==channel}">动漫</a>
-                <a href="#/l2/microMovie" ng-class="{cur:'microMovie'==channel}">微电影</a>
+                <a href="#/level1" ng-class="{cur:''==channel}">精选</a>
+                <a href="#/level1/40114937" ng-class="{cur:'40114937'==channel}">首映</a>
+                <%--<a href="#/level1/40114912" ng-class="{cur:'40114912'==channel}">海外剧场</a>--%>
+                <a href="#/level2/free" ng-class="{cur:'free'==channel}">限免</a>
+                <a href="#/level2/movie" ng-class="{cur:'movie'==channel}">电影</a>
+                <a href="#/level2/drama" ng-class="{cur:'drama'==channel}">电视剧</a>
+                <a href="#/level2/cartoon" ng-class="{cur:'cartoon'==channel}">动漫</a>
+                <a href="#/level2/microMovie" ng-class="{cur:'microMovie'==channel}">微电影</a>
                 <a href="#/live" ng-class="{cur:'live'==channel}">直播</a>
                 <a href="#/watchFilmTeam" ng-class="{cur:'watchFilmTeam'==channel}">观影团</a>
             </div>
@@ -204,14 +204,6 @@
     <p>China Mobile Copyright 2013 中国移动版权所有</p>
 </footer>
 
-<script type="text/ng-template" id="view-level1.jsp">
-    <jsp:include page="view-level1.jsp" />
-</script>
-<script type="text/data-json" id="level1Ctrl40114942">
-    <jsp:include page="data-level1.jsp">
-        <jsp:param name="nid" value="40114942"/>
-    </jsp:include>
-</script>
 <a target="_self" mn-auto-remove href="download.jsp" style="position:fixed;bottom:0;left:0;z-index:1000;background:#414c6e;opacity:0.8;width:100%; max-height:100px;display:block; text-align:center;">
     <img style=" width:100%; max-width:720px; max-height:100px;" src="image/bottom01.png">
 </a>

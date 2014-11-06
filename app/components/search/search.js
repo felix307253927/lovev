@@ -1,11 +1,14 @@
 /**
  * Created by felix on 14-11-5.
  */
-angular.module('lovev.search',[])
+angular.module('search',[]).
+    constant('searchConts', {
+        searchUrl : 'searchResult.jsp'
+    })
     /**
      * 视频搜索。
      */
-    .factory('search', ['$http', '$filter', 'constant', function($http, $filter, constant){
+    .factory('searchServ', ['$http', '$filter', 'searchConts', function($http, $filter, constant){
         var _size=12,
             _keys,
         r={

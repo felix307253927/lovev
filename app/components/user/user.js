@@ -2,15 +2,15 @@
  * Created by superman on 2014/11/3.
  */
 'use strict';
-angular.module('lovevApp.user', [])
-    .constant('userConstant',{
+angular.module('user', [])
+    .constant('userConst',{
         "GET_TOKEN_URL": "/wapAccess_Account.msp",
-        "GET_USER_INFO": "/h5/getUserInfo.jsp",
+        "GET_USER_INFO": "getUserInfo.jsp",
         "LOGIN_BY_PASSWORD_URL": "/login_Account.msp",
         "LOGIN_BY_TOKEN_URL": "/wapLogin_Account.msp",
         "LOGOUT_URL": "/logout_Account.msp"
     })
-    .factory("userService", ["$rootScope", "$http", "userConstant", function ($rootScope, $http, constant) {
+    .factory("userServ", ["$rootScope", "$http", "userConst", function ($rootScope, $http, constant) {
         return {
             /**
              * 获取用户信息
@@ -73,6 +73,36 @@ angular.module('lovevApp.user', [])
                     })
                     .error(function (data, status, headers, config) {
                     });
+            },
+            /**
+             * @ngdoc event
+             * @name requestUserInfo#userInfoUpdated
+             * @eventType broadcast on root scope
+             * @description
+             * 用户信息更新事件,向服务器请求用户信息，并在跟新成功后触发userInfoUpdated
+             * @param {Object} angularEvent Synthetic event object.
+             * @param {boolean} indicate login status
+             */
+            requestUserInfo: function(){
+                var lastRunTime=0;
+                return function(force){
+                    var now = force || Date.now();
+                    if(force || ( (now-lastRunTime > 5000) && (!$rootScope.userInfo ||
+                        (now-$rootScope.userInfo.updateTime>180000)) )){
+                        lastRunTime = Date.now();
+                        return $http.get(constant.GET_USER_INFO).success(function(data){
+                            if(data.isLogin){
+                                $rootScope.isLogin = true;
+                                $rootScope.userInfo = data.userInfo;
+                                $rootScope.userInfo.updateTime = Date.now();
+                            }else{
+                                $rootScope.isLogin = false;
+                                delete $rootScope.userInfo;
+                            }
+                            $rootScope.$broadcast('userInfoUpdated', data.isLogin);
+                        })
+                    }
+                }
             }
         };
     }]);

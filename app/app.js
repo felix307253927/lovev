@@ -1,8 +1,8 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular
-    .module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','angular-loading-bar'],
+angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','angular-loading-bar',
+    'level1View'],
     ['$httpProvider', function($httpProvider){
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     }])
@@ -13,7 +13,7 @@ angular
     }])
     //config app constants
     .constant("constant", {
-        searchUrl : "searchResult.jsp",
+        searchUrl : "components/search/searchResult.jsp",
         ipkUrl:'https://itunes.apple.com/cn/app/he-shi-jie/id771718079?mt=8',
         apkUrl:'http://www.lovev.com/download/android_isj.jsp'
     })

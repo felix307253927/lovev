@@ -1,7 +1,7 @@
 /**
  * Created by felix on 14-11-5.
  */
-angular.module('lovevApp.level1',[])
+angular.module('level1View',['utils','ngRoute'])
     .constant('level1Const',{
         //放置一些常量
         index:'40114942',
@@ -9,19 +9,19 @@ angular.module('lovevApp.level1',[])
         drama:'40106959',
         microMovie:'40113154',
         cartoon:'40115236',
+        level1DataUrl:'level1-data.jsp',
 
         nodeidRE:/^\d{8}$/
     })
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/level1', {
-            templateUrl: '/level1.html',
+            templateUrl: 'level1-view.jsp',
             controller: 'level1Ctrl'
         });
     }])
     .controller('Level1Ctrl', ['$scope', '$rootScope', '$http',
-        '$routeParams', 'needRefresh', 'level1Constant', 'dataCache',
-        function($scope, $rootScope, $http, $routeParams, needRefresh, constant, dataCache) {
-            console.log('level1Ctrl');
+        '$routeParams', 'needRefresh', 'level1Const',
+        function($scope, $rootScope, $http, $routeParams, needRefresh, constant) {
             var channel = $routeParams.channel || 'index',
                 key, _data;
 
@@ -31,7 +31,7 @@ angular.module('lovevApp.level1',[])
                         var routeOfMore = block.routeOfMore.trim(), route, level, path, keys = '';
                         route = routeOfMore.split(routeOfMore.indexOf('，') != -1 ? '，' : ',');
                         path = route[0].trim();
-                        level = constant.nodeidRE.test(path) ? 'l1' : 'l2';
+                        level = constant.nodeidRE.test(path) ? 'level1' : 'level2';
                         if (route.length > 1) {
                             keys = '/' + route[1].trim()
                         }
@@ -41,12 +41,6 @@ angular.module('lovevApp.level1',[])
             }
 
             channel = /^\d+$/.test(channel) ? channel : constant[channel];
-            key = 'level1Ctrl' + channel;
-            if (_data = dataCache.get(key)) {//配合首页模板中的数据优化首页的载入速度
-                needRefresh(key, _data);
-                parseRouteOfMore(_data.blocks);
-                dataCache.remove(key);
-            }
 
             if (!needRefresh(key)) {
                 angular.extend($scope, needRefresh(key, 'read'));
@@ -54,7 +48,7 @@ angular.module('lovevApp.level1',[])
                 $rootScope.footerHide = false;
                 doSlide();
             } else {
-                $http.get('data-level1.jsp' + '?nid=' + channel).success(function (data) {
+                $http.get(constant.level1DataUrl + '?nid=' + channel).success(function (data) {
                     angular.extend($scope, data);
                     parseRouteOfMore($scope.blocks);
                     $rootScope.footerHide = false;

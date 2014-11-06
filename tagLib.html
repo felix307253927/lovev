@@ -1,0 +1,52 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="cms" uri="/WEB-INF/cms.tld" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@page import="java.util.regex.*"%>
+<%@page import="java.util.*"%>
+<%
+String url="";
+String temUrl = "/";
+String portalUrl="/publish";
+String contImagePath="/image";
+
+request.setAttribute("portalUrl", portalUrl);
+request.setAttribute("contImagePath",contImagePath);  //内容图片路径
+
+request.setAttribute("iShijieNodeId","40106953");  //I视界主节点ID
+request.setAttribute("dynodeId","40106958");    //电影
+request.setAttribute("dsjnodeId","40106959");   //电视剧
+request.setAttribute("dmTVnodeId","40115236");   //动漫TV 40115237
+request.setAttribute("dmOVAnodeId","40115237");   //动漫ova
+request.setAttribute("livenodeId","40115078");   //直播节点
+
+request.setAttribute("preSellNodeId","40116263");  //预售节点
+request.setAttribute("HollyWoodNodeId","40116657"); //48小时好莱坞
+
+request.setAttribute("movieTypeNodeId","40106973");  //电影分类
+request.setAttribute("movieYearNodeId","40106974");  //电影年份
+request.setAttribute("movieAreaNodeId","40106975");  //电影地区
+request.setAttribute("dramaTypeNodeId","40106976");  //电视剧分类
+request.setAttribute("dramaYearNodeId","40106977");  //电视剧年份
+request.setAttribute("dramaAreaNodeId","40106978");  //电视剧地区
+request.setAttribute("animeTypeNodeId","40115946");  //动漫分类
+request.setAttribute("animeYearNodeId","40115948");  //动漫年份
+request.setAttribute("animeAreaNodeId","40115947");  //动漫地区
+request.setAttribute("animeStatusNodeId","40115950");  //动漫状态
+request.setAttribute("animeVersionNodeId","40115949");  //动漫版本
+
+request.setAttribute("resourceUrl","/publish/resource/yidong/html5");  //i视界手机资源路径
+
+String accessUserAgent=request.getHeader("user-agent");
+if(accessUserAgent!=null){
+request.setAttribute("actUserAgent",accessUserAgent);//访问UA
+if(accessUserAgent.contains("iPad")){
+accessUserAgent= "iPad";
+} else {
+accessUserAgent= "other";
+}
+request.setAttribute("accessUserAgent",accessUserAgent);//访问UA
+}
+%>
