@@ -8,58 +8,270 @@
 <!--[if gt IE 8]><!-->
 <html lang="en" ng-app="lovevApp" ng-strict-di class="no-js"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>My AngularJS App</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--
-    <link rel="stylesheet" href="libs/html5-boilerplate/css/normalize.css">
-    <link rel="stylesheet" href="libs/html5-boilerplate/css/main.css">
-    <link rel="stylesheet" href="app.css">
-    <script src="libs/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
-    -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <link href="image/h5_57.png" sizes="57x57" rel="apple-touch-icon">
+    <title>和视界</title>
+    <link rel="stylesheet" href="css/share.css"/>
+    <link rel="stylesheet" href="css/loading-bar.min.css"/>
+    <!--============滑动类库============-->
+    <script type="text/javascript" src="js/TouchSlide.js"></script>
+    <!--==============即时  拖动==========-->
+    <script  src="js/idangerous.swiper-1.9.1.min.js"></script>
+    <!--<script type="text/javascript" src="js/angular.js"></script>-->
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type ="text/javascript" src = "js/angular-route.js"></script>
+    <script type="text/javascript" src="js/h5Filters.js"></script>
+    <script type="text/javascript" src="js/h5Directives.js"></script>
+    <script type="text/javascript" src="js/h5Services.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+    <script type="text/javascript" src="js/controller_myCount.js"></script>
+    <script type="text/javascript" src="js/ng-infinite-scroll.js"></script>
+    <script type="text/javascript" src="js/loading-bar.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <!--<script type="text/javascript" src="js/angular-animate.min.js"></script>-->
+    <script type="text/javascript" src="js/angular-touch.min.js"></script>
+    <style>
+        .view-container {
+            /*position: relative;*/
+        }
+
+        .view-frame.ng-enter, .view-frame.ng-leave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .view-frame.ng-enter {
+            -webkit-animation: 0.5s fade-in;
+            -moz-animation: 0.5s fade-in;
+            -o-animation: 0.5s fade-in;
+            animation: 0.5s fade-in;
+            z-index: 100;
+        }
+
+        .view-frame.ng-leave {
+            -webkit-animation: 0.5s fade-out;
+            -moz-animation: 0.5s fade-out;
+            -o-animation: 0.5s fade-out;
+            animation: 0.5s fade-out;
+            z-index:99;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @-moz-keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @-webkit-keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @-moz-keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @-webkit-keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .mn-auto-remove{
+            -webkit-transition:opacity ease 1s;
+            transition:opacity ease 1s;
+        }
+        .mn-auto-removing{
+            opacity: 0 !important;
+        }
+    </style>
+    <script type="text/css" id="transformPopup">
+        .filter-area{
+            -webkit-transition:-webkit-transform cubic-bezier(.645,.045,.355,1) .5s;
+            transition:transform cubic-bezier(.645,.045,.355,1) .5s;
+            opacity:0.9;
+            height: 200px;
+            overflow: hidden;
+            z-index: 1;
+            position: fixed;
+            top: -115px;
+            width:100%;
+        }
+        .filter-area.drama{
+            height: 127px;;
+            top: -42px;
+        }
+        .filter-area.free{
+            height: 52px;;
+            top: -75px;
+        }
+        .filter-area.show{
+            -webkit-transform:translate3d(0,200px,0);
+            transform:translate3d(0,200px,0);
+        }
+        .filter-area.drama.show, .filter-area.free.show{
+            -webkit-transform:translate3d(0,127px,0);
+            transform:translate3d(0,127px,0);
+        }
+    </script>
+    <script type="text/css" id="topPopup">
+        .filter-area{
+            -webkit-transition:top cubic-bezier(.645,.045,.355,1) .5s;
+            transition:top cubic-bezier(.645,.045,.355,1) .5s;
+            opacity:0.9;
+            height: 200px;
+            overflow: hidden;
+            z-index: 1;
+            position: fixed;
+            top: -115px;
+            width:100%;
+        }
+        .filter-area.drama{
+            height: 127px;;
+            top: -42px;
+        }
+        .filter-area.free{
+            height: 52px;;
+            top: -75px;
+        }
+        .filter-area.show{
+            top:85px;
+        }
+    </script>
+    <script>
+        var ua = navigator.userAgent;
+        var useNgViewAnimation = /(iPad|iPhone|iPod)/.test( ua ) ||
+                /chrome/i.test(ua) ||
+                /baidubrowser/i.test(ua);
+        var useTopToMenuPopup  = /mqqbrowser/i.test(ua) || /360browser/i.test(ua);
+        var popupStyle = document.getElementById(useTopToMenuPopup ? 'topPopup' : 'topPopup');/*transformPopup*/
+
+        if (useNgViewAnimation) {
+            document.write('<script type="text/javascript" src="js/angular-animate.min.js"><\/script>');
+        } else {
+            angular.module('ngAnimate',[]);
+        }
+        document.write('<style>' + popupStyle.text + '<\/style>');
+    </script>
 </head>
 <body>
-<!--
-<ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-</ul>
--->
+<header class="header" ng-hide="headerHide">
+    <div class="top">
+        <a class="logo" href="#/l1"></a>
+        <a class="search" href="#/search"></a>
+        <a ng-class="{history:isLogin}" href="#/userCenter/history"></a>
+        <a class="person" href="#/userCenter"></a>
+    </div>
+    <div class="swiper-container swiper-scroll-container nav_con" ng-show="headNavShow">
+        <div class="swiper-wrapper" >
+            <div class="swiper-slide sub_nav">
+                <a href="#/l1" ng-class="{cur:''==channel}">精选</a>
+                <a href="#/l1/40114937" ng-class="{cur:'40114937'==channel}">首映</a>
+                <%--<a href="#/l1/40114912" ng-class="{cur:'40114912'==channel}">海外剧场</a>--%>
+                <a href="#/l2/free" ng-class="{cur:'free'==channel}">限免</a>
+                <a href="#/l2/movie" ng-class="{cur:'movie'==channel}">电影</a>
+                <a href="#/l2/drama" ng-class="{cur:'drama'==channel}">电视剧</a>
+                <a href="#/l2/cartoon" ng-class="{cur:'cartoon'==channel}">动漫</a>
+                <a href="#/l2/microMovie" ng-class="{cur:'microMovie'==channel}">微电影</a>
+                <a href="#/live" ng-class="{cur:'live'==channel}">直播</a>
+                <a href="#/watchFilmTeam" ng-class="{cur:'watchFilmTeam'==channel}">观影团</a>
+            </div>
+        </div>
+    </div>
+</header>
 
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
-<div>
-    {{"userInfo : " + userInfo.nickName}}
-    <button ng-click="logout()">logout</button>
-    <img src="/ImageCaptchaServlet.servlet">
-    <input ng-model="veriCode">
-    <button ng-click="loginByPassword({msisdn:'13916207620',password:'eclipse35',veriCode:'',keep:'1'})">
-        loginByPassword
-    </button>
-    <button ng-click="loginByAccessCode()">loginByAccessCode</button>
+<div class="view-container">
+    <section id="main-wrapper" class="view-frame" ng-view>
+
+    </section>
 </div>
+<!-- ===底部=== -->
+<footer class="footer" ng-hide="footerHide">
+    <div class="footer-list">
+        <a href="#/about">关于</a><span>|</span>
+        <a href="#/feedback">反馈</a><span>|</span>
+        <a href="serviceOnline.jsp" target="_self">客服</a><span>|</span>
+        <a target="_blank" href="{{appUrl}}">APP下载</a><span>|</span>
+        <a href="javascript:" ng-click="toTop()">返回顶部</a>
+    </div>
+    <span class="footer-line"></span>
+    <p>www.lovev.com</p>
+    <p>China Mobile Copyright 2013 中国移动版权所有</p>
+</footer>
 
-<div ng-view></div>
-
-<div>Angular seed app: v<span app-version></span></div>
-
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
--->
-<script src="libs/angular/angular.js"></script>
-<script src="libs/angular-route/angular-route.js"></script>
-<script src="app.js"></script>
-<!--
-<script src="view1/view1.js"></script>
-<script src="view2/view2.js"></script>
-<script src="components/version/version.js"></script>
-<script src="components/version/version-directive.js"></script>
-<script src="components/version/interpolate-filter.js"></script>
--->
-<script src="components/user/user.js"></script>
+<script type="text/ng-template" id="view-level1.jsp">
+    <jsp:include page="view-level1.jsp" />
+</script>
+<script type="text/data-json" id="level1Ctrl40114942">
+    <jsp:include page="data-level1.jsp">
+        <jsp:param name="nid" value="40114942"/>
+    </jsp:include>
+</script>
+<a target="_self" mn-auto-remove href="download.jsp" style="position:fixed;bottom:0;left:0;z-index:1000;background:#414c6e;opacity:0.8;width:100%; max-height:100px;display:block; text-align:center;">
+    <img style=" width:100%; max-width:720px; max-height:100px;" src="image/bottom01.png">
+</a>
+<%
+request.setAttribute("host", request.getHeader("Host"));
+%>
+<c:if test="${fn:indexOf(host,'preview') == 0}">
+    <div id="mn-console" style="display: -webkit-box;-webkit-box-orient: vertical;width: 100%; height: 0; z-index: 9999; position: fixed; bottom: 0; opacity: 0.87; background: rgb(39, 42, 44);">
+        <div id="console-show-button" style="height: 33px;width:100px;background: #010218;position: absolute;left: 50%;margin-left: -50px;border-radius: 5px 5px 0 0;top: -33px;"></div>
+        <div id="console-result" style="-webkit-box-flex:1;padding:20px;overflow-y: scroll;border-width: thin;border-style: inset;"></div>
+        <div style="height: 100px;margin: 0 auto;">
+            <textarea id="console-command" style="width:100%;overflow-y: scroll;border-width: thin;height: 100px;border-style: inset;"></textarea>
+        </div>
+        <div style="height: 30px;text-align: center;position:relative;">
+            <button id="console-run" style="height: 100%;width:100px;font-size: 1.3em;display:block;position:absolute;left:50%;margin-left:-50px;">run</button>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            var log = console.log;
+            var display = document.querySelector('#console-result');
+            var textarea = document.querySelector('#console-command');
+            var runBtn = document.querySelector('#console-run');
+            var _console = document.querySelector('#mn-console');
+            console.log = function() {
+                log.apply(console, arguments);
+                var args = [];
+                Array.prototype.forEach.call(arguments, function(arg) {
+                    if (Object.prototype.toString.call(arg) == "[object Object]") {
+                        args.push(JSON.stringify(args))
+                    } else {
+                        args.push(String(arg))
+                    }
+                })
+                display.innerHTML += (args.join(' ') + '<br>');
+                display.scrollTop = display.scrollHeight - display.offsetHeight;
+            }
+            window.log = console.log;
+            window.ua = console.log.bind(null, navigator.userAgent);
+            window.rp = function() {
+                console.log(location.href);
+                console.log(navigator.userAgent);
+            };
+            window.qs = document.querySelector.bind(document);
+            runBtn.onclick = function() {
+                var fn = 'with(window){' + textarea.value + '}';
+                eval(fn);
+                textarea.value = ''
+            }
+            document.getElementById('console-show-button').onclick = function() {
+                _console.style.height = _console.style.height == '0px' ? '66.7%' : '0'
+            }
+        },10)
+    </script>
+</c:if>
 </body>
 </html>

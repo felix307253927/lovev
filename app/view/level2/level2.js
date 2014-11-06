@@ -7,7 +7,7 @@ angular.module('lovev.level2',[])
     })
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/level2', {
-            templateUrl: 'level2/level2.html',
+            templateUrl: '/level2.html',
             controller: 'level2Ctrl'
         });
     }])
