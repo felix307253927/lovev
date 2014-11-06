@@ -70,7 +70,7 @@ angular.module('lovev.level1',[])
             //幻灯片
             function doSlide(){
                 setTimeout(function(){
-                    slide(document.querySelectorAll('.view-frame').length>1?'.view-frame:last-child ':'','.slideBox','.hd ul','.bd ul')
+                    slide(document.querySelectorAll('.views-frame').length>1?'.views-frame:last-child ':'','.slideBox','.hd ul','.bd ul')
                 },0)
             }
             function slide(prefix,arg1,arg2,arg3){

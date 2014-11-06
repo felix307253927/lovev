@@ -45,7 +45,7 @@
         <ul class="pic-list">
             <li ng-repeat="entity in block.entities | even:block.blockStyle">
                 <a href="#/videoDetail/{{entity.nodeid}}/{{entity.contid}}?isPresell={{!!entity.isPresell}}">
-                    <b mn-lazy-background="entity.imgSrc"></b>        <!--style="background-image:url({{entity.imgSrc}});"-->
+                    <b mn-lazy-background="entity.imgSrc"></b>        <!--style="background-img:url({{entity.imgSrc}});"-->
                     <em ng-if="entity.label" ng-class="{yushou:entity.label==1, yugao:entity.label==2, shoufa:entity.label==3}"></em>
                     <span ng-if="!!entity.totalEpisode">{{entity.latestEpisode|episodeView:entity.totalEpisode}}</span>
                 </a>

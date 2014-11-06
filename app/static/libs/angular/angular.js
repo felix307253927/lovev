@@ -5610,10 +5610,10 @@ function $TemplateCacheProvider() {
  * Calling the linking function returns the element of the template. It is either the original
  * element passed in, or the clone of the element if the `cloneAttachFn` is provided.
  *
- * After linking the view is not updated until after a call to $digest which typically is done by
+ * After linking the views is not updated until after a call to $digest which typically is done by
  * Angular automatically.
  *
- * If you need access to the bound view, there are two ways to do it:
+ * If you need access to the bound views, there are two ways to do it:
  *
  * - If you are not asking the linking function to clone the template, create the DOM element(s)
  *   before you send them to the compiler and keep this reference around.
@@ -5621,7 +5621,7 @@ function $TemplateCacheProvider() {
  *     var element = $compile('<p>{{total}}</p>')(scope);
  *   ```
  *
- * - if on the other hand, you need the element to be cloned, the view reference from the original
+ * - if on the other hand, you need the element to be cloned, the views reference from the original
  *   example would not point to the clone, but rather to the original template that was cloned. In
  *   this case, you can access the clone via the cloneAttachFn:
  *   ```js
@@ -11938,7 +11938,7 @@ function $$RAFProvider(){ //rAF
  *
  * Every application has a single root {@link ng.$rootScope.Scope scope}.
  * All other scopes are descendant scopes of the root scope. Scopes provide separation
- * between the model and the view, via a mechanism for watching the model for changes.
+ * between the model and the views, via a mechanism for watching the model for changes.
  * They also provide an event emission/broadcast and subscription facility. See the
  * {@link guide/scope developer guide on scopes}.
  */
@@ -17446,7 +17446,7 @@ var VALID_CLASS = 'ng-valid',
  * @ngdoc type
  * @name ngModel.NgModelController
  *
- * @property {string} $viewValue Actual string value in the view.
+ * @property {string} $viewValue Actual string value in the views.
  * @property {*} $modelValue The value in the model, that the control is bound to.
  * @property {Array.<Function>} $parsers Array of functions to execute, as a pipeline, whenever
        the control reads value from the DOM.  Each function is called, in turn, passing the value
@@ -17470,7 +17470,7 @@ var VALID_CLASS = 'ng-valid',
  * ```
  *
  * @property {Array.<Function>} $viewChangeListeners Array of functions to execute whenever the
- *     view value has changed. It is called with no arguments, and its return value is ignored.
+ *     views value has changed. It is called with no arguments, and its return value is ignored.
  *     This can be used in place of additional $watches against the model value.
  *
  * @property {Object} $error An object hash with all errors as keys.
@@ -17607,7 +17607,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * @name ngModel.NgModelController#$render
    *
    * @description
-   * Called when the view needs to be updated. It is expected that the user of the ng-model
+   * Called when the views needs to be updated. It is expected that the user of the ng-model
    * directive will implement this method.
    */
   this.$render = noop;
@@ -17714,9 +17714,9 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * @name ngModel.NgModelController#$setViewValue
    *
    * @description
-   * Update the view value.
+   * Update the views value.
    *
-   * This method should be called when the view value changes, typically from within a DOM event handler.
+   * This method should be called when the views value changes, typically from within a DOM event handler.
    * For example {@link ng.directive:input input} and
    * {@link ng.directive:select select} directives call it.
    *
@@ -17728,7 +17728,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    *
    * Note that calling this function does not trigger a `$digest`.
    *
-   * @param {string} value Value from the view.
+   * @param {string} value Value from the views.
    */
   this.$setViewValue = function(value) {
     this.$viewValue = value;
@@ -17800,7 +17800,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *
  * `ngModel` is responsible for:
  *
- * - Binding the view into the model, which other directives such as `input`, `textarea` or `select`
+ * - Binding the views into the model, which other directives such as `input`, `textarea` or `select`
  *   require.
  * - Providing validation behavior (i.e. required, number, email, url).
  * - Keeping the state of the control (valid/invalid, dirty/pristine, validation errors).
@@ -17951,7 +17951,7 @@ var ngModelDirective = function() {
  *     var counter = element(by.binding('counter'));
  *     var debug = element(by.binding('confirmed'));
  *
- *     it('should evaluate the expression if changing from view', function() {
+ *     it('should evaluate the expression if changing from views', function() {
  *       expect(counter.getText()).toContain('0');
  *
  *       element(by.id('ng-change-example1')).click();
@@ -18628,7 +18628,7 @@ function classDirective(name, selector) {
    The ngClass directive still supports CSS3 Transitions/Animations even if they do not follow the ngAnimate CSS naming structure.
    Upon animation ngAnimate will apply supplementary CSS classes to track the start and end of an animation, but this will not hinder
    any pre-existing CSS transitions already on the element. To get an idea of what happens during a class-based animation, be sure
-   to view the step by step details of {@link ngAnimate.$animate#addclass $animate.addClass} and
+   to views the step by step details of {@link ngAnimate.$animate#addclass $animate.addClass} and
    {@link ngAnimate.$animate#removeclass $animate.removeClass}.
  */
 var ngClassDirective = classDirective('', true);
@@ -18741,7 +18741,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
  *
  * The directive can be applied to the `<body>` element, but the preferred usage is to apply
  * multiple `ngCloak` directives to small portions of the page to permit progressive rendering
- * of the browser view.
+ * of the browser views.
  *
  * `ngCloak` works in cooperation with the following css rule embedded within `angular.js` and
  * `angular.min.js`.
@@ -18797,7 +18797,7 @@ var ngCloakDirective = ngDirective({
  * @name ngController
  *
  * @description
- * The `ngController` directive attaches a controller class to the view. This is a key aspect of how angular
+ * The `ngController` directive attaches a controller class to the views. This is a key aspect of how angular
  * supports the principles behind the Model-View-Controller design pattern.
  *
  * MVC components in angular:
@@ -20113,7 +20113,7 @@ var ngNonBindableDirective = ngDirective({ terminal: true, priority: 1000 });
  * Notice that we are still using two plural categories(one, other), but we added
  * three explicit number rules 0, 1 and 2.
  * When one person, perhaps John, views the document, "John is viewing" will be shown.
- * When three people view the document, no explicit number rule is found, so
+ * When three people views the document, no explicit number rule is found, so
  * an offset of 2 is taken off 3, and Angular uses 1 to decide the plural category.
  * In this case, plural category 'one' is matched and "John, Mary and one other person are viewing"
  * is shown.
@@ -21980,7 +21980,7 @@ var optionDirective = ['$interpolate', function($interpolate) {
 
         if (selectCtrl && selectCtrl.databound) {
           // For some reason Opera defaults to true and if not overridden this messes up the repeater.
-          // We don't want the view to drive the initialization of the model anyway.
+          // We don't want the views to drive the initialization of the model anyway.
           element.prop('selected', false);
         } else {
           selectCtrl = nullSelectCtrl;
