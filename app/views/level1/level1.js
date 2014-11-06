@@ -1,8 +1,8 @@
 /**
  * Created by felix on 14-11-5.
  */
-angular.module('lovev.level1',[])
-    .constant('level1Constant',{
+angular.module('lovevApp.level1',[])
+    .constant('level1Const',{
         //放置一些常量
         index:'40114942',
         movie:'40106958',
