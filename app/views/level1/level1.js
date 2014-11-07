@@ -9,19 +9,19 @@ angular.module('level1View',['utils','ngRoute'])
         drama:'40106959',
         microMovie:'40113154',
         cartoon:'40115236',
-        level1DataUrl:'level1-data.jsp',
+        level1DataUrl:'views/level1/level1-data.jsp',
 
         nodeidRE:/^\d{8}$/
     })
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/level1', {
-            templateUrl: 'level1-view.jsp',
+            templateUrl: 'views/level1/level1-view.jsp',
             controller: 'level1Ctrl'
         });
     }])
-    .controller('Level1Ctrl', ['$scope', '$rootScope', '$http',
-        '$routeParams', 'needRefresh', 'level1Const',
-        function($scope, $rootScope, $http, $routeParams, needRefresh, constant) {
+    .controller('level1Ctrl', ['$scope', '$rootScope', '$http',
+        '$routeParams', 'refreshServ', 'level1Const','dataCacheServ',
+        function($scope, $rootScope, $http, $routeParams, refreshServ, constant,dataCache) {
             var channel = $routeParams.channel || 'index',
                 key, _data;
 
@@ -41,9 +41,14 @@ angular.module('level1View',['utils','ngRoute'])
             }
 
             channel = /^\d+$/.test(channel) ? channel : constant[channel];
-
-            if (!needRefresh(key)) {
-                angular.extend($scope, needRefresh(key, 'read'));
+            key = 'level1Ctrl' + channel;
+            if (_data = dataCache.get(key)) {
+                refreshServ(key, _data);
+                parseRouteOfMore(_data.blocks);
+                dataCache.remove(key);
+            }
+            if (!refreshServ(key)) {
+                angular.extend($scope, refreshServ(key, 'read'));
                 //parseRouteOfMore($scope.blocks);
                 $rootScope.footerHide = false;
                 doSlide();
@@ -52,7 +57,7 @@ angular.module('level1View',['utils','ngRoute'])
                     angular.extend($scope, data);
                     parseRouteOfMore($scope.blocks);
                     $rootScope.footerHide = false;
-                    needRefresh(key, data);
+                    refreshServ(key, data);
                     doSlide();
                 });
                 console.log(key + 'refreshed');

@@ -4,11 +4,11 @@
 'use strict';
 angular.module('user', [])
     .constant('userConst',{
-        "GET_TOKEN_URL": "/wapAccess_Account.msp",
-        "GET_USER_INFO": "getUserInfo.jsp",
-        "LOGIN_BY_PASSWORD_URL": "/login_Account.msp",
-        "LOGIN_BY_TOKEN_URL": "/wapLogin_Account.msp",
-        "LOGOUT_URL": "/logout_Account.msp"
+        "wapAccessUrl": "/wapAccess_Account.msp",
+        "getUserInfoUrl": "getUserInfo.jsp",
+        "loginUrl": "/login_Account.msp",
+        "wapLoginUrl": "/wapLogin_Account.msp",
+        "logoutUrl": "/logout_Account.msp"
     })
     .factory("userServ", ["$rootScope", "$http", "userConst", function ($rootScope, $http, constant) {
         return {
@@ -16,7 +16,7 @@ angular.module('user', [])
              * 获取用户信息
              */
             getUserInfo: function () {
-                $http.get(constant.GET_USER_INFO)
+                $http.get(constant.getUserInfoUrl)
                     .success(function (data, status, headers, config) {
                         $rootScope.userInfo = data.userInfo;
                     })
@@ -30,7 +30,7 @@ angular.module('user', [])
                 if (!$rootScope.userInfo) {
                     return;
                 }
-                $http.get(constant.LOGOUT_URL)
+                $http.get(constant.logoutUrl)
                     .success(function (data, status, headers, config) {
                         if (data.result) {
                             $rootScope.userInfo = null;
@@ -45,7 +45,7 @@ angular.module('user', [])
              */
             loginByPassword: function (data) {
                 var _this = this;
-                $http.post(constant.LOGIN_BY_PASSWORD_URL, data)
+                $http.post(constant.loginUrl, data)
                     .success(function (data, status, headers, config) {
                         if (data.result) {
                             _this.getUserInfo();
@@ -60,12 +60,16 @@ angular.module('user', [])
              */
             loginByAccessCode: function () {
                 var _this = this;
-                $http.get(constant.GET_TOKEN_URL)
+                $http.get(constant.wapAccessUrl)
                     .success(function (data, status, headers, config) {
                         if (data.result) {
-                            $http.post(constant.LOGIN_BY_TOKEN_URL, {accessCode: data.accessCode})
+                            $http.post(constant.wapLoginUrl, {accessCode: data.accessCode})
                                 .success(function (data, status, headers, config) {
-                                    _this.getUserInfo();
+                                    if (data.result) {
+                                        $rootScope.isLogin = true;
+                                        $rootScope.userInfo = {};
+                                        _this.requestUserInfo(true);
+                                    }
                                 })
                                 .error(function () {
                                 });
@@ -90,7 +94,7 @@ angular.module('user', [])
                     if(force || ( (now-lastRunTime > 5000) && (!$rootScope.userInfo ||
                         (now-$rootScope.userInfo.updateTime>180000)) )){
                         lastRunTime = Date.now();
-                        return $http.get(constant.GET_USER_INFO).success(function(data){
+                        return $http.get(constant.getUserInfoUrl).success(function(data){
                             if(data.isLogin){
                                 $rootScope.isLogin = true;
                                 $rootScope.userInfo = data.userInfo;

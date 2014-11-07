@@ -19,6 +19,7 @@ Thread.sleep(3000);
         <cms:node var="bannerNode" nodeid="${bannerid}"/>
     </c:if>
 </c:forEach>
+<c:set var="webUrl" value="preview.lovev.com:2100"/>
 <cms:nodecont var="banners" nodeid="${bannerid}" dataobjectid="1" sortKey="ranking" sortType="desc" pagesize="10"/>
 {
 <%-- 设置节点的“更多”路由信息，作为板块路由信息的默认值 --%>
@@ -45,7 +46,7 @@ Thread.sleep(3000);
             </c:if>
         </c:forEach>
     </c:if>
-    "imgSrc":"${imgSrc}"<c:if test="${bannerType==1}">,
+    "imgSrc":"${webUrl}${imgSrc}"<c:if test="${bannerType==1}">,
     "imgType":"${banner.fields.ABSTRACT}"
 </c:if>
     }<c:if test="${!i.last}">,</c:if>
@@ -103,7 +104,7 @@ Thread.sleep(3000);
             "name":"${cont.name}",
             "latestEpisode":"${latestEpisode}",
             "totalEpisode":"${totalEpisode}",
-            "imgSrc":"${imgSrc}",<c:if test="${cont.fields.LABLE2 == 'presale'}">
+            "imgSrc":"${webUrl}${imgSrc}",<c:if test="${cont.fields.LABLE2 == 'presale'}">
             "isPresell":true,</c:if>
             "description":"${cont.fields.CONTENTS}",<c:if test="${!empty cont.fields.LABLE1}">
             "label":"${cont.fields.LABLE1}",</c:if><%-- 取角标信息 --%>

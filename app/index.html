@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../tagLib.jsp"%>
+<%
+session.setAttribute("channelId","3011_40060000000");
+%>
 <!DOCTYPE html>
 <!--[if lt IE 7]>
 <html lang="en" ng-app="lovevApp" ng-strict-di class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -14,20 +20,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no">
     <meta content="yes" name="apple-touch-fullscreen"/>
-    <link href="image/h5_57.png" sizes="57x57" rel="apple-touch-icon">
+    <link href="static/imgs/h5_57.png" sizes="57x57" rel="apple-touch-icon">
     <title>和视界</title>
-    <link rel="stylesheet" href="css/share.css"/>
-    <link rel="stylesheet" href="css/loading-bar.min.css"/>
+    <link rel="stylesheet" href="static/css/share.css"/>
+    <link rel="stylesheet" href="static/css/loading-bar.min.css"/>
     <!--============滑动类库============-->
     <script type="text/javascript" src="static/libs/TouchSlide.js"></script>
-    <!--==============即时  拖动==========-->
+    <!--==============第三方类库==========-->
     <script type="text/javascript" src="static/libs/idangerous.swiper-1.9.1.min.js"></script>
     <script type="text/javascript" src="static/libs/angular/angular.min.js"></script>
-    <script type="text/javascript" src="static/libs/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="static/libs/angularRoute/angular-route.min.js"></script>
     <script type="text/javascript" src="static/libs/ng-infinite-scroll.js"></script>
-    <script type="text/javascript" src="static/libs/angular-loader/angular-loading-bar.min.js"></script>
-    <script type="text/javascript" src="static/libs/angular-animate/angular-animate.min.js"></script>
-    <script type="text/javascript" src="static/libs/angular-touch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="static/libs/angularLoader/angular-loading-bar.min.js"></script>
+    <script type="text/javascript" src="static/libs/angularTouch/angular-touch.min.js"></script>
+    <!--============组件============-->
+    <script type="text/javascript" src="components/utils/uitls.js"></script>
+    <script type="text/javascript" src="components/search/search.js"></script>
+    <script type="text/javascript" src="components/user/user.js"></script>
+
+    <script type="text/javascript" src="components/utils/directives.js"></script>
+    <script type="text/javascript" src="components/utils/filters.js"></script>
+    <script type="text/javascript" src="views/level1/level1.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <style>
         .view-container {
@@ -152,7 +165,7 @@
         var popupStyle = document.getElementById(useTopToMenuPopup ? 'topPopup' : 'topPopup');/*transformPopup*/
 
         if (useNgViewAnimation) {
-            document.write('<script type="text/javascript" src="js/angular-animate.min.js"><\/script>');
+            document.write('<script type="text/javascript" src="static/libs/angularAnimate/angular-animate.min.js"><\/script>');
         } else {
             angular.module('ngAnimate',[]);
         }
@@ -205,7 +218,7 @@
 </footer>
 
 <a target="_self" mn-auto-remove href="download.jsp" style="position:fixed;bottom:0;left:0;z-index:1000;background:#414c6e;opacity:0.8;width:100%; max-height:100px;display:block; text-align:center;">
-    <img style=" width:100%; max-width:720px; max-height:100px;" src="image/bottom01.png">
+    <img style=" width:100%; max-width:720px; max-height:100px;" src="static/imgs/bottom01.png">
 </a>
 <%
 request.setAttribute("host", request.getHeader("Host"));

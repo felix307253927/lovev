@@ -2,7 +2,7 @@
 
 // Declare app level module which depends on views, and components
 angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','angular-loading-bar',
-    'level1View'],
+    'utilDirectives','utilFilters','level1View','user'],
     ['$httpProvider', function($httpProvider){
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     }])
@@ -18,41 +18,21 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
         apkUrl:'http://www.lovev.com/download/android_isj.jsp'
     })
     //app initial
-    .run(['$rootScope','$route','$location','$http','$window','constant','requestUserInfo',function($rootScope,$route,$location,$http,$window,constant,requestUserInfo){
+    .run(['$rootScope','$route','$location','$http','$window','constant','userServ',function($rootScope,$route,$location,$http,$window,constant,userServ){
         //设置自动更新用户登录状态
         (function fn(){
-            requestUserInfo();
+            userServ.requestUserInfo();
             //setTimeout(fn,200000) //TODO:暂时去掉，为测试timeline时不被打扰
         })();
 
         //wap自动登陆尝试
-        $http.get(constant.wapAccessUrl).success(function(data) {
-            if (data.result && data.accessCode) {
-                $http.get(constant.wapLoginUrl, {
-                    params: {
-                        accessCode: data.accessCode
-                    }
-                }).success(function(data) {
-                    if (data.result) {
-                        $rootScope.isLogin = true;
-                        $rootScope.userInfo = {};
-                        requestUserInfo(true);
-                    }
-                })
-            }
-        });
+        userServ.loginByAccessCode();
 
         //自动显示下载
-        $rootScope.logout = function(){
-            $http.get(constant.logoutUrl).success(function(){
-                //TODO:如果失败呢
-                $rootScope.isLogin = false;
-                $location.path('/');
-            })
-        };
+        $rootScope.logout = userServ.logout();
 
         //设置返回按钮
-        $rootScope.back=function(){history.back()}
+        $rootScope.back=function(){history.back()};
         //滚动至顶部
         $rootScope.toTop=function(){$window.document.body.scrollTop=0};
         //设置app下载地址

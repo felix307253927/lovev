@@ -1,8 +1,16 @@
 /**
  * Created by felix on 14-11-6.
  */
-angular.module('utils')
-
+angular.module('utils', [])
+/**
+ * @ngdoc service
+ * @name dataCacheServ
+ * @requires $cacheFactory
+ * @description 存放一些key-value map数据
+ */
+    .factory('dataCacheServ', ['$cacheFactory', function ($cacheFactory) {
+        return $cacheFactory('dataCacheServ');
+    }])
 /**
  * 提供访问时间次数控制的刷新服务，也包括第一次访问。
  */
