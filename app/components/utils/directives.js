@@ -1,7 +1,7 @@
 /**
  * Created by felix on 14-11-7.
  */
-angular.module('utilDirectives', [])
+angular.module('utilDirectives', ['video','utils'])
 
 /**
  * @ngdoc directive
@@ -33,7 +33,7 @@ angular.module('utilDirectives', [])
  * @description
  * 读取带text/data-json script下的json数据，除非手动删除否则不进行覆盖
  */
-    directive('video', ['historySrv', 'authentication', 'videoSrv', function (historySrv, authentication, videoSrv) {
+    directive('video', ['historyServ', 'authentication', 'videoServ', function (historySrv, authentication, videoSrv) {
         return {
             restrict: 'E',
             link: function (scope, el, attr) {
@@ -66,7 +66,7 @@ angular.module('utilDirectives', [])
                                 })()
                             });
                         }
-                    })
+                    });
 
                     video.height = 9 / 16 * document.body.offsetWidth;
                     video.width = document.body.offsetWidth;

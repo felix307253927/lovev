@@ -1,0 +1,141 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+
+<c:set var="nid" value="40108533"/>
+<c:if test="${!empty param.nodeid}">
+    <c:set var="nid" value="${param.nodeid}"/>
+</c:if>
+<c:set var="cid" value="502927517"/>
+<c:if test="${!empty param.contid}">
+    <c:set var="cid" value="${param.contid}"/>
+</c:if>
+
+<cms:node var="node" nodeid="${nid}"/>
+<cms:content var="cont" contid="${cid}"/>
+<%-- 取默认名和图 --%>
+<c:set var="name" value="${cont.name}"/>
+<c:forEach var="pic" items="${cont.fields.displayFileLists}">
+    <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
+        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+    </c:if>
+</c:forEach>
+<c:if test="${empty imgSrc}">
+    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+        <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
+            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+        </c:if>
+    </c:forEach>
+</c:if>
+<c:if test="${empty imgSrc}">
+    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+        <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
+            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+        </c:if>
+    </c:forEach>
+</c:if>
+<%-- 内容类型 --%>
+<c:set var="type" value="${cont.fields.CONT_SORT}"/>
+<c:if test="${!empty cont.fields.propertyFileLists}">
+    <c:if test="${empty type}">
+        <c:set var="type" value="${cont.fields.propertyFileLists['内容分类']}"/>
+    </c:if>
+    <c:if test="${empty type}">
+        <c:set var="type" value="${cont.fields.propertyFileLists['内容类型']}"/>
+    </c:if>
+</c:if>
+<%-- 设置收藏contid，因为电视剧收藏有些麻烦 --%>
+<c:set var="collectionContid" value="${cid}"/>
+<%-- 取访问次数 --%>
+<cms:contvisitadd var="visitCount" contid="${cont.contId}"/>
+<%-- 取关键字,并从关键字中判断是否为动漫 --%>
+<c:set var="keywords" value="${cont.fields.KEYWORDS}"/>
+<c:set var="isAnime" value="false"/>
+<c:if test="${!empty keywords}">
+    <c:if test="${fn:contains(keywords,'动漫')}">
+        <c:set var="isAnime" value="true"/>
+    </c:if>
+</c:if>
+<c:if test="${empty keywords}">
+    <c:set var="keywords" value="${cont.fields.PRIMARYKEYWORD}"/>
+</c:if>
+<c:if test="${!empty cont.fields.PRIMARYKEYWORD}">
+    <c:if test="${fn:contains(cont.fields.PRIMARYKEYWORD,'动漫')}">
+        <c:set var="isAnime" value="true"/>
+    </c:if>
+</c:if>
+<%-- 是否预售 --%>
+<%-- ${fn:indexOf(node.nodeNet.idPath, preSellNodeId) != -1 && cont.fields.LABLE2 == 'presale'}--%>
+<c:set var="isPresell" value="false"/>
+<c:if test="${param.presell == 'true'}">
+    <c:set var="isPresell" value="true"/>
+</c:if>
+<%-- 是否为电视剧，若是则注意name,episode,visitCount取法，并且判断是否为动漫--%>
+<c:set var="isDrama" value="${node.isContentList && node.nodeNet.parentId != HollyWoodNodeId && !isPresell}"/>
+<c:if test="${isDrama}">
+    <c:set var="name" value="${node.name}"/>
+    <cms:nodecont var="conts" nodeid="${nid}" dataobjectid="2" pagesize="1000" sortType="desc"/>
+    <%-- 电视剧应当以第一集的访问字数作为总访问次数.TODO这里存在一个问题，这个标签被用了两次， 所以可能存在多加1次的问题。不过反正也是假的东西 --%>
+    <cms:contvisitadd var="visitCount" contid="${conts[0].contId}"/>
+    <%-- 设置收藏contid为第一集的id，以防止电视剧的收藏混乱 --%>
+    <c:set var="collectionContid" value="${conts[0].contId}"/>
+    <c:set var="latestEpisode" value="${fn:length(conts)}"/>
+    <c:set var="totalEpisode" value="${node.property1}"/>
+    <c:forEach var="pic" items="${node.nodeImages}">
+        <c:if test="${fn:contains(pic.fileType,'HSJ720V')}">
+            <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
+        </c:if>
+    </c:forEach>
+    <c:if test="${empty imgSrc}">
+        <c:forEach var="pic" items="${node.nodeImages}">
+            <c:if test="${fn:contains(pic.fileType,'V_CONTENT')}">
+                <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
+            </c:if>
+        </c:forEach>
+    </c:if>
+</c:if>
+<%-- 版权判断--%>
+<cms:copyRightFilter var="noCopyright" contentId="${cid}"  nodeId="${nid}"/>
+{
+"name":"${name}",<c:if test="${!empty cont.fields.propertyFileLists}">
+    <%-- 主演 --%>
+    <c:set var="actor" value="${cont.fields.propertyFileLists['主演']}"/>
+    <c:if test="${empty actor}">
+        <c:set var="actor" value="${cont.fields.propertyFileLists['男主角']}"/>
+    </c:if>
+    "director":"${cont.fields.propertyFileLists["导演"]}",
+    "actor":"${actor}",
+    "area":"${cont.fields.propertyFileLists["国家及地区"]}",
+    "year":"${cont.fields.propertyFileLists["播出年代"]}",</c:if>
+    "imgSrc":""${webUrl}${imgSrc}",
+<%-- 评分 --%>
+<c:set var="score" value="${cont.fields.propertyFileLists['IMDB评分']}"/>
+<c:if test="${empty score}">
+    <c:set var="score" value="${cont.fields.WATCH_POINT}"/>
+</c:if>
+<c:if test="${empty score}">
+    <c:set var="score" value="7"/>
+</c:if>
+"score":"${score}",
+"visitCount":${visitCount},
+"type":"${type}",
+"description":"${cont.fields.DESCRIPTION}",
+"latestEpisode":"${latestEpisode}",
+"totalEpisode":"${totalEpisode}",
+"keywords":"${keywords}",
+"noCopyright":${noCopyright},
+"collectionContid":"${collectionContid}",
+"nodeid":"${nid}",
+"contid":"${cid}"<c:if test="${isDrama}">,
+    "episodes":[
+    <c:forEach var="cont" items="${conts}" varStatus='i'>
+        "${cont.contId}"<c:if test="${!i.last}">,</c:if>
+    </c:forEach>
+    ]
+</c:if>,
+"isAnime":${isAnime}<c:if test="${isPresell}">,
+    "isPreSell":true,
+    <cms:hasBespeakTag var="hasBespeak" nodeId ="${nid}" contentId ="${cid}"/>
+    "hasPresold":${hasBespeak.result && hasBespeak.isOrdered == '0000'}
+</c:if>
+}

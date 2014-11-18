@@ -3,7 +3,7 @@
  */
 angular.module('search', []).
     constant('searchConts', {
-        searchUrl: 'searchResult.jsp'
+        searchUrl: 'components/search/searchResult.jsp'
     })
 /**
  * 视频搜索。

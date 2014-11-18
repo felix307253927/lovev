@@ -1,0 +1,94 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<article class="video-info">
+    <div class="list-area list-areas">
+        <div ng-show="!showPlayer">
+            <a class="movie-img video-img">
+                <img ng-src="{{imgSrc}}">
+                <span>{{score}}分</span>
+            </a>
+            <div class="movie-infos video-intro">
+                <a href="">{{name}}</a>
+                <div ng-if="isAnime">
+                    <p>地区：{{area}}</p>
+                    <p>年份：{{year}}</p>
+                </div>
+                <div ng-if="!isAnime">
+                    <p>导演：{{director}}</p>
+                    <p>主演：{{actor}}</p>
+                </div>
+                <p>类型：{{type}}</p>
+                <div class="btn-group">
+                    <a ng-class="{presell:isPreSell && !hasPresold}" class="video-play" ng-click="tryPlay()"></a>
+                    <a ng-show="isLogin && isCollectionReady() && !!collectionContid" class="video-fav" ng-class="{'no-fav':!isCollected(collectionContid)}" ng-click="toggleCollect(detail)"></a>
+                </div>
+            </div>
+            <div ng-if="isPreSell" class="tips-area">
+                <em class="tips"></em>
+                <p>预售是指即将上映热门影片为用户提供的预先订购服务。预售成功即完成扣费。</p>
+                <p>影片上线前，我们将通过手机向您发送观看提示，你也可以登入“ <a href="#/userCenter">个人中心</a>”查看你预约的节目。</p>
+            </div>
+        </div>
+        <div ng-show="showPlayer" class="video-container">
+            <video id="video" width="100%" mn-contid="contid" mn-nodeid="nodeid" mn-detail="detail" controls autoplay></video>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="menu-list" class="menu-list">
+        <a class="menu-cont" ng-show="hasView(key)" ng-class="{'menu-cur':viewSelection==key}" ng-click="setView(key)" ng-repeat="(key,value) in {episodes:'剧集',description:'简介',trailers:'片花预告',recommends:'热门推荐'}">{{value}}</a>
+    </div>
+    <div id="video-container" class="video-container" ng-switch="viewSelection">
+        <!-- 剧集 -->
+        <div id="tabBox1" class="tabBox cont-video" ng-switch-when="episodes">
+            <div class="hd" >
+                <div style="margin-right: 47px;">
+                    <ul class="swiper-container" mn-no-bar-scroll ng-if="isAnime">
+                        <li style="float: none;display: inline-block;" ng-class="{on:span == currentSpan}" ng-repeat="span in episodes.length|episodeSpanGenerator ">
+                            <a href="javascript:" ng-click="changeSpan(span)">{{span}}<em></em></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 正序，反序 -->
+                <a class="detail-order" href="javascript:" ng-click = "changeOrder()" ng-class="{'order-reverse':'-num' == orderProp}" ></a>
+            </div>
+            <div class="bd">
+                <ul>
+                    <li ng-repeat="episode in episodes | collectionSlice:currentSpan | orderBy:orderProp">
+                        <a href="#/videoDetails/{{nodeid}}/{{episode.contid}}/episodes{{episode.contid != contid ? '?play=true' : ''}}" ng-class="{cur:episode.contid==contid}">{{episode.num | normalizeEpisode:episodes.length}}<code ng-if="episode.num|freeEpisode"></code></a>
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="navcon"></div>-->
+        </div>
+        <!-- 简介  -->
+        <div class="p-info cont-video" ng-switch-when="description" >
+            <p>
+                影片简介：{{description}}
+            </p>
+        </div>
+        <!-- 片花预告 -->
+        <div class="cont-video sy-list column-list" ng-switch-when="trailers" >
+            <ul class="pic-list">
+                <li ng-repeat="trailer in trailers">
+                    <a href="#/videoDetails/{{trailer.nodeid}}/{{trailer.contid}}">
+                        <b ng-style="{'background-image':'url('+trailer.imgSrc+')'}"></b>
+                    </a>
+                    <a class="pic-tit">{{trailer.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <!-- 热门推荐 -->
+        <div class="cont-video sy-list column-list" ng-switch-when="recommends" infinite-scroll="loadMoreRecommends()" infinite-scroll-disabled="search.busy||search.noMore" infinite-scroll-immediate-check="false">
+            <ul class="pic-list">
+                <li ng-repeat="recommend in recommends | unique">
+                    <a href="#/videoDetails/{{recommend.nodeid}}/{{recommend.contid}}">
+                        <b ng-style="{'background-image':'url('+recommend.imgSrc+')'}"></b>
+                    </a>
+                    <a class="pic-tit">{{recommend.name}}</a>
+                </li>
+            </ul>
+            <div ng-show="!search.busy && !search.noMore && recommends.length>=4" class="loading">向上拖动加载更多</div>
+            <div ng-show="search.busy && !search.noMore" class="loading"><span><img width="25" height="25" src="image/loading.gif"></span>加载中请稍候</div>
+        </div>
+    </div>
+</article>

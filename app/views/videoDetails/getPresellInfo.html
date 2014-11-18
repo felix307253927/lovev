@@ -1,0 +1,16 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<cms:node var="node" nodeid="${param.nid}"/>
+<c:set var="isPresell" value="${fn:indexOf(node.nodeNet.idPath, preSellNodeId) != -1}"/>
+{
+"isPresell": ${isPresell}<c:if test="${isPresell}">,
+    <cms:preSellInfo var="presellInfo" nodeId ="${param.nid}" contentId ="${param.cid}" />
+    "presellInfo": {
+    "discount": "${presellInfo.orderPId}",
+    "price": "${presellInfo.price}",
+    "productId": "${presellInfo.productId}",
+    "name": "${node.name}"
+    }
+</c:if>
+}

@@ -6,7 +6,7 @@
         <div class="bd">
             <ul>
                 <li ng-repeat="banner in banners">
-                    <a class="pic sy-picarea" href="#/videoDetail/{{banner.nodeid}}/{{banner.contid}}">
+                    <a class="pic sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                         <img ng-src="{{banner.imgSrc}}"/>
                         <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
                     </a>
@@ -19,13 +19,13 @@
     </div>
     <div class="zt-cont sy-cont" ng-if="bannerType==1">
         <p ng-repeat="banner in banners|filter:{imgType:0}">
-            <a class="sy-picarea" href="#/videoDetail/{{banner.nodeid}}/{{banner.contid}}">
+            <a class="sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                 <img ng-src="{{banner.imgSrc}}">
                 <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
             </a>
         </p>
         <span ng-repeat="banner in banners|filter:{imgType:1}">
-            <a class="sy-picarea" href="#/videoDetail/{{banner.nodeid}}/{{banner.contid}}">
+            <a class="sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                 <img ng-src="{{banner.imgSrc}}">
                 <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
             </a>
@@ -44,7 +44,7 @@
     <div class="sy-list" ng-class="block.blockStyle">
         <ul class="pic-list">
             <li ng-repeat="entity in block.entities | even:block.blockStyle">
-                <a href="#/videoDetail/{{entity.nodeid}}/{{entity.contid}}?isPresell={{!!entity.isPresell}}">
+                <a href="#/videoDetails/{{entity.nodeid}}/{{entity.contid}}?isPresell={{!!entity.isPresell}}">
                     <b mn-lazy-background="entity.imgSrc"></b>        <!--style="background-imgs:url({{entity.imgSrc}});"-->
                     <em ng-if="entity.label" ng-class="{yushou:entity.label==1, yugao:entity.label==2, shoufa:entity.label==3}"></em>
                     <span ng-if="!!entity.totalEpisode">{{entity.latestEpisode|episodeView:entity.totalEpisode}}</span>
