@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<%
+java.util.Map monthProduct = new java.util.HashMap();
+java.util.Map timeProduct = new java.util.HashMap();
+// 920--559:大包月, 050--273:小包月, 913--993:按次
+for(String id :"2028593920 2028593910 1028593559 2028595050 2028595051 2028595052 2028595270 2028595271 2028595272 2028595273".split(" "))
+monthProduct.put(id,true);
+for(String id :"2028593913 2028593914 2028593915 2028593916 2028593917 2028593918 2028593919 2028593631 3028593278 2028593993".split(" "))
+timeProduct.put(id,true);
+request.setAttribute("monthProduct",monthProduct);
+request.setAttribute("timeProduct",timeProduct);
+%>
+<cms:orderList var="myProductList"/>
+{
+"orders":[
+<c:forEach var="product" items="${myProductList}" varStatus="i">
+    <c:if test="${fn:contains(product.sname,'和视界') || fn:contains(product.pdesc,'和视界')}">
+
+        <c:if test="${product.chargeMode=='1'}">
+            <cms:content  var="movie" contid="${product.nodeInfo}"/>
+            <c:set var="names" value="${movie.name}"/>
+            <c:if test="${empty movie.name}">
+                <cms:nodeByContSetId var="nodeId" contSetId="${product.nodeInfo}"/>
+                <cms:node  var="node" nodeid ="${nodeId}"/>
+                <c:set var="names" value="${node.name}"/>
+            </c:if>
+        </c:if>
+        <c:if test="${product.chargeMode!='1'}">
+            <c:set var="names" value="${product.sname}"/>
+        </c:if>
+
+        <c:choose>
+            <c:when test="${product.status == 1}"><c:set var="status" value="在订"/></c:when>
+            <c:when test="${product.status == 4}"><c:set var="status" value="已退订"/></c:when>
+            <c:when test="${product.status == 5}"><c:set var="status" value="锁定"/></c:when>
+            <c:when test="${product.status == 8}"><c:set var="status" value="预约订购(下月生效)"/></c:when>
+            <c:when test="${product.status == 10||product.status == 9||product.freetype == '2'}"><c:set var="status" value="免费体验"/></c:when>
+        </c:choose>
+        <c:set var="isMonth" value="true"/>
+        <c:if test="${product.chargeMode=='1' || fn:contains(product.pdesc,'按次')}">
+            <c:set var="isMonth" value="false"/>
+        </c:if>
+        <c:if test="${notFirst}">,</c:if>
+        {
+        "nodeInfo":"${product.nodeInfo}",
+        "name":"${names}",
+        "price":"${product.price/100}",
+        "status":"${status}",
+        "isMonth":${isMonth},
+        "productId":"${product.productID}"<c:if test="${isMonth && product.status == 1}">,
+        "canCancel":true</c:if>
+        }
+        <c:set var="notFirst" value="true"/>
+    </c:if>
+</c:forEach>
+]
+}

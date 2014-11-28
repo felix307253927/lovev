@@ -1,0 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<article class="live-main">
+    <!-- 直播电视列表 -->
+    <div class="live-cont" ng-repeat-start="live in lives">
+        <a class="live-cont-lf" ng-href="#/livePlay/{{live.nodeid}}/{{live.contid}}">
+            <img width="55" height="55" ng-src="{{live.imgSrc}}">
+        </a>
+        <div class="live-cont-rg">
+            <h3><a ng-href="#/livePlay/{{live.nodeid}}/{{live.contid}}">{{live.name}}</a></h3>
+            <p ng-if="live.current"><span>正在播放</span>{{live.current}}</p>
+            <p ng-if="live.next"><span>即将播放</span>{{live.next}}</p>
+            <a class="live-more" ng-href="#/livePlay/{{live.nodeid}}/{{live.contid}}"></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div ng-repeat-end class="live-line"></div>
+    <!-- 加载中 -->
+    <!--<div class="live-loading">加载中请稍候</div>-->
+</article>

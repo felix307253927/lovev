@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article class="logininfo article-top">
+    <div class="setting-header">
+        <a ng-click="back()" class="return-btn"></a>
+        <a href="#/" class="index-btn"></a>
+        <h2>礼品卡</h2>
+    </div>
+    <form name="form" novalidate>
+        <div class="sj-input">
+            <input type="text"  ng-model="mobile"placeholder="请输入11位移动手机号码" class="sj-paynum">
+        </div>
+        <div class="sj-input">
+            <input ng-model="lpPassword" type="password" name="lpPassword" ng-pattern="lpCodeRE" ng-change="passwordErr=false" placeholder="请输入16位体验卡序列号"class="sj-paynum" required >
+            <span ng-show="!passwordErr && form.lpPassword.$dirty && form.lpPassword.$invalid" class="input-info">请输入16位礼品卡序列号</span>
+            <span ng-show="passwordErr" class="input-info">序列号错误</span>
+        </div>
+        <!-- button -->
+        <div class="global-btn enter-btn top-btn">
+            <input type="button" class="enter-pay" value="{{rechargeInfo}}"  ng-click="submit()" ng-disabled="form.$invalid||submitDisabled"></div>
+        <div class="global-btn">
+            <a href="#/myAccount">
+                <input type="button" class="next-pay" value="取消">
+            </a>
+        </div>
+    </form>
+</article>

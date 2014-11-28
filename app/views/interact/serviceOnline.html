@@ -1,0 +1,1030 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <title>和视界</title>
+    <link rel="stylesheet" href="${resourceUrl}/static/css/share.css"/>
+    <style>
+        body{ min-width: 320px;font-size:14px;}
+        .server_tip{ background-color: #14171c;font-size:1.6em; height: 50px; left: 0;line-height: 50px; position: fixed;text-align: center;top: 80px;width: 100%; z-index: 1;border-bottom:1px solid #ff0086;}
+        .server_nav{ border-bottom: 2px solid #959698; position: fixed;top: 40px; width: 100%; z-index: 2;font-size:1.6em;}
+        .server_nav div{ height: 38px;left: 0; line-height: 38px;margin-top: 3px; position: relative;top:0; background:#262932; }
+        .server_nav div a{ float: left;text-align: center; width: 32.6%; color:#FFF;font-size:1.45em;}
+        .server_nav div .cur{position:relative;top:2px;border-bottom: 3px solid #ff0086; color:#ff0086;height: 35px; line-height: 35px; }
+        .sercon{margin-top: 150px;}
+        .sercon .ser_subcon h1{ text-align: center; height: 40px; line-height: 40px; font-size: 16px;}
+        .sercon .lan{border-top: 1px solid #e40077;}
+        .sercon .ds{ border-top: 1px solid #8ec11d;}
+        .sercon .lv{border-top: 1px solid #0083cf;}
+        .sercon .lan cite, .sercon .lv cite, .sercon .ds cite{ background: url(${resourceUrl}/static/imgs/10/891/104.png) no-repeat scroll; width: 35px; height: 35px; display: inline-block; margin: 7px 8px 0 10px; vertical-align: top;}
+        .sercon .lv cite{background: url(${resourceUrl}/static/imgs/10/891/105.png) no-repeat scroll;}
+        .sercon .ds cite{background: url(${resourceUrl}/static/imgs/10/891/103.png) no-repeat scroll;}
+        .sercon div p,.ques{ border-bottom: 6px solid #e6e6e6; /*height: 49px;*/ line-height: 49px;}
+        .sercon div p em{ float: right; border-color: #fff #fff #fff #888; border-style: solid; border-width: 6px 10px; display: inline-block; line-height: 0; margin-top: 20px; }
+        .ser_andvideo{}
+        .ss_con h2{ text-align: center; border-bottom: 1px solid #E40077; font-size: 16px; height: 40px; line-height: 40px;}
+        .ss_con h2 em{ border-left: 1px solid #878787;border-top: 1px solid #878787; display: inline-block; width:16px; height: 16px; position: relative; float: left; margin: 10px 0 0 10px;
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);}
+        .ss_con h2 em i{ display: block; width: 25px; border-bottom: 2px solid #878787;left: -2px;position: absolute; top: 10px;
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);}
+        .andvideo_con{ background-color: #f5f5f5;}
+        .andvideo_con dd{ line-height: 35px; border-bottom: 5px solid #e6e6e6; padding: 0 6px;}
+        .andvideo_con dd em{ border-color:  #888888 transparent transparent; border-style: solid; border-width: 8px; display: inline-block; float: right; line-height: 0; margin-top: 15px; }
+        .andvideo_subcon{ background-color: #fff; }
+        .sercon .andvideo_subcon p{ color: #888; border-bottom: 1px dashed #888; height: 39px; line-height: 39px; }
+        .sercon .andvideo_subcon p cite{ border-color: transparent transparent transparent #8dc11c; border-style: solid; border-width: 5px 6px; display: inline-block; float: right; line-height: 0; margin-top: 15px; }
+        .sercon .andvideo_subcon p span{ border: 1px solid #E40077; border-radius: 9px; display: inline-block; height: 16px; vertical-align: text-top; width: 16px; margin-right: 6px; }
+        .sercon .andvideo_subcon p .cur i{ background-color: #8EC11D; border-radius: 5px; display: block; height: 8px; margin: 4px 0 0 4px; width: 8px; }
+        .per_con{ padding: 0 6px 8px; overflow: hidden;min-height: 50px;}
+        .per_con span img{ border: 1px solid #e4e4e4; padding: 2px; box-shadow: 0 1px 1px #717171; float: left;}
+        .per_con div{ background-color: #e6eaf0; border-radius: 5px; margin: 12px 0 0 56px; padding: 3px 5px; position: relative;box-shadow: 0 1px 1px #717171; width: -moz-fit-content; width:-webkit-fit-content; width:-ms-fit-content; width:-o-fit-content;}
+        .per_con div em{border-color: transparent #e6eaf0 transparent transparent;border-style: solid;border-width: 6px 7px 3px 6px;display: inline-block;line-height: 0;position:absolute;left: -12px;top: 6px;}
+        .tm_con time{ float: right; }
+        .tm_con{ clear: both; padding: 5px 6px; font-size: 12px;color: #8f8f8f;}
+        .rg .per_con span img, .rg .per_con div{ float: right;}
+        .rg .per_con div{margin-left: 0; margin-right: 10px; background-color: #a5d0f3;}
+        .rg .per_con div em{ border-color: transparent transparent transparent #a5d0f3; left: 0; position:absolute; width:0; display: none; }
+        #message-area { height: 15em; width: 100%; overflow: auto; scoll: auto; }
+        #message-form { display: block;width:96%;margin:0 auto;}
+        #control-panel { display: none; }
+        .outgoing-chat,.incoming-chat,.info,.warn,.error{ clear: both; padding: 0 10px; line-height: 25px; /*overflow: hidden;*/ }
+        .outgoing-chat{ float: right; color:#606060; font-style: normal; }
+        .incoming-chat{ float: left;color:#606060; }
+
+        .outgoing-chatcont,.incoming-charcont{
+            position:relative;background:#999;margin-right:24px;padding:0 5px;border-radius:5px;color:#fff;
+            word-break:break-all;word-wrap:break-word;}
+        .incoming-charcont{
+            background:#afd743;margin-left: 24px;margin-right: 0;
+        }
+        .incoming-charcont em{
+            display: block;
+            position: absolute;
+            top: 8px;
+            left: -15px;
+            width: 0;
+            height: 0;
+            border-bottom: 0 solid rgba(0, 0, 0, 0);
+            border-right: 15px solid #AFD743;
+            border-top: 9px solid rgba(0, 0, 0, 0);
+        }
+        .outgoing-chatcont em{
+            display: block;
+            position: absolute;
+            top: 8px;
+            right: -15px;
+            width: 0;
+            height: 0;
+            border-bottom: 0 solid rgba(0, 0, 0, 0);
+            border-left: 15px solid #93939B;
+            border-top: 9px solid rgba(0, 0, 0, 0);
+        }
+
+
+        .error{ color:#FF0000; float: left; font-style: italic; }
+        .warn{ color:#0000CC; float: left; font-style: italic; }
+        .info{ color:#4400CC; float: left; font-style: italic; }
+        .dt_a { font-weight: bold; height: 30px; line-height: 30px; }
+        .message { border: 1px solid #999999; height: 67px;width:100%; margin:0 auto;  font-size:12px; }
+        .button_a, .button_b, .button_c, .tijiao, .qkong, .dellet{ background:#ff0086; color:#fff; border-radius: 5px; margin: 6px 4px; padding:3px 12px; float:right; height:26px;}
+        .email{ padding:0; }
+        .neirong{ }
+        .mesg{ height:30px; overflow:hidden; line-height:30px;margin-left:6px;}
+        .yhf{ }
+        .mesg a{ color: #fff; vertical-align:middle; line-height:16px;}
+        .mesg .cur{ color: #E40077; }
+        .zhuti { padding: 5px 0; }
+        .zhuti span, .neirong span{ float:left; }
+        .zhuti input{ border: 1px solid #999999; border-radius: 3px; height: 21px; line-height: 21px; padding: 0 3px; width:83%; font-size:12px; }
+        .neirong textarea{ border: 1px solid #999999; border-radius: 3px; vertical-align: top; padding: 0 3px; width:83%; font-size:12px; }
+        .youjian{ margin-top: 2px; padding: 5px; overflow:hidden; }
+        #message-area{background:#fff; width:96%;margin:0 auto;}
+        .senddel{
+            display: block;
+            font-size: 12px;
+            line-height: 26px;
+            padding: 3px 5px;
+            text-align: center;
+            background: none repeat scroll 0 0 #FF0086;
+            border-radius: 5px;
+            float:right;
+            margin: 6px 4px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<%String UA = "";
+if(session.getAttribute("User-Agent")!=null && !"".equals(session.getAttribute("User-Agent"))){
+UA = session.getAttribute("User-Agent").toString().toLowerCase();
+request.setAttribute("UA",UA);
+}%>
+<script type="text/javascript">
+    function ajax(url, fnSucc, fnFaild){
+        //1.创建Ajax对象
+        var oAjax=null;
+        if(window.XMLHttpRequest){
+            oAjax=new XMLHttpRequest();
+        }else{
+            oAjax=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        //2.连接服务器
+        oAjax.open('GET', url, true);
+
+        //3.发送请求
+        oAjax.send();
+
+        //4.接收服务器的返回
+        oAjax.onreadystatechange=function (){
+            if(oAjax.readyState==4)	//完成
+            {
+                if(oAjax.status==200)	//成功
+                {
+                    fnSucc(oAjax.responseText);
+                }else{
+                    if(fnFaild)
+                        fnFaild(oAjax.status);
+                }
+            }
+        };
+    }
+</script>
+
+<script type="text/javascript">
+    window.onload = function() {
+        document.getElementById("tmsg").scrollIntoView(true);
+        function getScrollTop(){
+            return document.documentElement.scrollTop || document.body.scrollTop;
+        }
+
+    }
+    function t_time(){
+        var H= new Date().getHours();       //获取当前小时数(0-23)
+        var M= new Date().getMinutes();     //获取当前分钟数(0-59)
+        var S= new Date().getSeconds();     //获取当前秒数(0-59)
+        if(H<10)H="0"+H;
+        if(M<10)M="0"+M;
+        if(S<10)S="0"+S;
+        var nowTime=H+":"+M+":"+S;
+        return nowTime;
+    }
+    function showmsg(a,b){
+        var tmsg = document.getElementById("tmsg");
+        setTimeout(function(){var c = "<div class='incoming-chat' >机器人("+t_time()+")：</div><div class='incoming-chat incoming-charcont' >"+b+"<em></em></div>";var k = tmsg.innerHTML+""+ c;tmsg.innerHTML="";tmsg.innerHTML=k;tmsg.scrollTop=tmsg.scrollHeight;},1000);
+    }
+    function sendmsg(){
+        var robotId = document.getElementById("perId").value;
+        var msgUrl="/beginChat_OnlineCS.msp?robotId="+robotId+"&question=";
+        var tmsg = document.getElementById("tmsg");
+        var qmsg = document.getElementById("qmsg");
+        if(qmsg.value=="" || qmsg.value==null){return;}
+        msgUrl += qmsg.value;
+        var amsg = "<div class='outgoing-chat' >我("+t_time()+")：</div><div class='outgoing-chat outgoing-chatcont' >"+qmsg.value+"<em></em></div>";
+        var d = tmsg.innerHTML+""+ amsg ;
+        tmsg.innerHTML="";tmsg.innerHTML=d;
+        tmsg.scrollTop=tmsg.scrollHeight;
+        qmsg.value="";
+        ajax(msgUrl,function result(response){
+            //alert(result);
+            var json = eval("(" + response+ ")");
+            if(json){
+                if(json.result){
+                    document.getElementById("perId").value=json.robotId;
+                    var answer = eval("(" + json.answer+ ")");
+                    if(answer[0].level=='-1'){
+                        showmsg(json.question,"SORRY，亲，这个问题太深奥了，我要想想才能答复呢，要不给我留言吧，我会尽快给您回复哦，谢谢！");
+                    }else if(answer[0].level=='0'){
+                        showmsg(json.question,answer[0].answer);
+                    }else{
+                        showmsg(json.question,answer[0].answer);
+                    }
+                    //alert(answer[0].question);
+                    //alert(answer.length);
+                }else{
+                    //alert(json.desc);
+                }
+            }
+        });
+    }
+</script>
+
+<!--=============客服==========-->
+<div class="setting-header">
+    <a href="javascript:history.go(-1)" class="return-btn" style="margin-top:13px;"></a>
+    <a href="${resourceUrl}/index.jsp" class="index-btn" style="margin:13px;"></a>
+    <h2>在线客服</h2>
+</div>
+<article class="server_nav">
+    <div id="ser_nav">
+        <a>智能机器人</a>
+        <a <c:if test="${param.kf==1}"></c:if><c:if test="${param.kf!=1}">class="cur"</c:if> >人工客服</a>
+        <a <c:if test="${param.kf==1}">class="cur"</c:if><c:if test="${param.kf!=1}"></c:if> >离线留言</a>
+    </div>
+</article>
+
+<ul class="sercon" id="ser_con" >
+    <li style="display:none;">
+        <div id="message-panel" style="width:96%; margin:0 auto;">
+            <div id="tmsg" style="height:15em;overflow:auto;width:100%;background-color:#fff;"><div class="warn">亲，很高兴为您服务哦，有什么可以为您效劳吗？您可以输入如费用、流量、订购、退订等关键字来寻找您的答案哦~</div></div>
+            <div >
+                <dl class="dl_a">
+                    <dt class="dt_a">发送消息给智能机器人：</dt>
+                    <dd>
+                        <textarea id="qmsg" name="message" rows="4" cols="60" class="message"></textarea>
+                        <input type="hidden" value="0" id="perId"/>
+                    </dd>
+                    <dt></dt>
+                    <dd style="overflow:hidden;"><a href="javascript:sendmsg()"  class="senddel" >发送</a></dd>
+                </dl>
+            </div>
+        </div>
+        <!--自助查询-->
+    </li>
+
+    <li <c:if test="${param.kf!=1}">style="display: block;"</c:if><c:if test="${param.kf==1}">style="display: none;"</c:if>>
+    <div id="message-panel" style="margin: 0 2px;">
+        <div id="message-area"></div>
+        <form id="message-form" onsubmit="return client.sendMessage(this)">
+            <dl class="dl_a">
+                <dt class="dt_a">发送消息给客服：</dt>
+                <dd>
+                    <textarea name="message" rows="4" cols="60" class="message"></textarea>
+                </dd>
+                <dt></dt>
+                <dd style="overflow:hidden;"><button type="submit" class="button_a" style="float:right;"  id="sendMessageBtn">发送</button><button class="button_b" style="float:left;" type="button" onclick="return client.closeChatRequest()">结束对话</button><button class="button_c" type="button" style="float:left;" onclick="window.location.reload()">重连</button></dd>
+            </dl>
+        </form>
+    </div>
+    </li>
+
+
+    <li <c:if test="${param.kf==1}">style="display: block;"</c:if><c:if test="${param.kf!=1}">style="display: none;"</c:if> >
+    <div id="error" style="text-align: center; color: red;line-height:20px;z-index:1000;"></div>
+    <div class="email">
+        <cms:customerEmailTag var="result" pageidx="1"  pagesize="15"  sortKey="upTime" sortType="desc"/>
+        <c:if test="${itemCount eq 0 }">
+            <span style="padding:6px">亲，您当前未提交任何留言！</span>
+        </c:if>
+        <c:if test="${itemCount gt 0 }">
+            <c:forEach var="emailInfo" items="${result}">
+                <div class="mesg" >
+                    <a href="${resourceUrl}/index.jsp#/email?suggestIds=${emailInfo.suggestId}&amp;status=${emailInfo.status}&amp;title=${emailInfo.title}&amp;suggest=${emailInfo.suggest}&amp;uptime=${emailInfo.upTime}&amp;replyCont=${emailInfo.replyCont}&amp;replytime=${emailInfo.replyTime}">${fn:substring(emailInfo.title,0,15)}...<c:if test="${emailInfo.status=='1'}"><span style="color:#E40077;">详情</span></c:if><c:if test="${emailInfo.status=='0'}"><span style="color:#A6A7A7;">未回复</span></c:if></a>
+                    <a onclick="delEmail(this,'${emailInfo.suggestId}')" class="senddel">删除</a>
+                </div>
+            </c:forEach>
+        </c:if>
+        <form method="post" class="youjian" id="iform">
+            <div class="zhuti">
+                <span>主题：</span><input type="text" id="zhuti" name="subject" width="200" />
+            </div>
+            <div class="neirong">
+                <span>内容：</span><textarea id="neir" cols="20" rows="5" name="content"></textarea>
+            </div>
+            <%--
+            <div style="height:50px;line-height:50px;"><span>选择类型：</span>
+                <input type="radio" name="flei" style="width:40px;height:40px;vertical-align:middle;margin:0 8px;" checked="checked" value="留言">留言</input>
+                <input type="radio" name="flei" style="width:40px;height:40px;vertical-align:middle;margin:0 8px;" value="举报">举报</input>
+            </div>
+            --%>
+            <input type="button" class="tijiao" value="提交"  onclick="addEmail()"/>
+            <input type="reset"  class="qkong" style="float:left;" value="清空" />
+        </form>
+    </div>
+    </li>
+</ul>
+<script type="text/javascript">
+    function addEmail(){
+        var error =document.getElementById("error");
+        var subject= document.getElementById("zhuti").value;
+        var content= document.getElementById("neir").value;
+        var flei='';
+        var radio=document.getElementsByName('flei');
+        for(var i=0;i<radio.length;i++){
+            if(radio[i].checked==true){
+                flei=radio[i].value;break;
+            }
+        }
+        var addUrl="/addCustomerMsg_CustomEmail.msp?subject="+subject+"&content="+content;
+        //var addUrl="/addCustomerMsg_CustomEmail.msp?subject=[和视界]["+flei+"]"+subject+"&content="+content;
+        //if(subject=="" || subject==null){return;}else if(content=="" || content==null){return;}
+        //var  url="/xmppUserRegister_OnlineCS.msp";
+
+        ajax(addUrl,function result(result){
+            //alert("result"+result); 
+            <%if(UA.contains("iphone")){%>
+                var json = eval("(" + result + ")");
+                if(json){
+                    if(json.result){
+                        if(json.resultCode=='0000'){
+                            error.innerHTML="提交成功！"
+                        }else if(json.resultCode=='0001'){
+                            error.innerHTML="未登陆！"
+                        }else if(json.resultCode=='0012'){
+                            error.innerHTML="SORRY!提交失败！"
+                        }else if(json.resultCode=='0013'){
+                            error.innerHTML="不允许连续提交！"
+                        }
+                        setTimeout(function(){error.style.display="none";},3000);
+                    }
+                }
+            <%}else{%>
+                window.location.href="${resourceUrl}/views/interact/serviceOnline.jsp?kf=1";
+            <%}%>
+        });
+        document.getElementById("iform").reset();
+    }
+
+    function delEmail(obj,sid){
+        var delObj = obj.parentNode;
+        var error =document.getElementById("error");
+        var delUrl="/deleteCustomerMsg_CustomEmail.msp?suggestIds="+sid;
+        ajax(delUrl,function result(result){
+            //alert("result"+result);
+            <%if(UA.contains("iphone")){%>
+                var json = eval("(" + result + ")");
+                if(json){
+                    if(json.result){
+                        if(json.resultCode=='0000'){
+                            delObj.style.display="none";
+                            delObj.parentNode.removeChild(delObj);
+                            error.innerHTML="删除成功！"
+                        }else if(json.resultCode=='0001'){
+                            error.innerHTML="未登陆！"
+                        }else if(json.resultCode=='0012'){
+                            error.innerHTML="SORRY!删除失败！"
+                        }
+                        setTimeout(function(){error.style.display="none";},3000);
+                    }
+                }
+            <%}else{%>
+                window.location.href="${resourceUrl}/views/interact/serviceOnline.jsp?kf=1";
+            <%}%>
+        });
+    }
+</script>
+<!--在线客服JS-->
+<script type="text/javascript" src="${resourceUrl}/static/libs/serviceOnline/prototype.js"></script>
+<script type="text/javascript" src="${resourceUrl}/static/libs/serviceOnline/extjs2.js"></script>
+<script type="text/javascript" src="${resourceUrl}/static/libs/serviceOnline/dom-all.js"></script>
+<script type="text/javascript" src="${resourceUrl}/static/libs/serviceOnline/crypto.js"></script>
+<script type="text/javascript" src="${resourceUrl}/static/libs/serviceOnline/xmpp4js.js"></script>
+<script type="text/javascript">
+    <!--
+    function SimpleClient() {
+        // @type Xmpp4Js.Connection
+        this.con = null;
+    }
+    SimpleClient.prototype = {
+        CHAT_OPTIONS: {
+            ignoreResource: true,
+            ignoreThread: true
+        },
+        host			: 	'',		//主机
+        ownId			:	'',		//自己的ID
+        resource		:	'',		//资源
+        timeout1		:	0,		//回复超时提醒
+        timeout2		:	0,		//回复超时提示
+        chatId			:	'',		//聊天ID
+        staffId			:	'',		//客服ID
+        waitInfo		:	false,	//是否待处理消息
+        taskInfo		:	false, 	//是否任务消息
+        isScore			:	false,	//是否在评分
+        isNegativeComm	:	false,	//是否在差评
+        isStaffTransfer	:	false,	//是否客服转接
+        isReconnect		:	false,	//重连需要
+        showReconnectMsg:	false,	//是否显示重连信息
+        receivedPing	:	false,	//是否接收到心跳包
+        taskRunner 		: 	new Ext.util.TaskRunner(),//定时任务需要
+        ownName			:	"我",
+        systemName		:	"系统",
+        log:function(msg){
+            try{
+                if(window && window.console && window.console.log){
+                    window.console.log(msg);
+                    window.console.log("|h_"+this.host+"|o_"+this.ownId+"|r_"+this.resource+"|t1_"+this.timeout1+"|t2_"+this.timeout2
+                    +"|c_"+this.chatId+"|s_"+this.staffId+"|w_"+this.waitInfo+"|t_"+this.taskInfo+"|s_"+this.isScore+"|n_"+this.isNegativeComm
+                    +"|st_"+this.isStaffTransfer+"|ir_"+this.isReconnect+"|rp_"+this.receivedPing+"|srm_"+this.showReconnectMsg);
+                }
+            }catch(e){
+                if(window && window.console && window.console.log){
+                    window.console.log(e);
+                }
+            }
+        },
+        doShowMessage : function(sender,messageText,sendCssClasses,msgCssClasses){//展示消息
+            this.logMessage( sender + "("+t_time()+"): ", sendCssClasses);
+            this.logMessage( messageText, msgCssClasses);
+            this.log(messageText);
+        },
+        doSendPacket : function(type,packet,callback){//所有发送包，都必须走这个
+            var me = this;
+            var result = false;
+            try{
+                me.con.send( packet ,callback);
+                result = true;
+            }catch(e){
+                me.log("doSendPacket1");
+                me.log(e);
+            }
+
+            try{
+                var to = packet.getToJid().getNode();
+                if(type == 'message'){
+                    var body = packet.getBody();
+                    var subject = packet.getSubject();
+                    me.log("send|" + to + "|" + subject + "|" + body);
+                }else if(type == 'iq'){
+                    me.log("send|" + to + "|iq");
+                }else if(type == 'presence'){
+                    me.log("send|" + to + "|presence");
+                }
+            }catch(e){
+                me.log("doSendPacket2");
+                me.log(e);
+            }
+
+            return result;
+        },
+        doIsConnected:function(){//判定是否连接上的
+            var me = this;
+            try{
+                if(me.con && me.con.isConnected()){
+                    return true;
+                }
+            }catch(e){
+                me.log("doIsConnected");
+                me.log(e);
+            }
+            return false;
+        },
+        onlyClose : function(){
+            try{
+                this.con.close();
+            }catch(e){}
+            return false;
+        },
+        close: function() {//关闭连接
+            var me = this;
+            try{
+                me.con.close();
+            }catch(e){
+                me.log("close1");
+                me.log(e);
+            }
+            try { //禁用按钮
+                document.getElementById("sendMessageBtn").disabled = true;
+            } catch (e) {
+                me.log("close2");
+                me.log(e);
+            }
+            try{
+                me.taskRunner.stopAll();
+            }catch(e){
+                me.log("close3");
+                me.log(e);
+            }
+            return false;
+        },
+        reConnect:function(mandatoryReconnect){//重新连接
+            var me = this;
+            if(me.isReconnect){//如果已经在重连了，则不需要重连
+                me.log("reConnect,existed");
+                if(!mandatoryReconnect){
+                    return false;
+                }
+            }
+            if(me.host == '' || me.host == null){
+                me.log("reConnect,host is null");
+                return false;
+            }
+            me.log("reConnect start");
+            me.isReconnect = true;
+            if(me.con){
+            }else {
+                me.init();
+            }
+            me.con.on("connect", me.onConnectForLogin, me, {single: true} );
+            me.con.connect( me.host,5222,me.host);
+            return true;
+        },
+        doLogin: function() {//第一次登陆服务器
+            var me = this;
+            if(me.host == '' || me.host == null){
+                me.log("login,host is null");
+                return false;
+            }
+            me.init();
+            me.con.on("connect", me.onConnectForLogin, me, {single: true} );
+            me.con.connect( me.host,5222,me.host);
+            me.doShowMessage( me.systemName,"连接服务中...","info", "info");
+            return false;
+        },
+        init: function() {//初始化连接
+            var me = this;
+            if (me.taskRunner) {
+                me.log("init ,stop taskAll");
+                me.taskRunner.stopAll();
+            } else {
+                me.log("init ,init taskRunner");
+                me.taskRunner = new Ext.util.TaskRunner();
+            }
+            document.getElementById("message-form").style.display = "none";
+            if(!me.con){
+                me.log("init ,init con");
+                var stanzaProvider = new Xmpp4Js.Packet.StanzaProvider();
+                stanzaProvider.registerDefaultProviders();
+                me.con = new Xmpp4Js.Connection({
+                    transport: {
+                        clazz: Xmpp4Js.Transport.BOSH,
+                        endpoint: "/http-bind/"
+                    },
+                    stanzaProvider: stanzaProvider,
+                    listeners: {
+                        scope : me,
+                        error : me.onError,
+                        close : me.onClose
+                    }
+                });
+                me.chatManager = Xmpp4Js.Chat.ChatManager.getInstanceFor( {
+                    con:me.con ,
+                    listeners: {
+                        scope : me,
+                        chatStarted : me.onChatStarted,
+                        messageReceived : me.onChatMessageReceived
+                    },
+                    options:me.CHAT_OPTIONS
+                });
+            }
+        },
+        onConnectForLogin: function() {//连接成功以后的处理，登陆服务器
+            var me = this;
+            if(!me.isReconnect){//不是重新连接
+                me.ownId = me.username;
+                me.password = me.username;
+                me.resource = "lovev";
+                me.type = me.username ? "plaintext" : "anon";
+
+                me.doShowMessage( me.systemName,"服务器连接成功，正在登陆...","info", "info");
+            }else{//重新连接成功
+                me.log("onConnectForLogin ,reconnected,for login");
+            }
+            me.loginFlow = new Xmpp4Js.Workflow.Login({
+                con: me.con,
+                listeners: {
+                    scope: me,
+                    success: me.onLoginCompleted,
+                    failure: me.onAuthError
+                }
+            });
+            me.loginFlow.start( me.type, me.ownId, me.password ,me.resource);//登录
+        },
+        onLoginCompleted : function() {//登陆服务器成功以后的处理
+            var me = this;
+            var isFirst = false;
+            window.onbeforeunload = function() {
+                if (me.doIsConnected()) {
+                    try {
+                        if (me.isScore == true) {
+                            me.closeClientDialog();
+                        }
+                    } catch (e) {
+                        me.log("onbeforeunload,closeClientDialog error");
+                        me.log(e);
+                    }
+                }
+                try {
+                    setTimeout(function() {
+                        me.close();
+                    }, 2 * 1000);
+                } catch (e) {
+                    me.log("onbeforeunload,close error");
+                    me.log(e);
+                }
+                window.onbeforeunload = null;
+            }
+            if(!me.isReconnect){
+                isFirst = true;
+                me.doShowMessage( me.systemName,"登陆成功...", "info","info");
+                me.sendTask = {
+                    scope: me,
+                    run: function(){
+                        try{
+                            if(me.isReconnect){
+                                return;
+                            }
+                            me.receivedPing = false;
+                            var pingPacket = new Xmpp4Js.Packet.Ping(me.host);
+
+                            me.doSendPacket('iq',pingPacket,function(node){
+                                if(node && node.getType() == 'result'){
+                                    me.receivedPing = true;
+                                }
+                            });
+                            setTimeout(function(){
+                                if(me.isReconnect){
+                                    return;
+                                }
+                                if(!me.receivedPing){
+                                    try{
+                                        me.close();
+                                    }catch(e){}
+                                    try{
+                                        me.reConnect();
+                                    }catch(e){}
+                                }
+                            },10000);
+                        }catch(e){
+                            me.log("sendTask");
+                            me.log(e);
+                        }
+                    },
+                    interval: 30000
+                };
+            }else{
+                if(me.showReconnectMsg){
+                    me.doShowMessage( me.systemName,"亲，系统已帮你重新连接，请继续~", "info","info");
+                    me.showReconnectMsg = false;
+                }
+                me.isReconnect = false;
+            }
+            me.doSendPacket('presence',me.con.getPacketHelper().createPresence());
+
+            document.getElementById("message-form").style.display = "block";
+            me.taskRunner.start( me.sendTask );
+
+            try { //禁用按钮
+                document.getElementById("sendMessageBtn").disabled = false;
+            } catch (e) {}
+
+            if(isFirst){
+                //请求服务
+                me.reqService();
+            }
+        },
+        onError: function(isTerminal, packetNode, title, message) {
+
+        },
+        onClose: function(con) {
+            try {
+                document.getElementById("message-form").style.display = "block";
+            } catch (e) {
+                this.log("onClose");
+                this.log(e);
+            }
+        },
+        closeClientDialog: function() {
+            var me = this;
+            me.log("closeClientDialog");
+            if (!me.doIsConnected()) {
+                me.reConnect();
+                return false;
+            }
+            me.taskInfo = false;
+            me.waitInfo = false;
+
+            var messageText = "<onlineService type=\"closeClientDialog\" userId =\"" + me.staffId + "\" chatId =\"" + me.chatId + "\"></onlineService>";
+            var msgPacket = new Xmpp4Js.Packet.Message("admin@" + me.host, "chat", messageText,"closeClientDialog");
+            me.doSendPacket("message", msgPacket);
+
+            me.staffId = '';
+            me.chatId = '';
+
+            try { //禁用按钮
+                document.getElementById("sendMessageBtn").disabled = true;
+            } catch (e) {}
+
+            setTimeout(function() {
+                me.close();
+            }, 10 * 1000);
+            return true;
+        },
+        notifyTimeout: function() {
+            var me = this;
+            me.log("notifyTimeout");
+            if (!me.doIsConnected()) {
+                me.reConnect();
+                return false;
+            }
+            me.taskInfo = false;
+            me.waitInfo = false;
+
+            var messageText = "<onlineService type=\"notifyTimeout\" chatId=\""+me.chatId+"\"></onlineService>";
+            var msgPacket = new Xmpp4Js.Packet.Message("admin@" + me.host, "chat", messageText,"notifyTimeout");
+            me.doSendPacket("message", msgPacket);
+
+            me.staffId = '';
+            me.chatId = '';
+            try { //禁用按钮
+                document.getElementById("sendMessageBtn").disabled = true;
+            } catch (e) {}
+            setTimeout(function() {
+                me.close();
+            }, 10 * 1000);
+            return true;
+        },
+        reqService : function() {
+            var me = this;
+            if (!me.doIsConnected()) {
+                me.reConnect();
+                return false;
+            }
+            var messageText = "<onlineService type=\"reqService\"></onlineService>";
+            var msgPacket = new Xmpp4Js.Packet.Message("admin@" + me.host, "chat", messageText,"reqService");
+            me.doSendPacket("message", msgPacket);
+            me.doShowMessage( me.systemName,"请求客服中...","info", "info");
+            return true;
+        },
+        sendMessage: function(form) {
+            try{
+                var me = this;
+                if(me.isReconnect){
+                    me.showReconnectMsg = true;
+                    me.doShowMessage( me.systemName,"亲，连接已断开，正在为你重连~请稍候~","warn", "warn");
+                    return false;
+                }
+                if (!me.doIsConnected()) {
+                    me.doShowMessage( me.systemName,"亲，连接已断开，马上为你重连~请稍候~","warn", "warn");
+                    me.showReconnectMsg = true;
+                    me.reConnect();
+                    return false;
+                }
+                var messageText = form.message.value;
+                if (messageText == "" || messageText == null) {
+                    return false;
+                }
+                if(messageText.length > 4500){
+                    me.doShowMessage( me.systemName,"亲，您发送的消息内容超长，请分条发送~", "error","error");
+                    return false;
+                }
+                if(me.isScore){//检查输入，评分时只能输入 1 2 3 4 5
+                    if(messageText == '1' || messageText == '2' || messageText == '3' || messageText == '4'|| messageText == '5'){
+                    }else{
+                        me.doShowMessage( me.systemName,"亲，您输入的是无效的评分，请重新输入哦~", "error","error");
+                        form.message.value = '';
+                        return false;
+                    }
+                }else if(me.isNegativeComm){
+                    if(messageText == '1' || messageText == '2' || messageText == '3' || messageText == '4'){
+                    }else{
+                        me.doShowMessage( me.systemName,"亲，您输入的是无效的差评理由，请重新输入哦~", "error","error");
+                        form.message.value = '';
+                        return false;
+                    }
+                }
+                if (me.taskInfo == true) {
+                    var to = me.staffId + "@" + me.host;
+                    var msgPacket = new Xmpp4Js.Packet.Message(to, "chat", messageText,me.chatId+"_taskInfo");
+
+                    if(me.doSendPacket('message',msgPacket,function(packet){
+                                me.log(packet);
+                            })){
+                        me.doShowMessage( me.ownName,messageText, "outgoing-chat","outgoing-chat outgoing-chatcont");
+                        me.userCheckTimeout();
+                    }
+                    form.message.value = '';
+                    if (me.isScore == true) {
+                        me.doShowMessage( me.systemName,"亲，感谢您的评分~祝你生活愉快~", "info","info");
+                        me.isScore = false;
+                        try { //禁用按钮
+                            document.getElementById("sendMessageBtn").disabled = true;
+                        } catch (e) {}
+                    }else if(me.isNegativeComm == true){
+                        me.isNegativeComm = false;
+                        try { //禁用按钮
+                            document.getElementById("sendMessageBtn").disabled = true;
+                        } catch (e) {}
+                    }
+                }else if (me.waitInfo == true) {
+                    var to = "admin@" + me.host;
+                    var msgPacket = new Xmpp4Js.Packet.Message(to, "chat", messageText,me.chatId+"_waitInfo");
+
+                    if(me.doSendPacket('message',msgPacket,function(packet){
+                                me.log(packet);
+                            })){
+                        me.doShowMessage( me.ownName,messageText, "outgoing-chat","outgoing-chat outgoing-chatcont");
+                        me.userCheckTimeout();
+                    }
+                    form.message.value = '';
+                }else{
+                    me.doShowMessage( me.systemName,"亲，请耐心等待~","warn","warn");
+                }
+                form.message.value = '';
+            }catch(e){
+                this.log("sendMessage");
+                this.log(e);
+            }
+            return false;
+        },
+        userCheckTimeout:function(){//用户端检查用户是否回复超期
+            var me = this;
+            if(me.userCheckTimeout1){
+                clearTimeout(me.userCheckTimeout1);
+            }
+            if(me.userCheckTimeout2){
+                clearTimeout(me.userCheckTimeout2);
+            }
+            me.userCheckTimeout1 = setTimeout(function(){//快超时，提醒
+                if(me.taskInfo == true){
+                    me.doShowMessage( me.systemName,"亲，还在吗？已经好久没有收到您的消息啦，如果没有其他问题，本次会话就要结束啦!","error","error");
+                }else if(me.waitInfo == true){
+                    me.doShowMessage( me.systemName,"亲，还在吗？已经好久没有收到您的消息啦，如果没有其他问题，本次会话就要结束啦!","error","error");
+                }else{
+                    return;
+                }
+                if(me.userCheckTimeout2){
+                    clearTimeout(me.userCheckTimeout2);
+                }
+                var timeout = me.timeout2 * 1000 - me.timeout1 * 1000;
+                me.userCheckTimeout2 = setTimeout(function(){//已超时，提示关闭
+                    if(me.taskInfo == true){
+                        me.doShowMessage( me.systemName,"亲，好久没有收到您的消息啦，希望您对我的服务满意，欢迎下次再和我们沟通哦!","error","error");
+                        me.closeClientDialog();
+                    }else if(me.waitInfo == true){
+                        me.doShowMessage( me.systemName,"亲，好久没有收到您的消息啦，希望您对我的服务满意，欢迎下次再和我们沟通哦!","error","error");
+                        me.notifyTimeout();
+                    }
+                },timeout);
+            },me.timeout1 * 1000);
+        },
+        closeChatRequest: function() {
+            var me = this;
+            if (!me.doIsConnected()) {
+                me.reConnect();
+                return false;
+            }
+            try {
+                if (me.taskInfo == true) { //处理回复超时
+                    me.doShowMessage( me.systemName,"亲，您已请求与客服(" + me.staffId + ")结束对话!","error","error");
+                    var messageText = "$%#@#$%#@!@0-0-067676766661%%^*&^%*&^()JI*II+66666#!@^&*)(*&@@@";
+                    var msgPacket = new Xmpp4Js.Packet.Message(me.staffId + "@" + me.host, "chat", messageText,me.chatId+"_close");
+                    me.doSendPacket("message", msgPacket);
+                } else if (me.waitInfo == true) {
+                    me.doShowMessage( me.systemName,"亲，您已请求与客服(" + me.staffId + ")结束对话!","error","error");
+                    me.notifyTimeout();
+                } else {
+                    me.doShowMessage( me.systemName,"亲，您当前还没有客服哦,请尝试重新连接！","error","error");
+                }
+            } catch (e) {}
+            return false;
+        },
+        logMessage: function(msg, cssClasses) {
+            var msgArea = Ext.get("message-area");
+            this.logMessageTemplate.compile();
+            this.logMessageTemplate.append(msgArea, {
+                cssClasses: cssClasses,
+                msg: msg
+            });
+            msgArea.scroll("down", 5000, true);
+        },
+        onAuthError: function() {
+            this.doShowMessage( this.systemName,"亲，登陆出错了哦~","warn","warn");
+        },
+        onChatStarted: function(chat) {
+        },
+        onChatMessageReceived: function(chat, messagePacket) {
+            var me = this;
+            try{
+                if (messagePacket.hasContent()) {
+                    var from = messagePacket.getFromJid().getNode();
+                    var subject = messagePacket.getSubject();
+                    var body = messagePacket.getBody();
+
+                    me.log("received|" + from+"|"+ subject+"|"+body);
+
+                    if (from == 'admin') {
+                        var respBody = Ext.JSON.decode(body);
+                        if (respBody) {
+                            var type = respBody.type;
+                            if (type == 'queueInfo') {
+                                var queueCount = respBody.queueCount;
+                                var queueSize = respBody.queueSize;
+                                me.doShowMessage( me.systemName,"亲，请耐心等待哦，我们在努力帮您接入中，在您之前还有"+queueSize+"人在排队。","info","info");
+                            } else if (type == 'waitInfo') {
+                                me.waitInfo = true;
+                                me.staffId = respBody.staffId;
+                                me.chatId = respBody.chatId;
+                                me.timeout1 = respBody.timeout1 || 120;
+                                me.timeout2 = respBody.timeout2 || 180;
+                                me.doShowMessage( me.systemName,"亲，客服人员(" + me.staffId + ")为您服务!","info","info");
+                                me.doShowMessage( me.staffId,"你好，请问有什么可以帮您的吗？","incoming-chat","incoming-chat incoming-charcont");
+                                me.userCheckTimeout();
+                            } else if (type == 'taskInfo') {
+                                var code = respBody.code;
+                                if (code == '0000') {
+                                    var queueCount = respBody.queueCount;
+                                    var queueSize = respBody.queueSize;
+                                    if (respBody.staffInfo && respBody.staffInfo.size() > 0) {
+                                        me.timeout1 = respBody.timeout1 || 120;
+                                        me.timeout2 = respBody.timeout2 || 180;
+                                        me.taskInfo = true;
+                                        me.staffId = respBody.staffInfo[0].staffId;
+                                        me.chatId = respBody.userInfo[0].chatId;
+                                        if (me.waitInfo == false) {
+                                            me.doShowMessage( me.systemName,"亲，客服人员(" + me.staffId + ")继续为您服务","info","info");
+                                        }
+                                        me.userCheckTimeout();
+                                    } else if (queueSize >= 0) {
+                                        me.chatId = respBody.chatId;
+                                        me.doShowMessage( me.systemName,"亲，请耐心等待哦，我们在努力帮您接入中，在您之前还有" + queueSize + "人在排队。","info","info");
+                                    }
+                                } else if (code == '5003') {
+                                    me.doShowMessage( me.systemName,"SORRY，亲，我们的客服人员下班啦~~您可以通过留言和我们联系哦，我们会尽快给您回复哦！客服工作时间为：" + respBody.startTime + "-" + respBody.endTime,"error","error");
+                                    me.close();
+                                } else {
+                                    me.doShowMessage( me.systemName,"额。。。服务出错了。。。抱歉。","error","error");
+                                }
+                            } else if (type == 'closeClientDialog' || type == 'closeClient' || type == 'notifyTimeout') {
+                                var code = respBody.code;
+                                if (code == '0000') {
+                                    var chatId = respBody.chatId;
+                                    if (chatId == me.chatId) {
+                                        me.doShowMessage( me.systemName,"亲，您与客服人员的对话结束！","error","error");
+                                        me.taskInfo = false;
+                                        me.waitInfo = false;
+                                        me.staffId = '';
+                                        me.chatId = '';
+
+                                        me.close();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (subject && subject.indexOf("score") != -1){
+                            me.isScore = true;
+                        }else if(subject && subject.indexOf("negativeComment") != -1){
+                            me.isNegativeComm = true;
+                            try { //禁用按钮
+                                document.getElementById("sendMessageBtn").disabled = false;
+                            } catch (e) {}
+                        }
+                        me.doShowMessage( from,body,"incoming-chat","incoming-chat incoming-charcont");
+                    }
+                }
+            }catch(e){
+                me.log("onChatMessageReceived");
+                me.log(e);
+            }
+        },
+        logMessageTemplate: new Ext.Template("<div class='{cssClasses}'>{msg}<em></em></div>")
+    }
+
+    var client = null;
+    Ext.onReady(function() {
+        client = new SimpleClient();
+        var me = this;
+        Ext.Ajax.request({
+            url: '/xmppUserRegister_OnlineCS.msp',
+            success: function(response) {
+                var respObj = Ext.JSON.decode(response.responseText);
+                if (respObj && respObj.result== 'true') {
+                    client.username = respObj.userName;
+                    client.host = 'zxkf.cmvideo.cn';
+                    client.doLogin();
+                } else if (respObj.result == 'false') {
+                    client.logMessage("注册用户时出错！", "error");
+                }
+            }
+        });
+    });
+    -->
+</script>
+<script>
+    // type switch
+    tab("ser_nav","ser_con","a","li");
+    function tab(tabNav, tabCon, aElem, aEle) {
+        var oSer_nav = document.getElementById(tabNav);
+        var oSer_con = document.getElementById(tabCon);
+        var oA = oSer_nav.getElementsByTagName(aElem);
+        var oL = oSer_con.getElementsByTagName(aEle);
+        for (var i = 0; i < oA.length; i++) {
+            oA[i].index = i;
+            oA[i].onclick = function() {
+
+                for (var j = 0; j < oL.length; j++) {
+                    oA[j].className = "";
+                    oL[j].style.display = "none";
+                }
+                this.className = "cur";
+                oL[this.index].style.display = "block";
+            }
+        }
+    }
+</script>
+</body>
+</html>

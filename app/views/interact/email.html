@@ -1,0 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<article>
+    <style>
+        .server_tip{ background-color: #14171c;font-size:1.6em; height: 50px; left: 0;line-height: 50px; position: fixed;text-align: center;top: 80px;width: 100%; z-index: 1;border-bottom:1px solid #ff0086;}
+        .server_nav{ border-bottom: 2px solid #959698; position: fixed;top: 79px; width: 100%; z-index: 2;font-size:1.6em;}
+        .server_nav div{ height: 38px;left: 0; line-height: 38px;margin-top: 3px; position: relative;top:0; background:#262932; }
+        .server_nav div a{ float: left;text-align: center; width: 32.6%; color:#FFF;font-size:1.45em;}
+        .server_nav div .cur{position:relative;top:2px;border-bottom: 3px solid #ff0086; color:#ff0086;height: 35px; line-height: 35px; }
+        .sercon{margin-top: 150px;}
+        .sercon .ser_subcon h1{ text-align: center; height: 40px; line-height: 40px; font-size: 16px;}
+        .sercon .lan{border-top: 1px solid #e40077;}
+        .sercon .ds{ border-top: 1px solid #8ec11d;}
+        .sercon .lv{border-top: 1px solid #0083cf;}
+        .sercon .lan cite, .sercon .lv cite, .sercon .ds cite{ background: url(${resourceUrl}/static/imgs/10/891/104.png) no-repeat scroll; width: 35px; height: 35px; display: inline-block; margin: 7px 8px 0 10px; vertical-align: top;}
+        .sercon .lv cite{background: url(${resourceUrl}/static/imgs/10/891/105.png) no-repeat scroll;}
+        .sercon .ds cite{background: url(${resourceUrl}/static/imgs/10/891/103.png) no-repeat scroll;}
+        .sercon div p,.ques{ border-bottom: 6px solid #e6e6e6; /*height: 49px;*/ line-height: 49px;}
+        .sercon div p em{ float: right; border-color: #fff #fff #fff #888; border-style: solid; border-width: 6px 10px; display: inline-block; line-height: 0; margin-top: 20px; }
+        .ser_andvideo{}
+        .ss_con h2{ text-align: center; border-bottom: 1px solid #E40077; font-size: 16px; height: 40px; line-height: 40px;}
+        .ss_con h2 em{ border-left: 1px solid #878787;border-top: 1px solid #878787; display: inline-block; width:16px; height: 16px; position: relative; float: left; margin: 10px 0 0 10px;
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);}
+        .ss_con h2 em i{ display: block; width: 25px; border-bottom: 2px solid #878787;left: -2px;position: absolute; top: 10px;
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);}
+        .andvideo_con{ background-color: #f5f5f5;}
+        .andvideo_con dd{ line-height: 35px; border-bottom: 5px solid #e6e6e6; padding: 0 6px;}
+        .andvideo_con dd em{ border-color:  #888888 transparent transparent; border-style: solid; border-width: 8px; display: inline-block; float: right; line-height: 0; margin-top: 15px; }
+        .andvideo_subcon{ background-color: #fff; }
+        .sercon .andvideo_subcon p{ color: #888; border-bottom: 1px dashed #888; height: 39px; line-height: 39px; }
+        .sercon .andvideo_subcon p cite{ border-color: transparent transparent transparent #8dc11c; border-style: solid; border-width: 5px 6px; display: inline-block; float: right; line-height: 0; margin-top: 15px; }
+        .sercon .andvideo_subcon p span{ border: 1px solid #E40077; border-radius: 9px; display: inline-block; height: 16px; vertical-align: text-top; width: 16px; margin-right: 6px; }
+        .sercon .andvideo_subcon p .cur i{ background-color: #8EC11D; border-radius: 5px; display: block; height: 8px; margin: 4px 0 0 4px; width: 8px; }
+        .per_con{ padding: 0 6px 8px; overflow: hidden;min-height: 50px;}
+        .per_con span img{ border: 1px solid #e4e4e4; padding: 2px; box-shadow: 0 1px 1px #717171; float: left;}
+        .per_con div{ background-color: #e6eaf0; border-radius: 5px; margin: 12px 0 0 56px; padding: 3px 5px; position: relative;box-shadow: 0 1px 1px #717171; width: -moz-fit-content; width:-webkit-fit-content; width:-ms-fit-content; width:-o-fit-content;}
+        .per_con div em{border-color: transparent #e6eaf0 transparent transparent;border-style: solid;border-width: 6px 7px 3px 6px;display: inline-block;line-height: 0;position:absolute;left: -12px;top: 6px;}
+        .tm_con time{ float: right; }
+        .tm_con{ clear: both; padding: 5px 6px; font-size: 12px;color: #8f8f8f;}
+        .rg .per_con span img, .rg .per_con div{ float: right;}
+        .rg .per_con div{margin-left: 0; margin-right: 10px; background-color: #a5d0f3;}
+        .rg .per_con div em{ border-color: transparent transparent transparent #a5d0f3; left: 0; position:absolute; width:0; display: none; }
+        #message-area { height: 15em; width: 100%; overflow: auto; scoll: auto; }
+        #message-form { display: block;width:96%;margin:0 auto;}
+        #control-panel { display: none; }
+        #message-area{background:#fff; width:96%;margin:0 auto;}
+
+        .txt_con{ border-bottom: 1px solid #868686; padding: 0 6px; margin-top:100px;}
+        .txt_con h4{ text-align: center;}
+        .txt_con h4, .txt_con .c{ color: #fff;}
+        .txt_con p{ color:#fff;}
+        .r{ text-align: right;}
+        .cl{margin-top:0;padding:6px;}
+        .cl p{ color: #E40177;}
+        .fh{background-color: #E40177;border-radius: 4px;float: right;height: 26px;margin-right: 21px;margin-top: 2px;padding: 0;text-align: center;width: 50px;}
+    </style>
+<!--=============离线留言==========-->
+<div class="setting-header" style='top:40px;'>
+    <a ng-click="back()" class="return-btn"></a>
+    <a href="#/" class="index-btn"></a>
+    <h2>离线留言</h2>
+</div>
+
+<div class="txt_con">
+    <h4>${fn:substring(param.title,0,15)}...</h4>
+    <p>${param.suggest}</p>
+    <p class="r c"><c:if test="${not empty sessionScope.mobile}">${fn:substring(sessionScope.mobile,'0','3')}****${fn:substring(sessionScope.mobile,'7','11')}</c:if></p>
+    <p class="r">${param.uptime}</p>
+</div>
+<div class="cl">
+    <p>${param.replyCont}</p>
+    <p class="r">${param.replytime}</p>
+</div>
+<div><p class="fh"><a style="color:#FFFFFF;line-height:26px;"  onclick='location.href="javascript:history.go(-1)"'>返回</a></p></div>
+
+</article>

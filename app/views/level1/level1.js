@@ -1,20 +1,16 @@
 /**
  * Created by felix on 14-11-5.
  */
-angular.module('level1View',['utils','ngRoute'])
+angular.module('level1',['utils','ngRoute'])
     .constant('level1Const',{
         //放置一些常量
-        index:'40114942',
-        movie:'40106958',
-        drama:'40106959',
-        microMovie:'40113154',
-        cartoon:'40115236',
+        index:'70000013',
         level1DataUrl:'views/level1/level1-data.jsp',
 
         nodeidRE:/^\d{8}$/
     })
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/level1', {
+        $routeProvider.when('/level1/:channel?', {
             templateUrl: 'views/level1/level1-view.jsp',
             controller: 'level1Ctrl'
         });
@@ -53,7 +49,7 @@ angular.module('level1View',['utils','ngRoute'])
                 $rootScope.footerHide = false;
                 doSlide();
             } else {
-                $http.get(constant.level1DataUrl + '?nid=' + channel).success(function (data) {
+                $http.get(constant.level1DataUrl + '?n=' + channel).success(function (data) {
                     angular.extend($scope, data);
                     parseRouteOfMore($scope.blocks);
                     $rootScope.footerHide = false;
@@ -85,5 +81,4 @@ angular.module('level1View',['utils','ngRoute'])
                 });
             }
         }
-    ])
-;
+    ]);

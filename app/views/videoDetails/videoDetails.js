@@ -1,7 +1,7 @@
 /**
  * Created by felix on 14-11-10.
  */
-angular.module('videoDetailsView',['ngRoute','search','video','utils','interact'])
+angular.module('videoDetails',['ngRoute','search','video','utils','interact'])
     .config(['$routeProvider',function($routeProvider){
         $routeProvider.when('/videoDetails/:nodeid/:contid/:view?', {
             templateUrl: 'views/videoDetails/videoDetails-view.jsp',

@@ -2,7 +2,8 @@
 
 // Declare app level module which depends on views, and components
 angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','angular-loading-bar',
-    'utilDirectives','utilFilters','level1View','user'],
+        'utilDirectives','utilFilters','user','level1','level2','videoDetails','watchFilmTeam','interactView',
+        'liveTelecast','order','searchView','login','register','userCenter'],
     ['$httpProvider', function($httpProvider){
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     }])
@@ -15,18 +16,37 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
     .constant("constant", {
         searchUrl : "components/search/searchResult.jsp",
         ipkUrl:'https://itunes.apple.com/cn/app/he-shi-jie/id771718079?mt=8',
-        apkUrl:'http://www.lovev.com/download/android_isj.jsp'
+        apkUrl:'http://www.lovev.com/download/android_isj.jsp',
+
+        jsonScriptRE:/<script\s+.*?type=('|")text\/data-json\1.*?>([\w\W]*?)<\/script>/,
+        mobileRE:/^\d{11}$/, // /^(?:13[4-9]|15[0-27-9]|18[23478]|147)\d{8}$/
+        pwdLoginRE:/^\S+$/,
+        pwdRegisterRE:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,25}$/,
+        captchaRE:/^(\s*\w\s*){4}$/,
+        SMSCodeRE:/^\w{6}$/,
+        nodeidRE:/^\d{8}$/,
+        dbqCodeRE:/^\d{16}$/,
+        czkCodeRE:/^\d{17}$/,
+        czkPasCodeRE:/^\d{18}$/,
+        lpCodeRE:/^\d{16}$/,
+        transformPostRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        }
     })
     //app initial
     .run(['$rootScope','$route','$location','$http','$window','constant','userServ',function($rootScope,$route,$location,$http,$window,constant,userServ){
         //设置自动更新用户登录状态
         (function fn(){
             userServ.requestUserInfo();
-            //setTimeout(fn,200000) //TODO:暂时去掉，为测试timeline时不被打扰
         })();
 
         //wap自动登陆尝试
-        userServ.loginByAccessCode();
+        if(!$rootScope){
+            userServ.loginByAccessCode();
+        }
 
         //自动显示下载
         $rootScope.logout = userServ.logout();
@@ -39,20 +59,20 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
         $rootScope.appUrl=/(iPad|iPhone|iPod)/.test( navigator.userAgent )?constant.ipkUrl:constant.apkUrl;
 
         //设置首页头部导航的横向滑动，不利于单元测试的代码
-        new Swiper('.swiper-container',{scrollContainer : true,disableAutoResize:true})
+        new Swiper('.swiper-container',{scrollContainer : true,disableAutoResize:true});
 
         //侦听地址变化，设置头部导航的红色下划线
         $rootScope.$on('$locationChangeSuccess', function(){
-            $rootScope.channel = $route.current.params.channel ||'';
+            $rootScope.channel = $route.current.params.channel || $location.path().substring(1) || '';
         });
 
         var headerHidePath =('/userCenter /setting /about /logout /updatePassword /feedback /report /tip ' +
             '/watchFilmTeam /czCardrecharge /dbqrecharge /lpCardrecharge /myAccount /rechargeFailed ' +
-            '/rechargeSuccess /activeFailed /activeSuccess').split(' ').reduce(function(paths,path){
+            '/rechargeSuccess /activeFailed /activeSuccess /serviceOnline').split(' ').reduce(function(paths,path){
                     paths[path]=true;
                     return paths
                 },{}),
-            headNavShowPath = '/level1 /live'.split(' ').reduce(function(paths, path) {
+            headNavShowPath = '/level1 /liveTelecast'.split(' ').reduce(function(paths, path) {
                 paths[path] = true;
                 return paths;
             },{});
@@ -84,4 +104,3 @@ angular.module('lovevApp', ['ngRoute','ngAnimate','ngTouch','infinite-scroll','a
             }
         })
     }]);
-

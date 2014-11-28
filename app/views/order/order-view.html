@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+
+<article class="logininfo">
+    <div class="login-tip" ng-show="isAuthenticated()">
+        <p ng-show="!isMonth()">
+            该视频为付费内容，价格为 <em>{{getPrice()}}元</em> /次
+        </p>
+        <p ng-show="isMonth()">
+            该视频为付费内容，价格为 <em>{{getPrice()}}元</em> /月
+        </p>
+        <p>请您购买后继续观看！</p>
+    </div>
+
+    <!-- 订购扣费 -->
+    <form name="form">
+        <div class="order-info lg-info" ng-show="isAuthenticated() && !isMonth()">
+            <input type="checkbox" ng-model="isAgreedTime">
+            <label >按次点播：{{getPrice()}}元/次</label>
+            <p>什么是按次点播？按次点播是和视界推出的收费点播产品，每次仅需{{getPrice()}}元，即可畅享与院线同步的观影体验。</p>
+        </div>
+        <div class="order-info lg-info" ng-show="isAuthenticated && isMonth()">
+            <input type="checkbox" ng-model="isAgreedMonth">
+            <label>包月：{{getPrice()}}元/月</label>
+            <p>什么是全能看包月？全能看包月是和视界推出的包月产品，仅需{{getPrice()}}元/月，即可畅享影视片库所有内容。</p>
+        </div>
+
+        <div class="sj-input">
+            <input type="text" name="captcha" ng-model="captcha" ng-pattern="captchaRE" ng-change="captchaErr=false" placeholder="请输入验证码" class="sj-yzmp" required>
+            <span class="sj-yzbtn" style="background-color:#22252d; padding-top:0;padding-bottom: 0"><img ng-click="refreshCaptcha()" id="login-captcha-img" ng-src="/ImageCaptchaServlet.servlet?ran={{captchaSrc}}"></span>
+            <div style="clear:both"></div>
+            <span ng-show="!captchaErr && form.captcha.$dirty && form.captcha.$invalid" class="input-info">请输入4位验证码</span>
+            <span ng-show="captchaErr" class="input-info">验证码错误</span>
+        </div>
+        <!-- button -->
+        <div class="global-btn" style="margin-top:25px;">
+            <input type="submit" ng-click="submit()" ng-disabled="form.$invalid || (isMonth()&&!isAgreedMonth) || (!isMonth()&&!isAgreedTime) || sumbitDisabled" class="enter-pay" value="{{confirmInfo}}">
+        </div>
+    </form>
+    <div class="global-btn">
+        <input ng-click="back()" type="button" class="next-pay" value="下次购买">
+    </div>
+</article>

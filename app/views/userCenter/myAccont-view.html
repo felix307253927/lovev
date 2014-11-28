@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <!-- 我的账户 -->
+    <div class="setting-cont" >
+        <div class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/" class="index-btn"></a>
+            <h2>我的账户</h2>
+        </div>
+        <div class="setting-about">
+            <div class="send-type">
+                <h5>点播券（电影券）</h5>
+                <p>余额：<em>{{dbqBalance}}</em>元 <span>通过各类营销活动获得</span></p>
+                <a href="#/dbqrecharge">充值</a>
+            </div>
+
+            <div class="send-type">
+                <h5>充值卡</h5>
+                <p>余额：<em>{{czkBalance}}</em>元 </p>
+                <a href="#/czCardrecharge">充值</a>
+            </div>
+            <div class="send-type">
+                <h5 style="width:50px;margin-top:14px;">礼品卡</h5>
+                <a href="#/lpCardrecharge">充值</a>
+            </div>
+        </div>
+    </div>
+</article>

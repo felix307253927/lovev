@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <!--激活失败-->
+    <div class="setting-cont" id="activeFailed">
+        <div class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/" class="index-btn"></a>
+            <h2>我的账户</h2>
+        </div>
+        <article class="logininfo article-top">
+            <div class="rechard-fail">
+                <p>很遗憾，激活失败！</p>
+                <p>未能为<em>{{mobile}}</em>的体验卡完成激活。</p>
+            </div>
+            <!-- button -->
+            <div class="global-btn enter-btn top-btn">
+                <input type="button" class="enter-pay" value="重新激活" ng-click="back()">
+            </div>
+            <div class="global-btn">
+                <a href="#/myAccount">
+                    <input type="button" class="next-pay" value="返回我的账户">
+                </a>
+            </div>
+        </article>
+    </div>
+</article>

@@ -6,8 +6,8 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 /*header footer style*/
 .header{ position:fixed; left:0; top:0; z-index:1000; width:100%; }
 .top{ height:45px; line-height:45px; min-width:320px; background:#14181c; border-bottom:2px solid #ff0086; }
-.logo{ display:inline-block; float:left; width:109px; height:30px; margin:7px 0 0 10px; background:url(../imgs/h-logo.png) no-repeat 0 0; background-size:109px 30px; }
-.person,.history,.search{ display:inline-block; float:right; height:25px; width:27px; margin:10px 15px 0 0; background:url(../imgs/hgroup.png) no-repeat 0 0; background-size:74px 25px; }
+.logo{ display:inline-block; float:left; width:109px; height:30px; margin:7px 0 0 10px; background:url(/publish/i_www/resource/lovev/app/static/imgs/h-logo.png) no-repeat 0 0; background-size:109px 30px; }
+.person,.history,.search{ display:inline-block; float:right; height:25px; width:27px; margin:10px 15px 0 0; background:url(/publish/i_www/resource/lovev/app/static/imgs/hgroup.png) no-repeat 0 0; background-size:74px 25px; }
 .person{ background-position:-53px 0; width:22px; }
 .history{ background-position:-27px 0; width:26px; }
 .footer{ margin:10px auto 0; width:100%; background:#32353e; }
@@ -39,7 +39,7 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .slideBox .bd{ position:relative; z-index:0;max-height:430px;}
 .slideBox .bd li{ position:relative; }
 .slideBox .bd li img{ width:100%; vertical-align:top;}
-.slideBox .bd li a{ background:url(../imgs/default.png) center center no-repeat #e8e8e8; max-height:430px; display:block; -webkit-tap-highlight-color:rgba(0, 0, 0, 0); /* 取消链接高亮 */ }
+.slideBox .bd li a{ background:url(/publish/i_www/resource/lovev/app/static/imgs/default.png) center center no-repeat #e8e8e8; max-height:430px; display:block; -webkit-tap-highlight-color:rgba(0, 0, 0, 0); /* 取消链接高亮 */ }
 /*首页内容块*/
 .sy-main { margin-top:15px; }
 .sy-header { width:100%; height:21px; margin:3px 0; }
@@ -48,7 +48,7 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .sy-list .pic-list{ display:inline-block; width:100%; vertical-align:top; }
 .pic-list:after{ clear:both; }
 .sy-list .pic-list li{ display:block; width:50%; float:left; padding:0 6px; margin-top:10px; vertical-align:top; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -o-box-sizing:border-box; -ms-box-sizing:border-box; box-sizing:border-box; }
-.sy-list .pic-list li a{ display:block; position:relative; width:100%; height:94px; max-height:186px; text-align:center; background:url(../imgs/default.png) no-repeat center center #e8e8e8; font-size:1.2em; -webkit-background-size: 60px 75px; -moz-background-size: 60px 75px; -ms-background-size: 60px 75px; -o-background-size: 60px 75px; background-size: 60px 75px; }
+.sy-list .pic-list li a{ display:block; position:relative; width:100%; height:94px; max-height:186px; text-align:center; background:url(/publish/i_www/resource/lovev/app/static/imgs/default.png) no-repeat center center #e8e8e8; font-size:1.2em; -webkit-background-size: 60px 75px; -moz-background-size: 60px 75px; -ms-background-size: 60px 75px; -o-background-size: 60px 75px; background-size: 60px 75px; }
 .sy-list .pic-list li .pic-tit{ height:20px; text-align:left; line-height:20px; background:none; overflow:hidden; }
 .sy-list .pic-list li a b { display:block; height:94px; background-repeat:no-repeat; background-size:cover; background-position:50% 50%; }
 .sy-list .pic-list li p{ color:#9b9b9b; height:17px; overflow: hidden; font-size:1.2em; }
@@ -62,9 +62,9 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .column-list .pic-list li{ width:33.3%; }
 .column-list .pic-list li a{ height:141px; max-height:350px; }
 .column-list .pic-list li a b { height:141px; }
-.pic-list .shoufa,.pic-list .yushou,.pic-list .yugao{ position:absolute; top:0; right:0; width:36px; height:36px; background:url(../imgs/shoufa.png) no-repeat; -webkit-background-size:36px 36px; -moz-background-size:36px 36px; -ms-background-size:36px 36px; -o-background-size:36px 36px; background-size:36px 36px; }
-.pic-list .yushou{ background:url(../imgs/yushou.png) no-repeat; }
-.pic-list .yugao{ background:url(../imgs/yugao.png) no-repeat; }
+.pic-list .shoufa,.pic-list .yushou,.pic-list .yugao{ position:absolute; top:0; right:0; width:36px; height:36px; background:url(/publish/i_www/resource/lovev/app/static/imgs/shoufa.png) no-repeat; -webkit-background-size:36px 36px; -moz-background-size:36px 36px; -ms-background-size:36px 36px; -o-background-size:36px 36px; background-size:36px 36px; }
+.pic-list .yushou{ background:url(/publish/i_www/resource/lovev/app/static/imgs/yushou.png) no-repeat; }
+.pic-list .yugao{ background:url(/publish/i_www/resource/lovev/app/static/imgs/yugao.png) no-repeat; }
 .span-all{ width:100%; }
 .sy-cont span{ display:block; float:left; width: 50%; padding-right:6px; margin:10px 0 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 .sy-cont span img{ width:100%; }
@@ -72,9 +72,9 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .sy-cont span label{ color:#ccc; }
 .sy-cont span:nth-child(3){ padding-left:6px; padding-right:0; }
 .sy-cont .sy-picarea{ display: block; position: relative; z-index: 0; }
-.sy-cont .sy-picarea .shoufa,.sy-cont .sy-picarea .yushou,.sy-cont .sy-picarea .yugao{ background: url("../imgs/shoufa.png") no-repeat scroll 0 0 / 36px 36px rgba(0, 0, 0, 0); height: 36px; position: absolute; right: 0; top: 0; width: 36px; z-index: 100; }
-.sy-cont .sy-picarea .yushou { background: url("../imgs/yushou.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0); }
-.sy-cont .sy-picarea .yugao { background: url("../imgs/yugao.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0); }
+.sy-cont .sy-picarea .shoufa,.sy-cont .sy-picarea .yushou,.sy-cont .sy-picarea .yugao{ background: url("/publish/i_www/resource/lovev/app/static/imgs/shoufa.png") no-repeat scroll 0 0 / 36px 36px rgba(0, 0, 0, 0); height: 36px; position: absolute; right: 0; top: 0; width: 36px; z-index: 100; }
+.sy-cont .sy-picarea .yushou { background: url("/publish/i_www/resource/lovev/app/static/imgs/yushou.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0); }
+.sy-cont .sy-picarea .yugao { background: url("/publish/i_www/resource/lovev/app/static/imgs/yugao.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0); }
 /*三级列表*/
 .navbar{ position:relative; width:100%; height:38px; background:#58595f; text-align:center; line-height:38px; }
 .navbar h2{ font-size:1.6em; }
@@ -93,10 +93,10 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .type-select a{ display:inline-block; line-height:18px; font-size:1.4em; margin-right:10px; }
 .type-cur01,.type-cur02{ color:#ff0086; }
 .type-img span, .type-list span,.type-cur01 span,.type-cur02 span{ display:inline-block; position:relative; top:1px; margin-right:5px; height:13px; }
-.type-img span,.type-cur01 span{ width:13px; background:url(../imgs/h-status01.png) no-repeat 0 -13px; -webkit-background-size:13px 26px; -moz-background-size:13px 26px; -ms-background-size:13px 26px; -o-background-size:13px 26px; background-size:13px 26px; }
-.type-cur01 span{ background:url(../imgs/h-status01.png) no-repeat 0 0px; -webkit-background-size:13px 26px; -moz-background-size:13px 26px; -ms-background-size:13px 26px; -o-background-size:13px 26px; background-size:13px 26px; }
-.type-list span, .type-cur02 span{ width:16px; background:url(../imgs/h-status02.png) no-repeat 0 -13px; -webkit-background-size:16px 26px; -moz-background-size:16px 26px; -ms-background-size:16px 26px; -o-background-size:16px 26px; background-size:16px 26px; }
-.type-cur02 span{ background:url(../imgs/h-status02.png) no-repeat 0 0; -webkit-background-size:16px 26px; -moz-background-size:16px 26px; -ms-background-size:16px 26px; -o-background-size:16px 26px; background-size:16px 26px; }
+.type-img span,.type-cur01 span{ width:13px; background:url(/publish/i_www/resource/lovev/app/static/imgs/h-status01.png) no-repeat 0 -13px; -webkit-background-size:13px 26px; -moz-background-size:13px 26px; -ms-background-size:13px 26px; -o-background-size:13px 26px; background-size:13px 26px; }
+.type-cur01 span{ background:url(/publish/i_www/resource/lovev/app/static/imgs/h-status01.png) no-repeat 0 0px; -webkit-background-size:13px 26px; -moz-background-size:13px 26px; -ms-background-size:13px 26px; -o-background-size:13px 26px; background-size:13px 26px; }
+.type-list span, .type-cur02 span{ width:16px; background:url(/publish/i_www/resource/lovev/app/static/imgs/h-status02.png) no-repeat 0 -13px; -webkit-background-size:16px 26px; -moz-background-size:16px 26px; -ms-background-size:16px 26px; -o-background-size:16px 26px; background-size:16px 26px; }
+.type-cur02 span{ background:url(/publish/i_www/resource/lovev/app/static/imgs/h-status02.png) no-repeat 0 0; -webkit-background-size:16px 26px; -moz-background-size:16px 26px; -ms-background-size:16px 26px; -o-background-size:16px 26px; background-size:16px 26px; }
 /*筛选框*/
 .filter-area{ background:#39393d; }
 .filter-list{ padding-top:12px;}
@@ -120,11 +120,11 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .movie-infos code{ font-size:1.5em; color:#ff0086; position:absolute; right:0; top:3px; font-size:1.6em; }
 .movie-infos p{ font-size:1.2em; line-height:18px; color:#9b9b9b; }
 .movie-infos span{ font-size:1em; padding-left:8px; color:#9b9b9b; }
-.movie-infos em{ display:block; position:absolute; left:0; bottom:5px; padding-left:24px; height:17px; font-style:normal; background:url(../imgs/play.png) no-repeat; -webkit-background-size:16px 17px; -moz-background-size:16px 17px; -ms-background-size:16px 17px; -o-background-size:16px 17px; background-size:16px 17px; }
+.movie-infos em{ display:block; position:absolute; left:0; bottom:5px; padding-left:24px; height:17px; font-style:normal; background:url(/publish/i_www/resource/lovev/app/static/imgs/play.png) no-repeat; -webkit-background-size:16px 17px; -moz-background-size:16px 17px; -ms-background-size:16px 17px; -o-background-size:16px 17px; background-size:16px 17px; }
 /*--搜索--*/
 .search-area{ margin-top:47px; }
 .search-key{ padding:15px 12px 0; }
-.input-area{ width:75%; height:35px; padding-left:35px; background:url(../imgs/h-search.png) no-repeat 6px 3px #22252d; -webkit-background-size:27px 25px; -moz-background-size:27px 25px; -ms-background-size:27px 25px; -o-background-size:27px 25px; background-size:27px 25px; border:2px solid #5d6371; border-radius:16px; font-size:1.4em; }
+.input-area{ width:75%; height:35px; padding-left:35px; background:url(/publish/i_www/resource/lovev/app/static/imgs/h-search.png) no-repeat 6px 3px #22252d; -webkit-background-size:27px 25px; -moz-background-size:27px 25px; -ms-background-size:27px 25px; -o-background-size:27px 25px; background-size:27px 25px; border:2px solid #5d6371; border-radius:16px; font-size:1.4em; }
 .input-btn{ position: relative; top: 0px; float:right; width:20%; height:36px; font-size:1.4em; color:#e3e5ec; background:#333742; border:1px solid #000; border-radius:5px; }
 .list-search{ margin-top:8px; }
 .history-search h2{ display:block; height:45px; line-height:45px; font-size:1.6em; color:#fff; padding-left:12px; }
@@ -132,7 +132,7 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .history-words a{ display:inline-block; margin-right:20px; line-height:28px; font-size:1.4em; }
 .clear-history:before{ clear:both; }
 .clear-history{ height:24px; width:50%; line-height:22px; margin:30px auto; background:#2f333e; border-radius:5px; text-align:center; }
-.clear-history span{ display:inline-block; width:100px; height:20px; margin:0 auto; padding-left:10px; background:url(../imgs/laji.png) no-repeat 0 3px; -webkit-background-size:16px 16px; -moz-background-size:16px 16px; -ms-background-size:16px 16px; -o-background-size:16px 16px; background-size:16px 16px; }
+.clear-history span{ display:inline-block; width:100px; height:20px; margin:0 auto; padding-left:10px; background:url(/publish/i_www/resource/lovev/app/static/imgs/laji.png) no-repeat 0 3px; -webkit-background-size:16px 16px; -moz-background-size:16px 16px; -ms-background-size:16px 16px; -o-background-size:16px 16px; background-size:16px 16px; }
 .clear-dialog{ position:absolute; bottom:0; left:0; width:100%; z-index:1000; height:100px; background:#333742; }
 .clear-diacont{ width:60%; margin:0 auto; text-align:center; }
 .clear-diacont p{ font-size:1.4em; line-height:48px; }
@@ -150,10 +150,10 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .list-area .video-img img{ width:auto; max-height:125px; min-width:94px; }
 .video-intro p{ color:#fff; height:20px; overflow:hidden; }
 .btn-group{ position:absolute; bottom:-4px; left:0; }
-.btn-group a{ float:left; display:inline-block; width:74px; height:30px; background:url(../imgs/playbtn.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -o-background-size:74px 26px; -ms-background-size:74px 26px; background-size:74px 26px; }
-.btn-group a.presell{ background:url(../imgs/yushou-btn.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -o-background-size:74px 26px; -ms-background-size:74px 26px; background-size:74px 26px; }
-.btn-group .video-fav{ margin-left:12px; background:url(../imgs/fav-btn02.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -ms-background-size:74px 26px; -o-background-size:74px 26px; background-size:74px 26px; }
-.btn-group .video-fav.no-fav{ background:url(../imgs/fav-btn01.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -ms-background-size:74px 26px; -o-background-size:74px 26px; background-size:74px 26px; }
+.btn-group a{ float:left; display:inline-block; width:74px; height:30px; background:url(/publish/i_www/resource/lovev/app/static/imgs/playbtn.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -o-background-size:74px 26px; -ms-background-size:74px 26px; background-size:74px 26px; }
+.btn-group a.presell{ background:url(/publish/i_www/resource/lovev/app/static/imgs/yushou-btn.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -o-background-size:74px 26px; -ms-background-size:74px 26px; background-size:74px 26px; }
+.btn-group .video-fav{ margin-left:12px; background:url(/publish/i_www/resource/lovev/app/static/imgs/fav-btn02.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -ms-background-size:74px 26px; -o-background-size:74px 26px; background-size:74px 26px; }
+.btn-group .video-fav.no-fav{ background:url(/publish/i_www/resource/lovev/app/static/imgs/fav-btn01.png) no-repeat; -webkit-background-size:74px 26px; -moz-background-size:74px 26px; -ms-background-size:74px 26px; -o-background-size:74px 26px; background-size:74px 26px; }
 .menu-list{ width:100%; height:40px; margin-top:12px; border-bottom:2px solid #969696; }
 .menu-cont,.menu-cur{ float:left; height:39px; padding:0 5%; line-height:40px; font-size:1.4em; color:#969696; }
 .menu-cur{ color:#fff; border-bottom:3px solid #ff068c; }
@@ -174,11 +174,11 @@ body { width:100%; min-width:320px; height:100%; margin:0; padding:0; background
 .tabBox .bd ul li a{ position:relative; float:left; height:30px;width:47px;border: 1px solid #474c5c;background-color: #2b2e38;line-height:30px; margin:4px 5px; color:#fff; font-size:14px; text-align:center; }
 .tabBox .bd ul{padding-top: 13px;}
 .tabBox .bd ul li .cur{ background:#ff0086;border:1px solid #ff0086; }
-.tabBox .bd code{ position:absolute; top:-17px; right:-5px; z-index:10000; display:inline-block; width:30px; height:21px; background:url(../imgs/free.png) no-repeat; }
+.tabBox .bd code{ position:absolute; top:-17px; right:-5px; z-index:10000; display:inline-block; width:30px; height:21px; background:url(/publish/i_www/resource/lovev/app/static/imgs/free.png) no-repeat; }
 /*剧集修改*/
 .tabBox .hd{ border-bottom: 1px solid #3b3f4b; position: relative; background:#1e1f25; }
-.tabBox .hd .detail-order{ position: absolute; right: 0; top:0; z-index: 1000; height:45px; width: 53px; background: url(../imgs/asc.png) no-repeat; -webkit-background-size: 53px 45px; -moz-background-size: 53px 45px; -ms-background-size: 53px 45px; -o-background-size: 53px 45px; background-size: 53px 45px; }
-.tabBox .hd .detail-order.order-reverse{ background: url(../imgs/desc.png) no-repeat; -webkit-background-size: 53px 45px; -moz-background-size: 53px 45px; -ms-background-size: 53px 45px; -o-background-size: 53px 45px; background-size: 53px 45px; }
+.tabBox .hd .detail-order{ position: absolute; right: 0; top:0; z-index: 1000; height:45px; width: 53px; background: url(/publish/i_www/resource/lovev/app/static/imgs/asc.png) no-repeat; -webkit-background-size: 53px 45px; -moz-background-size: 53px 45px; -ms-background-size: 53px 45px; -o-background-size: 53px 45px; background-size: 53px 45px; }
+.tabBox .hd .detail-order.order-reverse{ background: url(/publish/i_www/resource/lovev/app/static/imgs/desc.png) no-repeat; -webkit-background-size: 53px 45px; -moz-background-size: 53px 45px; -ms-background-size: 53px 45px; -o-background-size: 53px 45px; background-size: 53px 45px; }
 .tabBox .hd ul li{ padding: 0 5px; }
 .tabBox .hd ul li.on a { position: relative; color:#fff; height: 45px; display: inline-block; border-bottom: 1px solid #ff0086; width:60px; text-align: center; }
 .tabBox .hd ul li.on a em{ background: #262932; border-left: 1px solid #FF0086; border-top: 1px solid #FF0086; bottom: -5px; display: inline-block; height: 8px; left:26px; position: absolute; -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); -ms-transform:rotate(45deg); -o-transform:rotate(45deg); transform:rotate(45deg); width: 8px; }
@@ -210,42 +210,42 @@ article.logininfo{ margin-top:47px; }
 .global-btn input{ display:inline-block; width:100%; height:45px; background:#ff0086; color:#fff; font-size:1.6em; }
 .global-btn .next-pay{ background:#4b4d53; color:#bbbec9; }
 .bottom-info{ position:absolute; bottom:0; width:100%; height:36px; }
-.bottom-info span{ display:block; height:24px; width:100%; margin:0 auto; background:url(../imgs/s-bottombg.png) no-repeat; -webkit-background-size:auto 24px; -moz-background-size:auto 24px; -ms-background-size:auto 24px; -o-background-size:auto 24px; background-size:auto 24px; }
+.bottom-info span{ display:block; height:24px; width:100%; margin:0 auto; background:url(/publish/i_www/resource/lovev/app/static/imgs/s-bottombg.png) no-repeat; -webkit-background-size:auto 24px; -moz-background-size:auto 24px; -ms-background-size:auto 24px; -o-background-size:auto 24px; background-size:auto 24px; }
 .login-switch{ height:50px; width:100%; border-bottom:2px solid #969696; }
 .login-switch li { float:left; display:inline-block; width:50%; height:50px; text-align:center; line-height:50px; font-size:1.6em; }
 .login-switch .li-cur{ border-bottom:3px solid #ff0086; }
 /*--- 个人中心头部块 ---*/
-.person-bg{ position:relative; width:100%; height:184px; max-height:400px; background:url(../imgs/per-bg.jpg) no-repeat; background-size:cover; background-position:50% 50%; }
-.person-return{ position:absolute; top:10px; left:10px; width:25px; height:22px; background:url(../imgs/return.png) no-repeat; -webkit-background-size:25px 22px; -ms-background-size:25px 22px; -moz-background-size:25px 22px; -o-background-size:25px 22px; background-size:25px 22px; }
-.person-setting{ position:absolute;top:0;right:0;padding:10px 20px;width:25px; height:25px; background:url(../imgs/setting.png) no-repeat; background-origin:content-box; -webkit-background-size:25px 25px; -moz-background-size:25px 25px; -ms-background-size:25px 25px; -o-background-size:25px 25px; background-size:25px 25px; }
+.person-bg{ position:relative; width:100%; height:184px; max-height:400px; background:url(/publish/i_www/resource/lovev/app/static/imgs/per-bg.jpg) no-repeat; background-size:cover; background-position:50% 50%; }
+.person-return{ position:absolute; top:10px; left:10px; width:25px; height:22px; background:url(/publish/i_www/resource/lovev/app/static/imgs/return.png) no-repeat; -webkit-background-size:25px 22px; -ms-background-size:25px 22px; -moz-background-size:25px 22px; -o-background-size:25px 22px; background-size:25px 22px; }
+.person-setting{ position:absolute;top:0;right:0;padding:10px 20px;width:25px; height:25px; background:url(/publish/i_www/resource/lovev/app/static/imgs/setting.png) no-repeat; background-origin:content-box; -webkit-background-size:25px 25px; -moz-background-size:25px 25px; -ms-background-size:25px 25px; -o-background-size:25px 25px; background-size:25px 25px; }
 .person-header{ position:absolute; width:68px; height:68px; top:50%; left:50%; margin-top:-70px; margin-left:-34px; }
-.person-head{ width:40px; height:40px; padding:12px; border-radius:42px; border:2px solid #738d9e; background:url(../imgs/person01.png) no-repeat center center rgba(36,71,93,.6); }
+.person-head{ width:40px; height:40px; padding:12px; border-radius:42px; border:2px solid #738d9e; background:url(/publish/i_www/resource/lovev/app/static/imgs/person01.png) no-repeat center center rgba(36,71,93,.6); }
 .person-login{ display:inline-block; margin-top:10px; height: 28px; width:68px; font-size:1.4em; line-height:28px; text-align: center; background:#59869d; border-radius:3px; }
 .person-header2{ width:250px; height:42px; margin-left:-110px; }
-.person-head2{ float:left; height:42px; background:url(../imgs/person02.png) no-repeat center center rgba(72,132,162,.6); }
+.person-head2{ float:left; height:42px; background:url(/publish/i_www/resource/lovev/app/static/imgs/person02.png) no-repeat center center rgba(72,132,162,.6); }
 .person-header2 span{ display:block; float:left; width:150px; overflow:hidden; line-height:30px; font-size:1.4em; margin-left:15px; }
-.person-header2 span a{ display:inline-block; width:16px; height:17px; background:url(../imgs/edit.png) no-repeat; -webkit-background-size:16px 17px; -moz-background-size:16px 17px; -ms-background-size:16px 17px; -o-background-size:16px 17px; background-size:16px 17px; margin-left:5px; }
-.person-header2  .account{ display:inline-block; width:70px; height:24px; line-height:24px; padding-left:35px; margin-left:15px; margin-top:7px; border-radius:15px; background:url(../imgs/account.png) no-repeat 8px 1px rgba(89,147,13,.9); -webkit-background-size:20px 22px; -moz-background-size:20px 22px; -ms-background-size:20px 22px; -o-background-size:20px 22px; background-size:20px 22px; font-size:1.4em; }
+.person-header2 span a{ display:inline-block; width:16px; height:17px; background:url(/publish/i_www/resource/lovev/app/static/imgs/edit.png) no-repeat; -webkit-background-size:16px 17px; -moz-background-size:16px 17px; -ms-background-size:16px 17px; -o-background-size:16px 17px; background-size:16px 17px; margin-left:5px; }
+.person-header2  .account{ display:inline-block; width:70px; height:24px; line-height:24px; padding-left:35px; margin-left:15px; margin-top:7px; border-radius:15px; background:url(/publish/i_www/resource/lovev/app/static/imgs/account.png) no-repeat 8px 1px rgba(89,147,13,.9); -webkit-background-size:20px 22px; -moz-background-size:20px 22px; -ms-background-size:20px 22px; -o-background-size:20px 22px; background-size:20px 22px; font-size:1.4em; }
 /*new*/
 .person-header2{ width: 260px; }
 .person-header2 span{ display: inline-block; width:160px; }
 .nc-area input{ position: relative; background: none; border-bottom: 1px solid #fff; display: inline-block; width:80px; padding:3px; font-size: 1.1em; color: #fff; }
 .nc-area em{ display: inline-block; position: relative; top:8px; width: 1px; height: 5px; background: #fff; }
-.person-header2 span .edit-cancel,.person-header2 span .edit-enter{ position: relative; top:6px; height: 24px; width: 24px; background: url(../imgs/nc-btns.png) no-repeat -24px 0; -webkit-background-size:48px 24px; -moz-background-size:48px 24px; -ms-background-size:48px 24px; -o-background-size:48px 24px; background-size:48px 24px; }
-.person-header2 span .edit-enter{ background: url(../imgs/nc-btns.png) no-repeat 0 0; -webkit-background-size:48px 24px; -moz-background-size:48px 24px; -ms-background-size:48px 24px; -o-background-size:48px 24px; background-size:48px 24px; }
+.person-header2 span .edit-cancel,.person-header2 span .edit-enter{ position: relative; top:6px; height: 24px; width: 24px; background: url(/publish/i_www/resource/lovev/app/static/imgs/nc-btns.png) no-repeat -24px 0; -webkit-background-size:48px 24px; -moz-background-size:48px 24px; -ms-background-size:48px 24px; -o-background-size:48px 24px; background-size:48px 24px; }
+.person-header2 span .edit-enter{ background: url(/publish/i_www/resource/lovev/app/static/imgs/nc-btns.png) no-repeat 0 0; -webkit-background-size:48px 24px; -moz-background-size:48px 24px; -ms-background-size:48px 24px; -o-background-size:48px 24px; background-size:48px 24px; }
 /*------个人中心内容块-------*/
 .person-cont{ position:relative; top:-50px; left:0; width:100%; }
 .cont-nav{ height:50px; width:100%; border-bottom:1px solid #353b4c; background:rgba(20,42,66,.6); border-top-right-radius:5px; border-top-left-radius:5px; }
 .nav-order,.nav-fav,.nav-history,.nav-yuyue{ display:inline-block; position:relative; /*float:left;*/ width:35px; height:40px; line-height:35px; padding-left:35px; margin-top:10px; margin-left:20px; margin-right:8px;font-size:1.4em; text-align:center; }
-.nav-order{ background:url(../imgs/order.png) no-repeat 0px 2px; -webkit-background-size:30px 28px; -moz-background-size:30px 28px; -ms-background-size:30px 28px; -o-background-size:30px 28px; background-size:30px 28px; }
-.nav-fav{ background:url(../imgs/favrite.png) no-repeat 0px 2px; -webkit-background-size:30px 28px; -moz-background-size:30px 28px; -ms-background-size:30px 28px; -o-background-size:30px 28px; background-size:30px 28px; }
-.nav-history{ background:url(../imgs/history.png) no-repeat 0px 2px; -webkit-background-size:28px 28px; -moz-background-size:28px 28px; -ms-background-size:28px 28px; -o-background-size:28px 28px; background-size:28px 28px; }
+.nav-order{ background:url(/publish/i_www/resource/lovev/app/static/imgs/order.png) no-repeat 0px 2px; -webkit-background-size:30px 28px; -moz-background-size:30px 28px; -ms-background-size:30px 28px; -o-background-size:30px 28px; background-size:30px 28px; }
+.nav-fav{ background:url(/publish/i_www/resource/lovev/app/static/imgs/favrite.png) no-repeat 0px 2px; -webkit-background-size:30px 28px; -moz-background-size:30px 28px; -ms-background-size:30px 28px; -o-background-size:30px 28px; background-size:30px 28px; }
+.nav-history{ background:url(/publish/i_www/resource/lovev/app/static/imgs/history.png) no-repeat 0px 2px; -webkit-background-size:28px 28px; -moz-background-size:28px 28px; -ms-background-size:28px 28px; -o-background-size:28px 28px; background-size:28px 28px; }
 .nav-pcur span{ border-bottom:1px solid #ff0086; }
 .cont-nav .nav-pcur code{ display:inline-block; position:absolute; bottom:-5px; left:30px; width:8px; height:8px; border-left:1px solid #ff0086; border-top:1px solid #ff0086; background:#262932; -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); -ms-transform:rotate(45deg); -o-transform:rotate(45deg); transform:rotate(45deg); }
-.uncont{ width:150px; height:30px; padding-top:100px; margin:40px auto 0; text-align:center; font-size:1.4em; color:#868ea7; background:url(../imgs/info.png) no-repeat center center; -webkit-background-size:60px 60px; -moz-background-size:60px 60px; -ms-background-size:60px 60px; -o-background-size:60px 60px; background-size:60px 60px; }
+.uncont{ width:150px; height:30px; padding-top:100px; margin:40px auto 0; text-align:center; font-size:1.4em; color:#868ea7; background:url(/publish/i_www/resource/lovev/app/static/imgs/info.png) no-repeat center center; -webkit-background-size:60px 60px; -moz-background-size:60px 60px; -ms-background-size:60px 60px; -o-background-size:60px 60px; background-size:60px 60px; }
 .uncont span{ font-size:.95em; }
 /*== new style start ==*/
-.nav-yuyue{background:url(../imgs/yuyue.png) no-repeat 0px 2px;
+.nav-yuyue{background:url(/publish/i_www/resource/lovev/app/static/imgs/yuyue.png) no-repeat 0px 2px;
     -webkit-background-size:28px 28px;
     -moz-background-size:28px 28px;
     -ms-background-size:28px 28px;
@@ -261,20 +261,20 @@ article.logininfo{ margin-top:47px; }
 .fav-cont > .list-area:nth-child(2n){ background:#262932; }
 .fav-bar{ height:40px; line-height:40px; padding:0 6px; background:#1e2128; border-bottom:1px solid #000; }
 .fav-bar a{ float:left; font-size:1.4em; display:inline-block; color: #969caf; }
-.fav-bar  .fav-edit{ float:right; width:40px; height:40px; padding-left:24px; background:url(../imgs/edit01.png) no-repeat 3px 10px; -webkit-background-size:15px 19px; -moz-background-size:15px 19px; -ms-background-size:15px 19px; -o-background-size:15px 19px; background-size:15px 19px; }
-.list-area a cite{ position:absolute; bottom:0; left:0; z-index:1000; width:100%; height:100%; background:url(../imgs/delete.png) no-repeat center center rgba(19,13,15,.5); -webkit-background-size:20px 20px; -moz-background-size:20px 20px; -ms-background-size:20px 20px; -o-background-size:20px 20px; background-size:20px 20px; }
+.fav-bar  .fav-edit{ float:right; width:40px; height:40px; padding-left:24px; background:url(/publish/i_www/resource/lovev/app/static/imgs/edit01.png) no-repeat 3px 10px; -webkit-background-size:15px 19px; -moz-background-size:15px 19px; -ms-background-size:15px 19px; -o-background-size:15px 19px; background-size:15px 19px; }
+.list-area a cite{ position:absolute; bottom:0; left:0; z-index:1000; width:100%; height:100%; background:url(/publish/i_www/resource/lovev/app/static/imgs/delete.png) no-repeat center center rgba(19,13,15,.5); -webkit-background-size:20px 20px; -moz-background-size:20px 20px; -ms-background-size:20px 20px; -o-background-size:20px 20px; background-size:20px 20px; }
 .history-info em{ background:none; left:-17px; }
 .history-edit{ border:none; background:#22252d; }
 .history-listicon{ position: relative; width:80%; }
-.today,.morerecord{ font-size:1.45em; font-style:normal; padding-left:27px; display: inline-block; position: absolute; top:-30px; left:6px; width: 42px; height:18px; background:url(../imgs/list.png) no-repeat 0 -18px; -webkit-background-size: 22px 36px; -moz-background-size: 22px 36px; -ms-background-size: 22px 36px; -o-background-size: 22px 36px; background-size: 22px 36px; }
+.today,.morerecord{ font-size:1.45em; font-style:normal; padding-left:27px; display: inline-block; position: absolute; top:-30px; left:6px; width: 42px; height:18px; background:url(/publish/i_www/resource/lovev/app/static/imgs/list.png) no-repeat 0 -18px; -webkit-background-size: 22px 36px; -moz-background-size: 22px 36px; -ms-background-size: 22px 36px; -o-background-size: 22px 36px; background-size: 22px 36px; }
 .history-listicon02{ clear: both; position: relative; width:80%; height:40px; }
-.morerecord{ color:#07A7C9; top:10px; background:url(../imgs/list.png) no-repeat 0 0; -webkit-background-size:22px 36px; -moz-background-size:22px 36px; -ms-background-size:22px 36px; -o-background-size:22px 36px; background-size: 22px 36px; }
+.morerecord{ color:#07A7C9; top:10px; background:url(/publish/i_www/resource/lovev/app/static/imgs/list.png) no-repeat 0 0; -webkit-background-size:22px 36px; -moz-background-size:22px 36px; -ms-background-size:22px 36px; -o-background-size:22px 36px; background-size: 22px 36px; }
 .history-list{ margin:0 14px; padding-left:6px; border-left:2px solid #515665; }
 .history-info a{ overflow: hidden; height:30px; display: inline-block; }
 /*----个人中心设置页-----*/
 .setting-header{ position:fixed; top:0; left:0; height:40px; width:100%; line-height:40px; text-align:center; background:#14181c; border-bottom:2px solid #ff0086; }
 .setting-header h2{ font-size:1.6em; }
-.index-btn{ display:inline-block; float:right; width:20px; height:20px; margin:10px; background:url(../imgs/home.png) no-repeat; -webkit-background-size:20px 20px; -moz-background-size:20px 20px; -ms-background-size:20px 20px; -o-background-size:20px 20px; background-size:20px 20px; }
+.index-btn{ display:inline-block; float:right; width:20px; height:20px; margin:10px; background:url(/publish/i_www/resource/lovev/app/static/imgs/home.png) no-repeat; -webkit-background-size:20px 20px; -moz-background-size:20px 20px; -ms-background-size:20px 20px; -o-background-size:20px 20px; background-size:20px 20px; }
 .setting-list{ margin:70px 6px 0; border:1px solid #3c404c; border-radius:3px; }
 .setting-select{ display:block; position:relative; width:96%; height:50px; border-top:1px solid #3c404c; line-height:50px; padding-left:4%; background:#2c2f39; font-size:1.4em; }
 .setting-select em{ display:inline-block; position:absolute; top:16px; right:4%; width:12px; height:12px; border-top:2px solid #fff; border-right:2px solid #fff; -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); -ms-transform:rotate(45deg); -o-transform:rotate(45deg); transform:rotate(45deg); }
@@ -302,8 +302,8 @@ article.logininfo{ margin-top:47px; }
 .send-type p span{ padding-left:6px; color:#a7adc3; }
 .send-type a{ display:inline-block; position:absolute; right:2%; top:18px; padding:3px 15px; background:#259316; }
 .top-btn{ margin-top:20px; }
-.rechard-success,.rechard-fail{ /*height:60px;*/ background:url(../imgs/info-success.png) no-repeat 10px 5px; -webkit-background-size:32px 31px; -moz-background-size:32px 31px; -ms-background-size:32px 31px; -o-background-size:32px 31px; background-size:32px 31px; }
-.rechard-fail{ background:url(../imgs/info-fail.png) no-repeat 10px 5px; -webkit-background-size:32px 31px; -moz-background-size:32px 31px; -ms-background-size:32px 31px; -o-background-size:32px 31px; background-size:32px 31px; }
+.rechard-success,.rechard-fail{ /*height:60px;*/ background:url(/publish/i_www/resource/lovev/app/static/imgs/info-success.png) no-repeat 10px 5px; -webkit-background-size:32px 31px; -moz-background-size:32px 31px; -ms-background-size:32px 31px; -o-background-size:32px 31px; background-size:32px 31px; }
+.rechard-fail{ background:url(/publish/i_www/resource/lovev/app/static/imgs/info-fail.png) no-repeat 10px 5px; -webkit-background-size:32px 31px; -moz-background-size:32px 31px; -ms-background-size:32px 31px; -o-background-size:32px 31px; background-size:32px 31px; }
 .rechard-fail p,.rechard-success p{ padding-left:50px; line-height:22px; font-size:1.4em; }
 .rechard-success em,.rechard-fail em{ font-style:normal; padding:0 5px; color:#ff0086; font-size:1em; }
 .tempWrap{ clear:both; max-height:430px; }
@@ -333,7 +333,7 @@ article.logininfo{ margin-top:47px; }
 .tips-area{ position: relative; float: right; width:80%; margin:20px 2% 10px 0; padding:10px 8px; line-height: 22px;border:1px solid #606267; border-radius:5px; background:#17191e; font-size:14px; }
 .tips-area p,.tips-area p a{ font-size: 12px; }
 .tips-area p a{ color: #ff0086;}
-em.tips{ position:absolute; width:30px; height:32px; left:-35px; top:-10px; background: url(../imgs/icon-tips.png) no-repeat; }
+em.tips{ position:absolute; width:30px; height:32px; left:-35px; top:-10px; background: url(/publish/i_www/resource/lovev/app/static/imgs/icon-tips.png) no-repeat; }
 /*公用tip*/
 p.common-tip-p{margin: 0 auto;font-size: 1.4em;width: 77% !important;}
 /*首页、栏目页列表图片屏幕适配*/
@@ -394,9 +394,9 @@ p.common-tip-p{margin: 0 auto;font-size: 1.4em;width: 77% !important;}
 .live-cont-rg h3{font-size:1.4em;}
 .live-cont-rg p{font-size:1.2em;color:#909090;}
 .live-cont-rg p span{font-size:1em;padding-right:8px;}
-.live-more{position:absolute;top:50%;right:1%;width:30px;height:30px;margin-top:-15px;background:url(../imgs/arrow.png) no-repeat;-webkit-background-size:30px 30px;background-size:30px 30px;}
+.live-more{position:absolute;top:50%;right:1%;width:30px;height:30px;margin-top:-15px;background:url(/publish/i_www/resource/lovev/app/static/imgs/arrow.png) no-repeat;-webkit-background-size:30px 30px;background-size:30px 30px;}
 .live-line{height:0;width:100%;border-top:1px solid #000;border-bottom:1px solid #48494b;}
-.live-loading{width:140px;margin:10px auto;line-height:20px;font-size:1.4em;background:url(../imgs/loading.gif) no-repeat;padding-left:20px;-webkit-background-size:20px 20px;background-size:20px 20px;}
+.live-loading{width:140px;margin:10px auto;line-height:20px;font-size:1.4em;background:url(/publish/i_www/resource/lovev/app/static/imgs/loading.gif) no-repeat;padding-left:20px;-webkit-background-size:20px 20px;background-size:20px 20px;}
 /*直播播放*/
 .play-type{width:100%;height:36px;border-bottom:2px solid #717276;}
 .play-type span{display:block;float:left;width:50%;height:36px;line-height:36px;font-size:1.6em;text-align:center;}
@@ -411,5 +411,5 @@ p.common-tip-p{margin: 0 auto;font-size: 1.4em;width: 77% !important;}
 .live-play-cont .live-cont-rg{margin-top:-7px;}
 .live-play .live-play-cont{margin:0 6px;}
 /*举报*/
-.anouncement{height: 29px;line-height: 29px;border: 2px solid #272936;border-left: initial;border-right: initial;padding-left: 43px;background: #232532;margin-top: 5px;color: #FFF;background-image: url(../imgs/speaker.png);background-repeat: no-repeat;background-position: 13px 50%;}
+.anouncement{height: 29px;line-height: 29px;border: 2px solid #272936;border-left: initial;border-right: initial;padding-left: 43px;background: #232532;margin-top: 5px;color: #FFF;background-image: url(/publish/i_www/resource/lovev/app/static/imgs/speaker.png);background-repeat: no-repeat;background-position: 13px 50%;}
 .anouncement > * {font-size:1.4em;}

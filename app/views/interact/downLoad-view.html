@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<article>
+    <style>
+        .clearfix{ clear:both; }
+        .download-header{position: absolute;top:0; left:0;z-index: 100;}
+        .download-header h2{ line-height: 40px; }
+        .download-header a.logo{ float: right; margin-top:-30px; margin-right:5px; width: 80px; height: 22px; background-size:80px 22px; }
+        .download-cont{ font-size: 14px; width:100%; overflow-y:auto; height:100%; position:absolute; top:0; z-index:0; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; box-sizing:border-box; border-top:42px solid #fff; background: url(${resourceUrl}/static/imgs/download-cont.png) repeat; }
+        .download-cont p{ position: relative; display: block; }
+        .download-cont p img{ max-height:400px; width: 100%; }
+        .download-cont p span{ position: absolute; bottom:8px; padding: 0 6px; }
+        .download-group{ width: 92%; margin:20px auto; }
+        .download-group h2{ line-height: 60px; font-size: 18px; text-align: center; color:#ff0086; }
+        .download-lf,.download-rg{ width:140px; float: left; }
+        .download-lf a,.download-rg a{ display: block; width:146px; height:42px; background:url(${resourceUrl}/static/imgs/download-btns.png) no-repeat 0 0; }
+        .download-rg a{ background-position: -148px 0; }
+        .download-rg{ float: right; }
+        .download-cont .download-tips{ padding:20px;font-size:14px;color:#ff0086; }
+        .dw-footer{ display: block; width:100%; padding: 20px 0; text-align: center; font-size: 14px; color: #fff; }
+    </style>
+<header class="setting-header zt-header download-header">
+    <a href="${resourceUrl}/index.jsp" class="return-btn"></a>
+    <h2>和视界客户端下载</h2>
+    <a class="logo" href="${resourceUrl}/index.jsp"></a>
+</header>
+<div class="download-cont">
+    <p>
+        <img src="${resourceUrl}/static/imgs/download-bg.jpg" alt="">
+        <span>和视界是中国移动结合4G一LTE网络推出的一款高清影视客户端．网罗国内外院线大片及卫视同步剧，并提供手机、电脑等多终端互动无缝体验，为您打造新媒体数字院线，畅享移动观影新体验！</span>
+    </p>
+    <div class="download-group">
+        <div class="download-lf">
+            <h2>最新Android2.0</h2>
+            <a href="http://c22.cmvideo.cn/mvupdate/software/client/ophone/ISJ2.apk"></a>
+        </div>
+        <div class="download-rg">
+            <h2>最新版ios2.0.0</h2>
+            <a href="https://itunes.apple.com/cn/app/he-shi-jie/id771718079?mt=8"></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <p class="download-tips">如您通过微信打开，为了能正常下载安装包，建议您点击右上角“在浏览器中打开”进行客户端的下载、安装。</p>
+    <span class="dw-footer">4G视界&nbsp;&nbsp;和你悦享</span>
+</div>
+</article>

@@ -2,7 +2,8 @@
 <%@page trimDirectiveWhitespaces="true" %>
 <%@ include file="../tagLib.jsp"%>
 <%
-session.setAttribute("channelId","3011_40060000000");
+if(null == session.getAttribute("channelId"))
+    session.setAttribute("channelId","3011_40060000000");
 %>
 <!DOCTYPE html>
 <!--[if lt IE 7]>
@@ -24,28 +25,37 @@ session.setAttribute("channelId","3011_40060000000");
     <title>和视界</title>
     <link rel="stylesheet" href="static/css/share.css"/>
     <link rel="stylesheet" href="static/css/loading-bar.min.css"/>
-    <!--============滑动类库============-->
-    <script type="text/javascript" src="static/libs/TouchSlide.js"></script>
+    <!--============滑动类库===========-->
+    <script type="text/javascript" src="${resourceUrl}/static/libs/TouchSlide.js"></script>
     <!--==============第三方类库==========-->
-    <script type="text/javascript" src="static/libs/idangerous.swiper-1.9.1.min.js"></script>
-    <script type="text/javascript" src="static/libs/angular/angular.min.js"></script>
-    <script type="text/javascript" src="static/libs/angularRoute/angular-route.min.js"></script>
-    <script type="text/javascript" src="static/libs/ng-infinite-scroll.js"></script>
-    <script type="text/javascript" src="static/libs/angularLoader/angular-loading-bar.min.js"></script>
-    <script type="text/javascript" src="static/libs/angularTouch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/idangerous.swiper-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/angular/angular.min.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/angularRoute/angular-route.min.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/ng-infinite-scroll.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/angularLoader/angular-loading-bar.min.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/static/libs/angularTouch/angular-touch.min.js"></script>
     <!--============组件============-->
-    <script type="text/javascript" src="components/interact/interact.js"></script>
-    <script type="text/javascript" src="components/utils/uitls.js"></script>
-    <script type="text/javascript" src="components/search/search.js"></script>
-    <script type="text/javascript" src="components/user/user.js"></script>
-    <script type="text/javascript" src="components/video/video.js"></script>
-    <script type="text/javascript" src="components/utils/directives.js"></script>
-    <script type="text/javascript" src="components/utils/filters.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/interact/interact.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/utils/uitls.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/search/search.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/user/user.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/video/video.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/utils/directives.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/components/utils/filters.js"></script>
 
-    <script type="text/javascript" src="views/level1/level1.js"></script>
-    <script type="text/javascript" src="views/videoDetails/videoDetails.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/level1/level1.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/level2/level2.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/videoDetails/videoDetails.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/watchFilmTeam/watchFilmTeam.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/liveTelecast/liveTelecast.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/order/order.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/search/search.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/login/login.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/register/register.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/userCenter/userCenter.js"></script>
 
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/views/interact/interact.js"></script>
+    <script type="text/javascript" src="${resourceUrl}/app.js"></script>
     <style>
         .view-container {
             /*position: relative;*/
@@ -169,7 +179,7 @@ session.setAttribute("channelId","3011_40060000000");
         var popupStyle = document.getElementById(useTopToMenuPopup ? 'topPopup' : 'topPopup');/*transformPopup*/
 
         if (useNgViewAnimation) {
-            document.write('<script type="text/javascript" src="static/libs/angularAnimate/angular-animate.min.js"><\/script>');
+            document.write('<script type="text/javascript" src="${resourceUrl}/static/libs/angularAnimate/angular-animate.min.js"><\/script>');
         } else {
             angular.module('ngAnimate',[]);
         }
@@ -187,16 +197,19 @@ session.setAttribute("channelId","3011_40060000000");
     <div class="swiper-container swiper-scroll-container nav_con" ng-show="headNavShow">
         <div class="swiper-wrapper" >
             <div class="swiper-slide sub_nav">
-                <a href="#/level1" ng-class="{cur:''==channel}">精选</a>
-                <a href="#/level1/40114937" ng-class="{cur:'40114937'==channel}">首映</a>
-                <%--<a href="#/level1/40114912" ng-class="{cur:'40114912'==channel}">海外剧场</a>--%>
+                <cms:nodecont var="navs" nodeid="70000010" sortKey="ranking" dataobjectid="1" sortType="desc"/>
+                <c:forEach var="item" items="${navs}">
+                    <a href="${item.fields.REDREICT_URL}" ng-class="{cur:'${item.fields.NAME}'==channel}">${item.name}</a>
+                </c:forEach>
+                <!--a href="#/level1" ng-class="{cur:'level1'==channel}">精选</a>
+                <a href="#/level1/70000012" ng-class="{cur:'70000012'==channel}">首映</a>
                 <a href="#/level2/free" ng-class="{cur:'free'==channel}">限免</a>
                 <a href="#/level2/movie" ng-class="{cur:'movie'==channel}">电影</a>
                 <a href="#/level2/drama" ng-class="{cur:'drama'==channel}">电视剧</a>
                 <a href="#/level2/cartoon" ng-class="{cur:'cartoon'==channel}">动漫</a>
                 <a href="#/level2/microMovie" ng-class="{cur:'microMovie'==channel}">微电影</a>
-                <a href="#/live" ng-class="{cur:'live'==channel}">直播</a>
-                <a href="#/watchFilmTeam" ng-class="{cur:'watchFilmTeam'==channel}">观影团</a>
+                <a href="#/liveTelecast" ng-class="{cur:'liveTelecast'==channel}">直播</a>
+                <a href="#/watchFilmTeam" ng-class="{cur:'watchFilmTeam'==channel}">观影团</a-->
             </div>
         </div>
     </div>
@@ -212,8 +225,8 @@ session.setAttribute("channelId","3011_40060000000");
     <div class="footer-list">
         <a href="#/about">关于</a><span>|</span>
         <a href="#/feedback">反馈</a><span>|</span>
-        <a href="serviceOnline.jsp" target="_self">客服</a><span>|</span>
-        <a target="_blank" href="{{appUrl}}">APP下载</a><span>|</span>
+        <a href="${resourceUrl}/views/interact/serviceOnline.jsp">客服</a><span>|</span>
+        <a href="#/downLoad">APP下载</a><span>|</span>
         <a href="javascript:" ng-click="toTop()">返回顶部</a>
     </div>
     <span class="footer-line"></span>
@@ -221,8 +234,8 @@ session.setAttribute("channelId","3011_40060000000");
     <p>China Mobile Copyright 2013 中国移动版权所有</p>
 </footer>
 
-<a target="_self" mn-auto-remove href="download.jsp" style="position:fixed;bottom:0;left:0;z-index:1000;background:#414c6e;opacity:0.8;width:100%; max-height:100px;display:block; text-align:center;">
-    <img style=" width:100%; max-width:720px; max-height:100px;" src="static/imgs/bottom01.png">
+<a target="_self" mn-auto-remove href="#/downLoad" style="position:fixed;bottom:0;left:0;z-index:1000;background:#414c6e;opacity:0.8;width:100%; max-height:100px;display:block; text-align:center;">
+    <img style=" width:100%; max-width:720px; max-height:100px;" src="${resourceUrl}/static/imgs/bottom01.png">
 </a>
 <%
 request.setAttribute("host", request.getHeader("Host"));

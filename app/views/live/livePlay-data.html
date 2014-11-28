@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<%
+Date today = new Date();
+request.setAttribute("month", today.getMonth());
+request.setAttribute("date", today.getDate());
+request.setAttribute("now", today);
+%>
+<cms:node var="node" nodeid="${param.n}"/>
+{
+<c:forEach var="nn" items="${node.childNodeNets}" varStatus="j">
+    <cms:node var="dayNode" nodeid="${nn.node.nodeId}"/>
+    <c:set var="curTime" value="${dayNode.name}"/>
+    <c:set var="curMonth" value="${fn:substring(curTime, 4, 6)}"/>
+    <c:set var="curDate" value="${fn:substring(curTime, 6, 8)}"/>
+    <%-- month's index is zero-based --%>
+    <c:if test="${curMonth-1 == month && curDate == date}">
+        <c:set var="todayNode" value="${dayNode}"/>
+        <c:set var="todayIndex" value="${j.index}"/>
+        <c:set var="start" value="${todayIndex - 2}"/>
+        <c:if test="${start < 0}">
+            <c:set var="start" value="0"/>
+        </c:if>
+        <c:set var="end" value="${todayIndex + 1}"/>
+        <c:if test="${end >= fn:length(node.childNodeNets)}">
+            <c:set var="end" value="${fn:length(node.childNodeNets) - 1}"/>
+        </c:if>
+    </c:if>
+</c:forEach>
+"nodeName": "${node.name}",
+"imgSrc": "${portalUrl}${node.nodeImages[0].src}",
+"todayIndex": ${todayIndex - start},
+"programs": [
+<c:if test="${!empty start}">
+    <c:forEach var="nn" begin="${start}" end="${end}" items="${node.childNodeNets}" varStatus='j'>
+        [
+        <cms:nodecont var="programs" nodeid="${nn.node.nodeId}" dataobjectid="6" sortKey="ranking" sortType="asc" pagesize="100"/>
+        <c:forEach var="program" items="${programs}" varStatus='i'>
+            <fmt:parseDate var="startTime" pattern="yyyy-MM-dd HH:mm:ss" value="${program.fields.STARTTIME}"/>
+            <fmt:parseDate var="endTime" pattern="yyyy-MM-dd HH:mm:ss" value="${program.fields.ENDTIME}"/>
+            {
+            "name": "${program.name}",
+            "contid": "${program.contId}",
+            "startTime": ${startTime.time},
+            "endTime": ${endTime.time}
+            }<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]<c:if test="${!j.last}">,</c:if>
+    </c:forEach>
+</c:if>
+],
+"reserves": [
+<cms:reserveInfo var="reserveInfo" pageSize="100"/>
+<c:if test="${reserveInfo.result}">
+    <c:forEach var="reserve" items="${reserveInfo.reserveList}" varStatus='i'>
+        <fmt:formatDate var="noticeTime" pattern="HH:mm" value="${reserve.noticeTime}"/>
+        {
+        "nodeName": "${reserve.nodeName}",
+        "imgSrc": "${reserve.imageUrl}",
+        "startTime": "${noticeTime}",
+        "name": "${reserve.contentName}",
+        "contid": "${reserve.contentId}",
+        "nodeid": "${reserve.nodeId}"
+        }<c:if test="${!i.last}">,</c:if>
+    </c:forEach>
+</c:if>
+]
+}

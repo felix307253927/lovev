@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <div class="setting-cont" id="rechargeFailed">
+        <div class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/" class="index-btn"></a>
+            <h2>我的账户</h2>
+        </div>
+        <article class="logininfo article-top">
+            <div class="rechard-fail">
+                <p>很遗憾，充值失败！</p>
+                <p>未能为<em>{{mobile}}</em>号码完成充值。</p>
+            </div>
+            <!-- button -->
+            <div class="global-btn enter-btn top-btn">
+                <input type="button" class="enter-pay" value="重新充值" ng-click="back()">
+            </div>
+            <div class="global-btn">
+                <a href="#/myAccount">
+                    <input type="button" class="next-pay" value="返回我的账户">
+                </a>
+            </div>
+        </article>
+    </div>
+</article>

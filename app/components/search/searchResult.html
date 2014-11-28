@@ -5,34 +5,26 @@
 //设置视频分类和付费类型不同组合 下对应的idPath。 数据结构优于算法
 java.util.Map pathToId = new java.util.HashMap();
 //默认搜索节点
-pathToId.put("all","40108533 OR 40106958 OR 40108541 OR 40106959 OR 40113154 OR 40115236 OR 40115237 OR 40116657");
+pathToId.put("all","");
 //各频道作为关键字时的idPath
-pathToId.put("movie","40106958 OR 40108541");/* OR 40113154 ,40108533 OR */
-pathToId.put("drama","40106959");
-pathToId.put("microMovie","40113154");/* OR 40106958*/
-pathToId.put("cartoon","40115236 OR 40115237");
-pathToId.put("free","40116918 OR 40117142");
-//视频分类和付费模式所确定的idPath
-pathToId.put("正片","40108533 OR 40106958 OR 40108541");
-pathToId.put("预告","40110640");
-pathToId.put("免费","40108533");//免费节点包含了预告节点，无需另外再包含预告节点
-pathToId.put("按次点播","40108541");
-pathToId.put("包月","40106958 OR 40113154");
-pathToId.put("正片免费","40108533");//同免费节点，但需要手动过滤掉预告，根据节点或关键字（关键字也许稍微靠谱点，但好不到哪去）
-pathToId.put("正片按次点播","40108541");
-pathToId.put("正片包月","40106958");
-pathToId.put("预告免费","40110640");
+pathToId.put("movie","contFormType:8");
+pathToId.put("drama","contFormType:6");
+pathToId.put("microMovie","");
+pathToId.put("cartoon","");
+pathToId.put("free","");
+pathToId.put("正片","");
+pathToId.put("预告","");
+pathToId.put("免费","");
+pathToId.put("按次点播","");
+pathToId.put("包月","");
+pathToId.put("正片免费","");
+pathToId.put("正片按次点播","");
+pathToId.put("正片包月","");
+pathToId.put("预告免费","");
 request.setAttribute("pathToId",pathToId);
 %>
-<%--
-//response delay test
-String nid = request.getParameter("size");
-if(nid!=null){
-Thread.sleep(2000);
-}
---%>
 
-<%-- 设置关键字和默认idPath --%>
+<%-- 设置关键字和默认q --%>
 <c:set var="keyword" value="*:*"/>
 <c:set var="idPath" value="${pathToId['all']}"/><%-- TODO:should delete this later--%>
 <c:if test="${!empty param.keyword}">
@@ -45,10 +37,10 @@ Thread.sleep(2000);
 </c:if>
 <c:if test="${!empty param.freeVideoType}">
     <c:if test="${param.freeVideoType == '电影'}">
-        <c:set var="idPath" value="40116918"/>
+        <c:set var="idPath" value="contFormType:8"/>
     </c:if>
     <c:if test="${param.freeVideoType == '电视剧'}">
-        <c:set var="idPath" value="40117142"/>
+        <c:set var="idPath" value="contFormType:6"/>
     </c:if>
 </c:if>
 
@@ -67,7 +59,7 @@ Thread.sleep(2000);
 </c:if>
 
 <%-- 设置排序方式 --%>
-<c:set var="sp" value="publishTime"/>
+<c:set var="sp" value="pubTime"/>
 <c:if test="${!empty param.rank}">
     <c:set var="sp" value="${param.rank}"/>
 </c:if>
@@ -94,11 +86,6 @@ Thread.sleep(2000);
     <c:set var="filterKey" value="${filterKey}resultType:${resultType}"/>
 </c:if>
 
-
-<%-- 如果不是(动漫频道且状态参数不为空) --%>
-<%-- 为了输出格式美观，if内容未缩进 (搜“if内容未缩进”找结束标签) --%>
-<c:if test="${!(param.keyword == 'cartoon' && !empty param.status)}">
-
     <%-- 设置start--%>
     <c:set var="start" value="0"/>
     <c:if test="${!empty param.start}">
@@ -111,14 +98,14 @@ Thread.sleep(2000);
     </c:if>
     <%-- 如果是在搜索页搜索（搜索页不指定参数page，否则难以统计各分类数）TODO:固定100会有这样的问题，若搜"爱",有>=128部电影，怎么办 --%>
     <c:if test="${param.classify=='1'}">
-        <c:set var="pageSize" value="200"/>
+        <c:set var="pageSize" value="500"/>
         <c:set var="dramaCount" value="0"/>
         <c:set var="microMovieCount" value="0"/>
         <c:set var="cartoonCount" value="0"/>
         <c:set var="emptyCount" value="0"/>
     </c:if>
     <%-- 搜 索 --%>
-    <cms:search version="2" var="search" k="${keyword}" field="wwwcontent" q="idPath:(${idPath} NOT 40110639),${filterKey}" sortPattern="${sp}"  pageSize="${pageSize}" start="${start}"  sortType="desc" />
+    <cms:search var="search" k="${keyword}" field="program" q="${idPath},${filterKey}" pageSize="${pageSize}" start="${start}"  sortType="desc" version="2"/>
     {
     "entities":[
     <c:forEach var="r" items="${search.searchResult}" varStatus='i'>
@@ -127,55 +114,26 @@ Thread.sleep(2000);
         <c:set var="totalEpisode" value=""/>
         <c:set var="cartoonCounted" value="false"/>
         <c:set var="videoKind" value=""/>
-        <cms:node  var="dramaNode" nodeid ="${r.nodeId}"/>
-        <%-- 如果是电视剧 取名,剧集信息--%>
-        <c:set var="isDrama" value="${dramaNode.isContentList && dramaNode.nodeNet.parentId != HollyWoodNodeId}"/>
-        <c:if test="${isDrama}">
-            <c:set var="name" value="${dramaNode.name}"/>
-            <cms:nodecont var="conts" nodeid="${r.nodeId}"  dataobjectid="2" pagesize="1000" sortType="desc"/>
-            <c:set var="latestEpisode" value="${fn:length(conts)}"/>
-            <c:set var="totalEpisode" value="${dramaNode.property1}"/>
-            <c:set var="cont" value="${conts[0]}"/>
-            <c:forEach var="pic" items="${dramaNode.nodeImages}">
-                <c:if test="${fn:contains(pic.fileType,'HSJ720V')}">
-                    <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
+        <cms:content var="cont" contid="${r.contentId}"/>
+        <c:set var="name" value="${cont.name}"/>
+        <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
+        <c:if test="${!empty cont && !empty cont.fields.propertyFileLists}">
+            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
+                    <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                 </c:if>
             </c:forEach>
             <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${dramaNode.nodeImages}">
-                    <c:if test="${fn:contains(pic.fileType,'V_CONTENT')}">
-                        <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
-                    </c:if>
-                </c:forEach>
-            </c:if>
-        </c:if>
-        <%-- 如果是电影 取名--%>
-        <c:if test="${!isDrama}">
-            <cms:content var="cont" contid="${r.contentId}"/>
-            <c:set var="name" value="${cont.name}"/>
-        </c:if>
-
-        <c:if test="${!empty cont && !empty cont.fields.propertyFileLists}">
-
-            <%-- 取图 --%>
-            <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
-                    <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
-                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
-                    </c:if>
-                </c:forEach>
-            </c:if>
-            <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+                <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
-                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
                 </c:forEach>
             </c:if>
             <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+                <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
-                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
                 </c:forEach>
             </c:if>
@@ -183,26 +141,15 @@ Thread.sleep(2000);
             <cms:contvisitadd var="visitCount" contid="${cont.contId}"/>
             <%-- 取关键字 --%>
             <c:set var="keywords" value="${cont.fields.KEYWORDS}"/>
-            <c:if test="${!empty keywords}">
-                <c:if test="${fn:contains(keywords,'动漫')}">
-                    <c:set var="cartoonCount" value="${ cartoonCount + 1}"/>
-                    <c:set var="cartoonCounted" value="true"/>
-                    <c:set var="videoKind" value="动漫"/>
-                </c:if>
-            </c:if>
-            <%-- 设置类型，统计各类型次数 --%>
-            <c:if test="${!cartoonCounted && !empty cont.fields.PRIMARYKEYWORD}">
-                <c:if test="${fn:contains(cont.fields.PRIMARYKEYWORD,'动漫')}">
-                    <c:set var="cartoonCount" value="${ cartoonCount + 1}"/>
-                    <c:set var="cartoonCounted" value="true"/>
-                    <c:set var="videoKind" value="动漫"/>
-                </c:if>
-            </c:if>
-            <c:if test="${empty keywords}">
-                <c:set var="keywords" value="${cont.fields.PRIMARYKEYWORD}"/>
-            </c:if>
             <c:if test="${param.classify=='1'}">
-                <c:if test="${!empty latestEpisode && !cartoonCounted}">
+                <c:if test="${!empty keywords}">
+                    <c:if test="${fn:contains(keywords,'动漫')}">
+                        <c:set var="cartoonCount" value="${ cartoonCount + 1}"/>
+                        <c:set var="cartoonCounted" value="true"/>
+                        <c:set var="videoKind" value="动漫"/>
+                    </c:if>
+                </c:if>
+                <c:if test="${cont.fields.FormType!='8'}">
                     <c:set var="dramaCount" value="${dramaCount+1}"/>
                     <c:set var="videoKind" value="电视剧"/>
                 </c:if>
@@ -217,7 +164,7 @@ Thread.sleep(2000);
                 <c:set var="actor" value="${cont.fields.propertyFileLists['男主角']}"/>
             </c:if>
             <%-- 评分 --%>
-            <c:set var="score" value="${cont.fields.propertyFileLists['IMDB评分']}"/>
+            <c:set var="score" value="${cont.fields.propertyFileLists['评分']}"/>
             <c:if test="${empty score}">
                 <c:set var="score" value="${cont.fields.WATCH_POINT}"/>
             </c:if>
@@ -237,7 +184,7 @@ Thread.sleep(2000);
             "latestEpisode":"${latestEpisode}",
             "totalEpisode":"${totalEpisode}",
             "keywords":"${keywords}",
-            "nodeid":"${r.nodeId}",
+            "nodeid":"${cont.fields.PRDPACK_ID}",
             "contid":"${cont.contId}",
             "videoKind":"${videoKind}",
             "isAnime":${videoKind == "动漫"}
@@ -248,134 +195,15 @@ Thread.sleep(2000);
             <c:set var="emptyCount" value="${emptyCount+1}"/>
         </c:if>
     </c:forEach>
-    ]<c:if test="${param.classify=='1'}">,
-    "classify":{
-    "全部":${empty search.count ? 0 : search.count-emptyCount},
-    "电影":${search.count-dramaCount-microMovieCount-cartoonCount-emptyCount},
-    "电视剧":${dramaCount},
-    "微电影":${microMovieCount},
-    "动漫":${cartoonCount}
-    }<c:set var="cartoonCounted" value="false"/>
-</c:if>
-    }
-
-</c:if><%-- if内容未缩进 --%>
-
-
-<%-- 如果是动漫频道且状态参数不为空（动漫的模拟分页破坏了代码的一致性，重复了很多不必要的代码，重用性降低，增加了维护难度！！） --%>
-<%-- if内容未缩进 --%>
-<c:if test="${param.keyword == 'cartoon' && !empty param.status}">
-
-    <%-- 设置一个较大的数期望在一页中包含所有结果，再对该页进行模拟分页 --%>
-    <c:set var="pageSize" value="1000"/>
-    <%-- 设置start--%>
-    <c:set var="start" value="0"/>
-    <c:if test="${!empty param.start}">
-        <c:set var="start" value="${param.start}"/>
-    </c:if>
-    <%-- 设置size --%>
-    <c:set var="showSize" value="9"/>
-    <c:if test="${!empty param.size}">
-        <c:set var="showSize" value="${param.size}"/>
-    </c:if>
-    <%-- 设置状态 --%>
-    <c:set var="status" value="updating"/>
-    <c:if test="${param.status == '全集'}">
-        <c:set var="status" value="completed"/>
-    </c:if>
-    <%-- 设置计数器 --%>
-    <c:set var="animeCount" value="0"/>
-    <%-- keyword:${keyword}      idPath:(${idPath}),filterKey:${filterKey}      sortPattern:${sp}--%>
-    <%-- ${pageSize} --%>
-    <cms:search version="2" var="search" k="${keyword}" field="wwwcontent" q="idPath:(${idPath} NOT 40110639),${filterKey}" sortPattern="${sp}"  pageSize="${pageSize}" start="0"  sortType="desc" />
-    {
-    "entities":[
-    <c:forEach var="r" items="${search.searchResult}" varStatus='i'>
-        <c:set var="imgSrc" value=""/>
-        <c:set var="latestEpisode" value=""/>
-        <c:set var="totalEpisode" value=""/>
-        <cms:node  var="dramaNode" nodeid ="${r.nodeId}"/>
-
-        <%-- 取名,剧集信息--%>
-        <c:set var="name" value="${dramaNode.name}"/>
-        <cms:nodecont var="conts" nodeid="${r.nodeId}"  dataobjectid="2" pagesize="1000" sortType="desc"/>
-        <c:set var="latestEpisode" value="${fn:length(conts)}"/>
-        <c:set var="totalEpisode" value="${dramaNode.property1}"/>
-        <c:set var="cont" value="${conts[0]}"/>
-        <c:forEach var="pic" items="${dramaNode.nodeImages}">
-            <c:if test="${fn:contains(pic.fileType,'HSJ720V')}">
-                <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
-            </c:if>
-        </c:forEach>
-        <c:if test="${empty imgSrc}">
-            <c:forEach var="pic" items="${dramaNode.nodeImages}">
-                <c:if test="${fn:contains(pic.fileType,'V_CONTENT')}">
-                    <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
-                </c:if>
-            </c:forEach>
-        </c:if>
-
-        <c:if test="${status =='updating' && latestEpisode == totalEpisode}">
-            <c:set var="cont" value=""/>
-        </c:if>
-        <c:if test="${status == 'completed' && latestEpisode != totalEpisode}">
-            <c:set var="cont" value=""/>
-        </c:if>
-        <c:if test="${!empty cont}">
-            <c:set var="animeCount" value="${animeCount+1}"/>
-            <c:if test="${animeCount > start && animeCount <= start + showSize}">
-
-                <%-- 取图
-                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
-                    <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
-                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${empty imgSrc}">
-                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
-                        <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
-                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
-                        </c:if>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${empty imgSrc}">
-                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
-                        <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
-                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
-                        </c:if>
-                    </c:forEach>
-                </c:if>--%>
-                <%-- 取访问次数 --%>
-                <cms:contvisitadd var="visitCount" contid="${cont.contId}"/>
-                <%-- 取关键字 --%>
-                <c:set var="keywords" value="${cont.fields.KEYWORDS}"/>
-                <c:if test="${empty keywords}">
-                    <c:set var="keywords" value="${cont.fields.PRIMARYKEYWORD}"/>
-                </c:if>
-                <c:if test="${notFirst}">,</c:if>
-                {
-                "name":"${name}",<c:if test="${!empty cont.fields.propertyFileLists}">
-                "director":"${cont.fields.propertyFileLists["导演"]}",
-                "actor":"${cont.fields.propertyFileLists["男主角"]}",
-                "area":"${cont.fields.propertyFileLists["国家及地区"]}",
-                "year":"${cont.fields.propertyFileLists["播出年代"]}",</c:if>
-                "visitCount":"${visitCount}",
-                "imgSrc":"${imgSrc}",
-                "score":"${cont.fields.WATCH_POINT}",
-                "latestEpisode":"${latestEpisode}",
-                "totalEpisode":"${totalEpisode}",
-                "keywords":"${keywords}",
-                "nodeid":"${r.nodeId}",
-                "contid":"${cont.contId}",
-                "videoKind":"动漫",
-                "isAnime":true
-                }
-                <c:set var="notFirst" value="true"/>
-            </c:if>
-        </c:if>
-    </c:forEach>
     ]
-    }
+    <c:if test="${param.classify=='1'}">,
+        "classify":{
+        "全部":${empty search.count ? 0 : search.count-emptyCount},
+        "电影":${search.count-dramaCount-microMovieCount-cartoonCount-emptyCount},
+        "电视剧":${dramaCount},
+        "微电影":${microMovieCount},
+        "动漫":${cartoonCount}
+        }<c:set var="cartoonCounted" value="false"/>
+    </c:if>
+}
 
-    <%-- if内容未缩进 --%>
-</c:if>

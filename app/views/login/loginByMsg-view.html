@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<!-- 短信验证码登录 -->
+<article class="logininfo">
+    <div class="login-switch">
+        <ul>
+            <a href="#/loginByPwd/{{returnUrl}}"><li>账号密码登录</li></a>
+            <li class="li-cur">短信验证码登录</li>
+        </ul>
+    </div>
+    <form name="form" novalidate>
+        <div class="sj-input">
+            <input name="mobile" type="tel" ng-model="mobile" ng-pattern="mobileRE" ng-change="mobileErr=false" placeholder="仅支持移动手机用户" class="sj-paynum" required>
+            <span ng-show="!mobileErr && form.mobile.$dirty && form.mobile.$invalid" class="input-info">请输入11位移动手机号码</span>
+            <span ng-show="mobileErr" class="input-info">手机号码错误</span>
+        </div>
+        <div class="sj-input">
+            <input type="text" name="captcha" ng-model="captcha" ng-pattern="captchaRE" ng-change="captchaErr=false" placeholder="请输入验证码" class="sj-yzmp" required>
+            <span class="sj-yzbtn" style="background-color:#22252d; padding-top:0;padding-bottom: 0"><img ng-click="refreshCaptcha()" id="login-captcha-img" ng-src="/ImageCaptchaServlet.servlet?ran={{captchaSrc}}"></span>
+            <div style="clear:both"></div>
+            <span ng-show="!captchaErr && form.captcha.$dirty && form.captcha.$invalid" class="input-info">请输入4位验证码</span>
+            <span ng-show="captchaErr" class="input-info">验证码错误</span>
+        </div>
+
+        <div class="sj-input">
+            <input name="SMSCode" ng-model="SMSCode" ng-pattern="SMSCodeRE" ng-change="SMSCodeErr=false" type="text" placeholder="6位数字和字母，区分大小写" class="sj-yzmp" required>
+            <input type="button" class="sj-yzbtn" value="{{SMSbtnInfo}}" ng-click="getSMSCode()">
+            <div style="clear:both"></div>
+            <span ng-show="!SMSCodeErr && form.SMSCode.$dirty && form.SMSCode.$invalid" class="input-info">6位数字和字母，区分大小写</span>
+            <span ng-show="SMSCodeErr" class="input-info">验证码错误</span>
+        </div>
+        <div class="pay-tips">
+            <p>还没有和视界账号？</p>
+        </div>
+        <!-- button -->
+        <div class="global-btn">
+            <input type="submit" class="enter-pay" ng-click="submit()" value="{{loginInfo}}" ng-disabled="form.$invalid || submitDisabled">
+        </div>
+    </form>
+    <div class="global-btn">
+        <a href="#/register">
+            <input type="button" class="next-pay" value="马上注册">
+        </a>
+    </div>
+</article>

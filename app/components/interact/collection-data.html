@@ -8,6 +8,7 @@
     <c:set var="nid" value="${entity.nodeId}"/>
     <c:set var="cid" value="${entity.contentId}"/>
     <cms:content var="cont" contid="${cid}"/>
+    <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
     <c:if test="${!empty cont.name && (entity.platForm=='0011' || entity.platForm=='0012') && !empty cont.fields.propertyFileLists}">
         <%-- 有些奇葩内容会没有fields.propertyFileLists，如502474739，因此需要判空 --%>
         <c:set var="director" value=""/>
@@ -18,16 +19,23 @@
             <c:set var="actor" value="${cont.fields.propertyFileLists['男主角']}"/>
         </c:if>
         <%-- 取图 --%>
-        <c:set var="imgSrc" value=""/><%-- Get imgSrc --%>
-        <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+        <c:set var="imgSrc" value=""/>
+        <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
             <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
-                <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
             </c:if>
         </c:forEach>
         <c:if test="${empty imgSrc}">
-            <c:forEach var="pic" items="${cont.fields.displayFileLists}">
-                <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
-                    <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
+                    <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
+                </c:if>
+            </c:forEach>
+        </c:if>
+        <c:if test="${empty imgSrc}">
+            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:if test="${fn:contains(pic.dpFileName,'V_CONTENT')}">
+                    <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                 </c:if>
             </c:forEach>
         </c:if>
@@ -40,7 +48,7 @@
             <c:set var="type" value="${cont.fields.propertyFileLists['内容分类']}"/>
         </c:if>
         <%-- 评分 --%>
-        <c:set var="score" value="${cont.fields.propertyFileLists['IMDB评分']}"/>
+        <c:set var="score" value="${cont.fields.propertyFileLists['评分']}"/>
         <c:if test="${empty score}">
             <c:set var="score" value="${cont.fields.WATCH_POINT}"/>
         </c:if>

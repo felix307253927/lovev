@@ -1,0 +1,73 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<cms:search var="search" k="*:*" field="wwwcontent" q="idPath:${preSellNodeId}" sortPattern="publishTime"  pageSize="200"/>
+{
+"presell":[
+<c:forEach var="r" items="${search.searchResult}">
+    <c:if test="${!empty r.contentName}">
+        <cms:node  var="dramaNode" nodeid ="${r.nodeId}"/>
+        <c:set var="name" value="${dramaNode.name}"/>
+        <cms:nodecont var="conts" nodeid="${r.nodeId}"  dataobjectid="2" pagesize="1000" sortType="desc"/>
+        <c:set var="cont" value="${conts[0]}"/>
+        <cms:hasBespeakTag var="hasBespeak" nodeId ="${r.nodeId}" contentId ="${cont.contId}"/>
+        <c:if test="${hasBespeak.result && hasBespeak.isOrdered == '0000'}">
+            <c:if test="${!empty cont}">
+                <%-- 取图 --%>
+                <c:set var="imgSrc" value=""/>
+                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+                    <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
+                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${empty imgSrc}">
+                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+                        <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
+                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty imgSrc}">
+                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
+                        <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
+                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+                <%-- 取访问次数 --%>
+                <cms:contvisitadd var="visitCount" contid="${cont.contId}"/>
+                <%-- 取关键字 --%>
+                <c:set var="keywords" value="${cont.fields.KEYWORDS}"/>
+                <c:if test="${empty keywords}">
+                    <c:set var="keywords" value="${cont.fields.PRIMARYKEYWORD}"/>
+                </c:if>
+                <c:set var="score" value="7"/>
+                <c:if test="${!empty cont.fields.WATCH_POINT}">
+                    <c:set var="score" value="${cont.fields.WATCH_POINT}"/>
+                </c:if>
+                <c:if test="${!empty cont.fields.ImdbRating}">
+                    <c:set var="score" value="${cont.fields.ImdbRating}"/>
+                </c:if>
+
+                <c:if test="${notFirst}">,</c:if>
+                {
+                "name":"${name}",<c:if test="${!empty cont.fields.propertyFileLists}">
+                "director":"${cont.fields.propertyFileLists["导演"]}",
+                "actor":"${cont.fields.propertyFileLists["男主角"]}",
+                "area":"${cont.fields.propertyFileLists["国家及地区"]}",
+                "year":"${cont.fields.propertyFileLists["播出年代"]}",</c:if>
+                "visitCount":"${visitCount}",
+                "imgSrc":"${imgSrc}",
+                "score":"${score}",
+                "keywords":"${keywords}",
+                "nodeid":"${r.nodeId}",
+                "contid":"${cont.contId}"
+                }
+                <c:set var="notFirst" value="true"/>
+
+            </c:if>
+        </c:if>
+    </c:if>
+</c:forEach>
+]
+}

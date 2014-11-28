@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+
+<!-- 直播播放 -->
+<article class="live-play video-info">
+    <div class="list-area list-areas">
+        <div class="video-container">
+            <video id="video" width="100%" mn-contid="contid" mn-nodeid="nodeid" controls autoplay></video>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div class="play-type" ng-init="viewSelection='program'">
+        <span ng-class="{lvcur: viewSelection == 'program'}" ng-click="viewSelection='program'">节目单</span>
+        <span ng-class="{lvcur: viewSelection == 'reserve'}" ng-click="viewSelection='reserve'">直播预约</span>
+    </div>
+    <!-- 节目单 -->
+    <div ng-switch="viewSelection">
+        <div ng-switch-when="program" class="live-play-cont">
+            <div class="live-time">
+                <span ng-repeat="day in ['前天', '昨天', '今天', '明天']" ng-click="setDayIndex($index)" ng-class="{ltcur: dayIndex==$index}">{{day}}</span>
+            </div>
+            <!-- live cont -->
+            <div ng-switch="dayIndex">
+                <div ng-switch-when="0" class="live-deatil" >
+                    <div class="deatil-list">
+                        <p ng-repeat="program in programs[0]">
+                            <a ng-class="{'now-play': program.isLive}" ng-click="tryReserve(program, $event)">{{program.status}}</a>
+                            <span>{{program.startTime | date: 'HH:mm'}}-{{program.endTime | date: 'HH:mm'}}</span><span>{{program.name}}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-switch-when="1" class="live-deatil" >
+                    <div class="deatil-list">
+                        <p ng-repeat="program in programs[1]">
+                            <a ng-class="{'now-play': program.isLive}" ng-click="tryReserve(program, $event)">{{program.status}}</a>
+                            <span>{{program.startTime | date: 'HH:mm'}}-{{program.endTime | date: 'HH:mm'}}</span><span>{{program.name}}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-switch-when="2" class="live-deatil" >
+                    <div class="deatil-list">
+                        <p ng-repeat="program in programs[2]">
+                            <a ng-class="{'now-play': program.isLive}" ng-click="tryReserve(program, $event)">{{program.status}}</a>
+                            <span>{{program.startTime | date: 'HH:mm'}}-{{program.endTime | date: 'HH:mm'}}</span><span>{{program.name}}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-switch-when="3" class="live-deatil" >
+                    <div class="deatil-list">
+                        <p ng-repeat="program in programs[3]">
+                            <a ng-class="{'now-play': program.isLive}" ng-click="tryReserve(program, $event)">{{program.status}}</a>
+                            <span>{{program.startTime | date: 'HH:mm'}}-{{program.endTime | date: 'HH:mm'}}</span><span>{{program.name}}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 直播预约 -->
+        <div ng-switch-when="reserve" class="live-play-cont">
+
+            <div class="live-cont" ng-repeat-start="reserve in reserves">
+                <a class="live-cont-lf" href="#/livePlay/{{nodeid}}?contid={{reserve.contid}}">
+                    <img ng-src="{{reserve.imgSrc}}">
+                </a>
+                <div class="live-cont-rg">
+                    <h3>{{reserve.nodeName}}</h3>
+                    <p>预约节目：{{reserve.name}}</p>
+                    <p>预约时间：<span class="cr-winered">{{reserve.startTime|date:'HH:mm'}}</span></p>
+                    <p>提前10分钟给你提示</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="live-line" ng-repeat-end></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- 加载中 -->
+    <!--<div class="live-loading">加载中请稍候</div>-->
+</article>

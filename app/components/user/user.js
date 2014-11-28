@@ -5,12 +5,13 @@
 angular.module('user', [])
     .constant('userConst',{
         "wapAccessUrl": "/wapAccess_Account.msp",
-        "getUserInfoUrl": "getUserInfo.jsp",
+        "getUserInfoUrl": "components/user/getUserInfo.jsp",
         "loginUrl": "/login_Account.msp",
         "wapLoginUrl": "/wapLogin_Account.msp",
         "logoutUrl": "/logout_Account.msp"
     })
     .factory("userServ", ["$rootScope", "$http", "userConst", function ($rootScope, $http, constant) {
+        var lastRunTime=0;
         return {
             /**
              * 获取用户信息
@@ -87,25 +88,22 @@ angular.module('user', [])
              * @param {Object} angularEvent Synthetic event object.
              * @param {boolean} indicate login status
              */
-            requestUserInfo: function(){
-                var lastRunTime=0;
-                return function(force){
-                    var now = force || Date.now();
-                    if(force || ( (now-lastRunTime > 5000) && (!$rootScope.userInfo ||
-                        (now-$rootScope.userInfo.updateTime>180000)) )){
-                        lastRunTime = Date.now();
-                        return $http.get(constant.getUserInfoUrl).success(function(data){
-                            if(data.isLogin){
-                                $rootScope.isLogin = true;
-                                $rootScope.userInfo = data.userInfo;
-                                $rootScope.userInfo.updateTime = Date.now();
-                            }else{
-                                $rootScope.isLogin = false;
-                                delete $rootScope.userInfo;
-                            }
-                            $rootScope.$broadcast('userInfoUpdated', data.isLogin);
-                        })
-                    }
+            requestUserInfo: function (force) {
+                var now = force || Date.now();
+                if (force || ( (now - lastRunTime > 5000) && (!$rootScope.userInfo ||
+                    (now - $rootScope.userInfo.updateTime > 180000)) )) {
+                    lastRunTime = Date.now();
+                    return $http.get(constant.getUserInfoUrl).success(function (data) {
+                        if (data.isLogin) {
+                            $rootScope.isLogin = true;
+                            $rootScope.userInfo = data.userInfo;
+                            $rootScope.userInfo.updateTime = Date.now();
+                        } else {
+                            $rootScope.isLogin = false;
+                            delete $rootScope.userInfo;
+                        }
+                        $rootScope.$broadcast('userInfoUpdated', data.isLogin);
+                    })
                 }
             }
         };

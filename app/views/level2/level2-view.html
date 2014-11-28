@@ -1,0 +1,180 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<nav class="navbar" style="position: fixed;top:47px;z-index: 10">
+    <a class="return-btn" ng-click="back()"></a>
+    <span class="filter-btn" ng-show="filterOrder.length" ng-init="show=false" ng-class="{btncur:show}" ng-click="show=!show">
+    分类筛选 <em></em>
+    </span>
+    <h2>{{head}}</h2>
+</nav>
+<!-- ==================2 级 栏 目内 容 块===================== -->
+<article class="sy-main third-main">
+    <!-- ====================过滤器==================== -->
+    <div class="filter-area" ng-class="{show:show,drama:'电视剧'==head,free:'限免'==head}">
+        <div class="swiper-container filter-list" ng-repeat="filter in filterOrder" ng-init="keys=filterKeys[filter]">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a ng-class="{cur:key==keys.skey}" ng-repeat="key in keys" ng-click="select(filter,key)">{{key}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ====================详情==================== -->
+    <div class="detail-view" ng-class="{show:show,drama:'电视剧'==head,free:'限免'==head}">
+        <div class="type-area">
+            <div class="type-status">
+                <a ng-repeat="rank in ranks" ng-class="{'type-scur':rank==ranks.skey}" ng-click="doRank(rank)">{{rank}}<em ng-show="rank==ranks.skey"></em></a>
+            </div>
+            <div class="type-select" id="type-select">
+                <a class="type-img" ng-class="{'type-cur01':detailView=='img'}" ng-click="setView('img')"><span></span>图片</a>
+                <a class="type-list" ng-class="{'type-cur02':detailView=='list'}" ng-click="setView('list')"><span></span>列表</a>
+            </div>
+        </div>
+
+        <div class="detail-view-container" ng-switch="detailView">
+            <!-- 图片模式 -->
+            <div id="pic-list" ng-switch-when="img" class="sy-list column-list result-list" infinite-scroll="loadMore(entities)" infinite-scroll-distance="0.25" infinite-scroll-disabled="search.busy" infinite-scroll-immediate-check="false">
+                <ul class="pic-list">
+                    <li ng-repeat="entity in entities | unique">
+                        <a href="#/videoDetail/{{entity.nodeid}}/{{entity.contid}}">
+                            <b ng-style="{'background-image':'url(' + entity.imgSrc + ')'}"></b>
+                            <!-- 电影显此评分 -->
+                            <code ng-show="!entity.totalEpisode">{{entity.score}}分</code>
+                            <!-- 电视剧显示此评分 -->
+                            <cite ng-show="!!entity.totalEpisode"><strong>{{entity.latestEpisode|episodeView:entity.totalEpisode}}</strong>{{entity.score}}分</cite>
+                        </a>
+                        <a class="pic-tit">{{entity.name}}</a>
+                    </li>
+                </ul>
+                <div ng-show="!search.busy && !search.noMore && entities.length>=4" class="loading">向上拖动加载更多</div>
+                <div ng-show="search.busy && !search.noMore" class="loading"><span><img width="25" height="25" src="image/loading.gif"></span>加载中请稍候</div>
+                <div style="text-align: center" ng-show="search.noMore && entities.length==0">找到相关结果 0 个</div>
+            </div>
+            <!-- 列表模式 -->
+            <div id="all-list" ng-switch-when="list" class="all-list" infinite-scroll="loadMore(entities)" infinite-scroll-distance="0.25" infinite-scroll-disabled="search.busy" infinite-scroll-immediate-check="false">
+                <div class="list-area" ng-repeat="entity in entities | unique">
+                    <a class="movie-img" href="#/videoDetail/{{entity.nodeid}}/{{entity.contid}}"><img ng-src="{{entity.imgSrc}}"></a>
+                    <div class="movie-infos">
+                        <a href="">{{entity.name}}</a>
+                        <code>{{entity.score}}分</code>
+                        <p ng-if="!!entity.totalEpisode">{{entity.latestEpisode|episodeView:entity.totalEpisode}}</p>
+                        <div ng-if="entity.isAnime">
+                            <p>地区：{{entity.area}}</p>
+                            <p>年份：{{entity.year}}</p>
+                        </div>
+                        <div ng-if="!entity.isAnime">
+                            <p>导演：{{entity.director}}</p>
+                            <p>主演：{{entity.actor}}</p>
+                        </div>
+                        <em>{{entity.visitCount}}次</em>
+                    </div>
+                </div>
+                <div ng-show="!search.busy && !search.noMore && entities.length>=3" class="loading">向上拖动加载更多</div>
+                <div ng-show="search.busy && !search.noMore" class="loading"><span><img width="25" height="25" src="image/loading.gif"></span>加载中请稍候</div>
+                <div style="text-align: center" ng-show="search.noMore && entities.length==0">找到相关结果 0 个</div>
+            </div>
+            <div ng-switch-default>暂无内容</div>
+        </div>
+    </div>
+</article>
+<script id="filterKeys" type="text/data-json">
+{
+    "videoKind":{
+        "movie":["全部","预告","正片"]
+    },
+    "type":{
+        "movie":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${movieTypeNodeId}" pagesize="20" dataobjectid="1"/>
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ],
+        "drama":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${dramaTypeNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ],
+        "cartoon":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${animeTypeNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]
+    },
+    "area":{
+        "movie":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${movieAreaNodeId}" pagesize="20" dataobjectid="1" sortType="asc"/>
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ],
+        "drama":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${dramaAreaNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ],
+        "cartoon":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${animeAreaNodeId}" pagesize="20" dataobjectid="1" sortType="asc"/>
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]
+    },
+    "year":{
+        "movie":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${movieYearNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}">
+            "${cont.name}",
+        </c:forEach>
+            "更早"
+        ],
+        "drama":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${dramaYearNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}">
+            "${cont.name}",
+        </c:forEach>
+            "更早"
+        ],
+        "cartoon":[
+            "全部",
+        <cms:nodecont var="conts" nodeid="${animeYearNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]
+    },
+    "status":{
+        "cartoon":["全部",
+        <cms:nodecont var="conts" nodeid="${animeStatusNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]
+    },
+    "version":{
+        "cartoon":["全部",
+        <cms:nodecont var="conts" nodeid="${animeVersionNodeId}" pagesize="20" dataobjectid="1" />
+        <c:forEach var="cont" items="${conts}" varStatus='i'>
+            "${cont.name}"<c:if test="${!i.last}">,</c:if>
+        </c:forEach>
+        ]
+    },
+    "chargeMode":{
+        "movie":["全部","按次点播","包月"]
+    },
+    "freeVideoType":{
+        "free":["全部","电影","电视剧"]
+    }
+}
+</script>

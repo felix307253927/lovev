@@ -1,0 +1,150 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<!-- 个人中心 -->
+<article class="person-main">
+    <!-- 个人中心登录状态 -->
+    <div>
+        <div class="person-bg" style="overflow: hidden;">
+            <a ng-click="back()" class="person-return"></a>
+            <a href="#/setting" class="person-setting" ng-show="isLogin"></a>
+            <div class="person-header-wrapper">
+                <div class="person-header" ng-show="!isLogin">
+                    <div class="person-head"></div>
+                    <a class="person-login" href="#/loginByPwd" >请登录</a>
+                </div>
+                <div class="person-header person-header2" ng-show="isLogin">
+                    <div class="person-head person-head2"></div>
+                    <span ng-show="nameEditStatus=='done'">昵称：{{userInfo.nickName}}<a ng-click="editName()"></a></span>
+                    <form name="form" novalidate ng-show="nameEditStatus=='editing'">
+                        <!-- 取消编辑状态 -->
+                        <span class="nc-area">昵称：<em></em><input type="text" ng-model="editingName"><em></em><a ng-click="editDone()" class="edit-cancel" ng-class="{'edit-enter':editingName&&form.$dirty}"  href="javascript:;"></a></span>
+                    </form>
+                    <a class="account" href="#/myAccount">我的账户</a>
+                </div>
+            </div><div id="cont-nav" class="cont-nav" style="position: absolute;bottom: 0;">
+            <div mn-no-bar-scroll >
+                <a ng-click="setView('order')" ng-class="{'nav-pcur':viewSelection=='order'}"><span class="nav-order">订购<code></code></span></a>
+                <a ng-click="setView('collection')" ng-class="{'nav-pcur':viewSelection=='collection'}"><span class="nav-fav">收藏<code></code></span></a>
+                <a ng-click="setView('presell')" ng-class="{'nav-pcur':viewSelection=='presell'}"><span class="nav-yuyue">预约<code></code></span></a>
+                <a ng-click="setView('history')" ng-class="{'nav-pcur':viewSelection=='history'}"><span class="nav-history">历史<code></code></span></a>
+            </div></div>
+        </div>
+    </div>
+    <!-- ================================== -->
+    <div class="person-cont" style="top:0;">
+        <!-- 未登录内容块 -->
+        <div class="uncont" ng-show="!isLogin">
+            <span>没有订购信息，请先登录</span>
+        </div >
+        <!-- 已登陆内容块 -->
+        <div id="logins-cont" class="logins-cont" ng-show="isLogin" ng-switch="viewSelection">
+            <!-- 订购 -->
+            <div class="cont-video order-cont" ng-switch-when="order">
+                <div class="orcont-list" ng-repeat="order in orders">
+                    <h3>订购详情：{{order.name}}</h3>
+                    <p>
+                        <span style="width:137px;"> 产品价格： <em>{{order.price}}</em>元/{{order.isMonth?'月':'次'}}</span>
+                    </p>
+                    <p>
+                        订购状态： <em>{{order.status}}</em>
+                    </p>
+                    <a ng-if="order.canCancel" ng-click="cancelOrder(order.productId, order.name, order.price, order.isMonth)">退订</a>
+                </div>
+                <div class="uncont" ng-show="!orders.length">
+                    <span>没有订购信息</span>
+                </div >
+            </div>
+            <!-- 收藏历史 -->
+            <div id="fav-cont" class="cont-video fav-cont" ng-switch-when="collection">
+                <div class="fav-bar">
+                    <a>我的收藏>></a>
+                    <a id="fav-edit" class="fav-edit" ng-click="favEditing=true" ng-show="!favEditing" ng-init="favEditing=false">编辑</a>
+                    <!-- 点击编辑显示取消 -->
+                    <a id="fav-cancel" class="fav-edit" ng-click="favEditing=false" ng-show="favEditing" style="color:#fff;">取消</a>
+                </div>
+                <!-- 收藏列表 -->
+                <div class="list-area" ng-repeat="record in collection">
+                    <a class="movie-picbody" href="#/videoDetail/{{record.nodeid}}/{{record.contid}}">
+                        <img ng-src="{{record.imgSrc}}">
+                        <cite ng-show="favEditing" ng-click="cancelCollect($event,record.nodeid,record.contid)"></cite>
+                    </a>
+                    <div class="movie-infos">
+                        <a href="#/videoDetail/{{record.nodeid}}/{{record.contid}}">{{record.name}}</a>
+                        <code>{{record.score}}分</code>
+                        <p ng-show="!!record.totalEpisode">{{record.latestEpisode|episodeView:record.totalEpisode}}</p>
+                        <p>导演：{{record.director}}</p>
+                        <p>主演：{{record.actor}}</p>
+                        <em>{{record.visitCount}}次</em>
+                    </div>
+                </div>
+            </div>
+            <div class="cont-video fav-cont" ng-switch-when="presell">
+                <div class="fav-bar">
+                    <a href="">我的预约&gt;&gt;</a>
+                </div>
+                <div class="list-area" ng-repeat="record in presell">
+                    <a class="movie-picbody" href="#/videoDetail/{{record.nodeid}}/{{record.contid}}?play=true">
+                        <img ng-src="{{record.imgSrc}}">
+                        <cite ng-show="favEditing" ng-click="cancelCollect($event,record.nodeid,record.contid)"></cite>
+                    </a>
+                    <div class="movie-infos">
+                        <a href="#/videoDetail/{{record.nodeid}}/{{record.contid}}?play=true">{{record.name}}</a>
+                        <code>{{record.score}}分</code>
+                        <p ng-show="!!record.totalEpisode">{{record.latestEpisode|episodeView:record.totalEpisode}}</p>
+                        <p>导演：{{record.director}}</p>
+                        <p>主演：{{record.actor}}</p>
+                        <em>{{record.visitCount}}次</em>
+                    </div>
+                </div>
+            </div>
+            <!-- 播放历史 -->
+            <div class="cont-video history-cont" ng-switch-when="history">
+                <div class="fav-bar history-edit">
+                    <a id="history-edit" ng-init="historyEditing=false" ng-click="historyEditing=true" ng-show="!historyEditing" class="fav-edit">编辑</a>
+                    <!-- 点击编辑显示取消 -->
+                    <a id="history-cancel" ng-click="historyEditing=false" ng-show="historyEditing" class="fav-edit" style="color:#fff;">取消</a>
+                </div>
+                <!-- 今天 -->
+                <div class="history-listicon" ng-show="todayHistory.length">
+                    <em class="today">今天</em>
+                </div>
+                <div class="history-list" ng-show="todayHistory.length">
+                    <div class="list-area" ng-repeat="history in todayHistory">
+                        <a class="history-picbody" href="#/videoDetail/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
+                            <img ng-src="{{history.imgSrc}}">
+                            <!-- 删除层 -->
+                            <cite ng-show="historyEditing" ng-click="deleteHistory(history.contid);$event.preventDefault()"></cite>
+                        </a>
+                        <div class="movie-infos history-info">
+                            <a>{{history.name}}</a>
+                            <p ng-show="history.currentEpisode">第{{history.currentEpisode}}集</p>
+                            <p ng-show="history.director">导演：{{history.director}}</p>
+                            <p ng-show="history.actor">主演：{{history.actor}}</p>
+                            <em>观看至{{history.time|toDateTime|date:'HH:mm:ss'}}</em>
+                        </div>
+                    </div>
+                </div>
+                <!-- 更早 -->
+                <div class="history-listicon02" ng-show="serverHistory.length">
+                    <em class="morerecord">{{todayHistory.length ? '更早' : ''}}</em>
+                </div>
+                <div class="history-list" ng-show="serverHistory.length" infinite-scroll="loadHistory()" infinite-scroll-disabled="historyStatus.noMore || historyStatus.busy" infinite-scroll-immediate-check="false">
+                    <div class="list-area" ng-repeat="history in serverHistory" >
+                        <a class="history-picbody" href="#/videoDetail/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
+                            <img ng-src="{{history.imgSrc}}">
+                            <!-- 删 除 层 -->
+                            <cite ng-show="historyEditing" ng-click="deleteHistory(history.contid);$event.preventDefault()"></cite>
+                        </a>
+                        <div class="movie-infos history-info">
+                            <a>{{history.name}}</a>
+                            <p ng-show="history.currentEpisode">第{{history.currentEpisode}}集</p>
+                            <p ng-show="history.director">导演：{{history.director}}</p>
+                            <p ng-show="history.actor">主演：{{history.actor}}</p>
+                            <em>观看至{{history.time|toDateTime|date:'HH:mm:ss'}}</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

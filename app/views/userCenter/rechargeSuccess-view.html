@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <div class="setting-cont" id="rechargeSuccess">
+        <div class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/" class="index-btn"></a>
+            <h2>我的账户</h2>
+        </div>
+        <article class="logininfo article-top">
+            <div class="rechard-success">
+                <p>已成功向您的账户{{mobile}}</p>
+                <p>充值<em>{{validCount}}</em>元</p>
+            </div>
+            <!-- button -->
+            <div class="global-btn enter-btn top-btn">
+                <a href="#/myAccount">
+                    <input type="button" class="enter-pay" value="完成充值">
+                </a>
+            </div>
+        </article>
+    </div>
+</article>

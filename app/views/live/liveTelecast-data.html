@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<%
+Date today = new Date();
+request.setAttribute("month", today.getMonth());
+request.setAttribute("date", today.getDate());
+request.setAttribute("now", today);
+%>
+<cms:nodecont var="liveChannels" nodeid="40116991" dataobjectid="1" sortKey="ranking" sortType="desc" pagesize="50"/>
+{
+"lives": [
+<c:forEach var="cont" items="${liveChannels}" varStatus='j'>
+    <cms:node var="channel" nodeid="${cont.fields.AUTHOR}"/>
+    <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+    <c:forEach var="nnn" items="${channel.childNodeNets}">
+        <cms:node var="dayNode" nodeid="${nnn.node.nodeId}"/>
+        <c:set var="curTime" value="${dayNode.name}"/>
+        <c:set var="curMonth" value="${fn:substring(curTime, 4, 6)}"/>
+        <c:set var="curDate" value="${fn:substring(curTime, 6, 8)}"/>
+        <%-- month's index is zero-based --%>
+        <c:if test="${curMonth-1 == month && curDate == date}">
+            <c:set var="todayNode" value="${dayNode}"/>
+        </c:if>
+    </c:forEach>
+    <cms:nodecont var="lives" nodeid="${todayNode.nodeId}" dataobjectid="6" sortKey="ranking" sortType="asc" pagesize="100"/>
+    <c:set var="curIndex" value=""/>
+    <c:forEach var="live" items="${lives}" varStatus='i'>
+        <fmt:parseDate var="startTime" pattern="yyyy-MM-dd HH:mm:ss" value="${live.fields.STARTTIME}"/>
+        <fmt:parseDate var="endTime" pattern="yyyy-MM-dd HH:mm:ss" value="${live.fields.ENDTIME}"/>
+        <c:if test="${startTime.time <= now.time && now.time <= endTime.time}">
+            <c:set var="curIndex" value="${i.index}"/>
+        </c:if>
+    </c:forEach>
+    <c:if test="${!empty curIndex}">
+        <c:set var="current" value="${lives[curIndex].name}"/>
+        <c:set var="curContid" value="${lives[curIndex].contId}"/>
+        <c:if test="${!empty lives[curIndex+1]}">
+            <c:set var="next" value="${lives[curIndex+1].name}"/>
+        </c:if>
+    </c:if>
+    {
+    "imgSrc": "${imgSrc}",
+    "name": "${channel.name}",
+    "current": "${current}",
+    "next": "${next}",
+    "nodeid": "${channel.nodeId}",
+    "contid": "${curContid}"
+    }<c:if test="${!j.last}">,</c:if>
+</c:forEach>
+]
+}

@@ -1,0 +1,148 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page trimDirectiveWhitespaces="true" %>
+<%@ include file="../../../tagLib.jsp"%>
+<article>
+    <!-- 专题页 -->
+    <header class="setting-header zt-header">
+        <a href="javascript:" ng-click="back()" class="return-btn"></a>
+        <h2><img src="${resourceUrl}/static/imgs/tit.png" width="150"></h2>
+    </header>
+    <div class="zt-cont">
+        <c:if var="_n" test="${empty param.n}">
+            <cms:node var='gyt' nodeid='40115916'/>
+            <c:set var="gytNodeId" value="${gyt.childNodeNets[0].node.nodeId}"/>
+        </c:if>
+        <c:if test="${!_n}">
+            <c:set var="gytNodeId" value="${param.n}"/>
+        </c:if>
+
+        <cms:node var="node" nodeid="${gytNodeId}"/>
+        <c:forEach var="pic" items="${node.nodeImages}">
+            <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
+        </c:forEach>
+        <p><img src="${imgSrc}" alt=""></p>
+        <p><em>和视界观影团</em>是和视界电影频道利用资源优势，联合片方及各地院线共同打造，旨在回馈和视界会员(优先)，网友，并与其保持良好联系和互动的线下活动模式。我们将为幸运网友提供免费观赏最新影片、首映礼、主创见面会等机会。</p>
+        <div class="line-top"></div>
+        <div class="line-bottom"></div>
+        <article class="sy-main">
+            <div class="sy-header">
+                <h2>本期观影</h2>
+            </div>
+            <div class="list-area zt-movinfo">
+                <c:forEach var="nn" items="${node.childNodeNets}">
+                    <c:if test="${fn:contains(nn.namePath,'本期观影')}">
+                        <c:set var="n" value="${nn.node.nodeId}"/>
+                    </c:if>
+                </c:forEach>
+                <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+                <c:set var="cont" value="${nc[0]}"/>
+                <c:set var="imgSrc" value=""/>
+                <c:if test="${!empty cont && fn:length(cont.fields.IMAGES)>0}">
+                    <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+                </c:if>
+                <cms:nodecont var="monthMovies" nodeid="${dynodeId}" dataobjectid="2"/>
+                <c:set var="whateverContid" value="${monthMovies[0].contId}"/>
+                <a class="movie-img" href="#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}" ng-init="nodeid='${dynodeId}';contid='${whateverContid}'">
+                    <img src="${imgSrc}">
+                </a>
+                <div class="movie-infos video-intro">
+                    <div class="video-pinfo">
+                        <p>${cont.name}</p>
+                        <p>${cont.fields.CONTENTS}</p>
+                        <p>${cont.fields.LABLE1}</p>
+                        <p>${cont.fields.LABLE2}</p>
+                        <p>${cont.fields.NAME_TWO}</p>
+                        <p>${cont.fields.ABSTRACT}</p>
+                    </div>
+                    <div class="btn-group">
+                        <!--TODO:设置activityId -->
+                        <a href="javascript:" ng-init="activityId='200000897'" ng-click="join()" class="zt-cj">我要参加</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <c:set var="n" value=""/>
+        <c:forEach var="nn" items="${node.childNodeNets}">
+            <c:if test="${fn:contains(nn.namePath,'下期预告')}">
+                <c:set var="n" value="${nn.node.nodeId}"/>
+            </c:if>
+        </c:forEach>
+        <c:if test="${!empty n}">
+            <article class="sy-main">
+                <div class="sy-header">
+                    <h2>下期预告</h2>
+                </div>
+                <div class="sy-list column-list zt-list">
+                    <ul class="pic-list">
+                        <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+                        <c:forEach var="cont" items="${nc}">
+                            <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+                            <li>
+                                <a href="#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}">
+                                    <b style="background-image:url(${imgSrc});"></b>
+                                </a>
+                                <a class="pic-tit">${cont.name}</a>
+                                <p>${cont.fields.CONTENTS}</p>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </article>
+        </c:if>
+        <c:set var="n" value=""/>
+        <c:forEach var="nn" items="${node.childNodeNets}">
+            <c:if test="${fn:contains(nn.namePath,'往期活动')}">
+                <c:set var="n" value="${nn.node.nodeId}"/>
+            </c:if>
+        </c:forEach>
+        <c:if test="${!empty n}">
+            <article class="sy-main">
+                <div class="sy-header">
+                    <h2>往期活动</h2>
+                </div>
+                <div class="sy-list column-list zt-list">
+                    <ul class="pic-list">
+                        <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+                        <c:forEach var="cont" items="${nc}">
+                            <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+                            <li>
+                                <a href="#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}">
+                                    <b style="background-image:url(${imgSrc});"></b>
+                                </a>
+                                <a class="pic-tit">${cont.name}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </article>
+        </c:if>
+        <c:set var="n" value=""/>
+        <c:forEach var="nn" items="${node.childNodeNets}">
+            <c:if test="${fn:contains(nn.namePath,'大片推荐')}">
+                <c:set var="n" value="${nn.node.nodeId}"/>
+            </c:if>
+        </c:forEach>
+        <c:if test="${!empty n}">
+            <article class="sy-main">
+                <div class="sy-header">
+                    <h2>大片推荐</h2>
+                    <a href="#/l1/40114937">更多&gt;</a>
+                </div>
+                <div class="sy-list column-list zt-list">
+                    <ul class="pic-list">
+                        <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+                        <c:forEach var="cont" items="${nc}">
+                            <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+                            <li>
+                                <a href="#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}">
+                                    <b style="background-image:url(${imgSrc});"></b>
+                                </a>
+                                <a class="pic-tit">${cont.name}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </article>
+        </c:if>
+    </div>
+</article>

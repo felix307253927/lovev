@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article class="search-area">
+    <form class="search-key" name="form" novalidate>
+        <input style="color:#fff" ng-model="keyword" name="keyword" required class="input-area" autocomplete="off" type="search" placeholder="输入关键字">
+        <input class="input-btn" type="submit" ng-disabled="form.$invalid" value="搜索" ng-click="search(keyword)">
+    </form>
+    <!-- 搜索推荐 -->
+    <div ng-show="!showResult" class="list-search">
+        <div class="history-search" ng-show="searchHistory.length">
+            <h2>搜索历史</h2>
+            <div class="history-words">
+                <a ng-repeat="record in searchHistory" href="javascript:;" ng-click="search(record)">{{record}}</a>
+            </div>
+        </div>
+        <div class="history-search">
+            <h2>热门搜索</h2>
+            <div class="history-words">
+                <cms:nodecont var="conts" nodeid="40106981" dataobjectid="1" sortKey="ranking" sortType="desc" pagesize="20"/>
+                <c:forEach var="cont" items="${conts}">
+                    <a href="javascript:;" ng-click='search("${cont.name}")'>${cont.name}</a>
+                </c:forEach>
+            </div>
+        </div>
+        <div ng-show="searchHistory.length">
+            <div class="clear-history" ng-show="!showClearBtn" ng-init="showClearBtn=false" ng-click="showClearBtn=true">
+                <span style="font-size: 1.4em">清空历史记录</span>
+            </div>
+            <div class="clear-dialog" ng-show="showClearBtn">
+                <div class="clear-diacont" ng-click="showClearBtn=false">
+                    <p>确定要清空历史记录吗？</p>
+                    <div class="search-btngroup">
+                        <input class="clear-enter" type="button" ng-click="clearHistory()" value="确定">
+                        <input class="clear-cancel" type="button" value="取消">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索结果 -->
+    <div ng-show="showResult" class="all-list list-search"  infinite-scroll="loadMore()" infinite-scroll-disabled="busy||noMore" infinite-scroll-immediate-check="false" infinite-scroll-distance="0.1">
+        <div ng-if="noResult" style=" margin-top: 30px; ">
+            <span style="text-align: center; display: block; font-size: 1.4em;">对不起，未找到相关内容</span>
+        </div>
+        <!-- 搜索分类 -->
+        <div ng-if="total"  class="searchbar">
+            <div mn-no-bar-scroll>
+                <a ng-class="{'searchbar-cur':selectedFilter == name}" ng-repeat="(name,count) in classify" href="javascript:" ng-click="select(name)">{{name+'('+count+')'}}</a>
+            </div>
+        </div>
+
+        <div class="list-area" ng-repeat="result in entities|limitTo:size">
+            <a class="movie-img" href="#/videoDetail/{{result.nodeid}}/{{result.contid}}"><img ng-src="{{result.imgSrc}}"></a>
+            <div class="movie-infos">
+                <a>{{result.name}}</a>
+                <code>{{result.score}}分</code>
+                <p ng-show="!!result.totalEpisode">{{result.latestEpisode|episodeView:result.totalEpisode}}</p>
+                <p>导演：{{result.director}}</p>
+                <p>主演：{{result.actor}}</p>
+                <em>{{result.visitCount}}次</em>
+            </div>
+        </div>
+        <div ng-show="!busy && !noMore && entities.length" class="loading">向上拖动加载更多</div>
+        <div ng-show="busy && !noMore && !noResult" class="loading"><span><img width="25" height="25" src="/publish/i_www/resource/lovev/app/static/imgs/loading.gif"></span>加载中请稍候</div>
+    </div>
+</article>

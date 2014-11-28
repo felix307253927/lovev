@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <!-- 用户反馈 -->
+    <div class="setting-cont">
+        <header class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/level1" class="index-btn"></a>
+            <h2>用户反馈</h2>
+        </header>
+        <article class="setting-about feedback" ng-show="!showResult">
+            <h4>遇到问题尽管告诉我们吧</h4>
+            <form class="feedback-cont" name="form" novalidate>
+                <div style="margin:0 6%;">
+                    <label class="radio-select" ng-repeat="title in titles" for="{{title}}">
+                        <input type="radio" ng-model="problem.title" ng-value="title" id="{{title}}" name="problem"> {{title}}
+                    </label>
+                </div>
+                <textarea placeholder="请在这写下您的意见与反馈,字数限300个" ng-model="content" name="content" ng-minlength="1" maxlength="300" required class="textarea-feed"></textarea>
+                <h4>联系方式（选填）</h4>
+                <div class="sj-input">
+                    <input type="text" ng-model="contact" placeholder="请输入您的联系方式" class="sj-paynum">
+                </div>
+                <div class="global-btn enter-btn">
+                    <input type="submit" class="enter-pay" ng-click="submit()" ng-disabled="form.$invalid || sumbitDisabled" value="{{info}}">
+                </div>
+            </form>
+        </article>
+        <article class="logininfo article-top" ng-show="showResult">
+            <div class="rechard-success" ng-show="submitResult">
+                <p style="line-height: 40px;">反馈提交成功！</p>
+            </div>
+            <div class="rechard-fail" ng-show="!submitResult">
+                <p style="line-height: 40px;">很遗憾，提交失败！</p>
+            </div>
+            <!-- button -->
+            <div class="global-btn enter-btn top-btn">
+                <a ng-click="showResult=false">
+                    <input type="button" class="enter-pay" value="{{submitResult ? '继续反馈':'重新提交'}}">
+                </a>
+            </div>
+        </article>
+    </div>
+</article>

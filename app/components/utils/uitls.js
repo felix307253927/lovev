@@ -106,9 +106,10 @@ angular.module('utils', [])
                 $http.get('/sendDynPwdNew.msp?msisdn=' + scope.mobile + '&veriCode=' + scope.captcha.replace(/\s/g, '')).success(function (data) {
                     if (!data.result) {
                         //scope.SMSCodeErr = true;
-                        if (data.message && data.message.indexOf('验证码' != -1)) {
-                            scope.captchaErr = true
-                        }
+                        scope.smsErrInfo = '短信验证码获取失败，请重新获取！';
+                        if(data.message)
+                            scope.smsErrInfo = data.message;
+                        scope.SMSCodeErr = true;
                         scope.SMSDisabled = false;
                     } else {
                         var time = _time;

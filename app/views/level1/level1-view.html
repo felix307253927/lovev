@@ -8,7 +8,7 @@
                 <li ng-repeat="banner in banners">
                     <a class="pic sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                         <img ng-src="{{banner.imgSrc}}"/>
-                        <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
+                        <em ng-if="banner.label" ng-class="{yushou:banner.label=='预售', yugao:banner.label=='预告', shoufa:banner.label=='首映'}"></em>
                     </a>
                 </li>
             </ul>
@@ -21,20 +21,22 @@
         <p ng-repeat="banner in banners|filter:{imgType:0}">
             <a class="sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                 <img ng-src="{{banner.imgSrc}}">
-                <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
+                <em ng-if="banner.label" ng-class="{yushou:banner.label=='预售', yugao:banner.label=='预告', shoufa:banner.label=='首映'}"></em>
             </a>
         </p>
         <span ng-repeat="banner in banners|filter:{imgType:1}">
             <a class="sy-picarea" href="#/videoDetails/{{banner.nodeid}}/{{banner.contid}}">
                 <img ng-src="{{banner.imgSrc}}">
-                <em ng-if="banner.label" ng-class="{yushou:banner.label==1, yugao:banner.label==2, shoufa:banner.label==3}"></em>
+                <em ng-if="banner.label" ng-class="{yushou:banner.label=='预售', yugao:banner.label=='预告', shoufa:banner.label=='首映'}"></em>
             </a>
             <a class="sy-picinfo">{{banner.name}}</a> 
             <label ng-if="!!banner.description">{{banner.description}}</label>
         </span>
     </div>
 </article>
-<div ng-if="''==channel" class="anouncement"><a href="#/report">打造健康环境，举报不良视频！</a></div>
+<div ng-if="'level1'==channel" class="anouncement">
+    <a href="#/report">打造健康环境，举报不良视频！</a>
+</div>
 <!-- ==================一级内容块===================== -->
 <article class="sy-main" ng-repeat="block in blocks">
     <div class="sy-header">
@@ -49,7 +51,7 @@
                     <em ng-if="entity.label" ng-class="{yushou:entity.label==1, yugao:entity.label==2, shoufa:entity.label==3}"></em>
                     <span ng-if="!!entity.totalEpisode">{{entity.latestEpisode|episodeView:entity.totalEpisode}}</span>
                 </a>
-                <a class="pic-tit" href="">{{entity.name}}</a>
+                <a class="pic-tit" href="#/videoDetails/{{entity.nodeid}}/{{entity.contid}}?isPresell={{!!entity.isPresell}}">{{entity.name}}</a>
                 <p>{{entity.description}}</p>
             </li>
         </ul>

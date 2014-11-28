@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<article>
+    <!-- 公共 提示 -->
+    <div class="setting-cont">
+        <header class="setting-header">
+            <a ng-click="back()" class="return-btn"></a>
+            <a href="#/l1" class="index-btn"></a>
+            <h2>{{title}}</h2>
+        </header>
+        <article class="logininfo article-top">
+            <div ng-class="{'rechard-success':status,'rechard-fail':status===false}">
+                <p ng-class="contentCssClass" style="line-height: 40px;width:66%">{{content||'该内容因版权限制，仅限于中国大陆地区播放'}}</p>
+                <p style=" width: 87%; margin: 0 auto; padding: 0; font-size: 1.2em; " ng-if="!!detail">{{detail}}</p>
+            </div>
+            <div class="global-btn enter-btn top-btn">
+                <input type="button" class="enter-pay" ng-click="confirm()" value="{{confirmText}}">
+            </div>
+            <div class="global-btn" ng-show="!!cancelText">
+                <input type="button" class="next-pay" ng-click="cancel()" value="{{cancelText}}">
+            </div>
+        </article>
+    </div>
+</article>

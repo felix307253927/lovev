@@ -7,14 +7,9 @@
 <%@page import="java.util.regex.*"%>
 <%@page import="java.util.*"%>
 <%
-String url="";
-String temUrl = "/";
-String portalUrl="/publish";
-String contImagePath="/image";
-
-request.setAttribute("webUrl", "http://www.lovev.com");
-request.setAttribute("portalUrl", portalUrl);
-request.setAttribute("contImagePath",contImagePath);  //内容图片路径
+request.setAttribute("portalUrl", "/publish");
+request.setAttribute("contImagePath","/poms/image");  //内容图片路径
+request.setAttribute("resourceUrl","/publish/i_www/resource/lovev/app");  //i视界手机资源路径
 
 request.setAttribute("iShijieNodeId","40106953");  //I视界主节点ID
 request.setAttribute("dynodeId","40106958");    //电影
@@ -37,8 +32,6 @@ request.setAttribute("animeYearNodeId","40115948");  //动漫年份
 request.setAttribute("animeAreaNodeId","40115947");  //动漫地区
 request.setAttribute("animeStatusNodeId","40115950");  //动漫状态
 request.setAttribute("animeVersionNodeId","40115949");  //动漫版本
-
-request.setAttribute("resourceUrl","/publish/resource/yidong/html5");  //i视界手机资源路径
 
 String accessUserAgent=request.getHeader("user-agent");
 if(accessUserAgent!=null){
