@@ -65,20 +65,20 @@
             </c:if>
             <c:if test="${empty imgSrc}"><%-- oms图为空，则取cms图 --%>
                 <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
-                <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'HSJ1080H')}">
                         <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
                 </c:forEach>
                 <c:if test="${empty imgSrc}">
-                    <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                         <c:if test="${fn:contains(pic.dpFileName,'HSJ720H')}">
                             <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                         </c:if>
                     </c:forEach>
                 </c:if>
                 <c:if test="${empty imgSrc}">
-                    <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                         <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
                             <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                         </c:if>
@@ -103,7 +103,7 @@
             <c:set var="more" value="${n.property1}"/>
         </c:if>
         "routeOfMore":"${more}"
-    </c:if><c:if test="${!empty n.property2 && n.property2 == 1}">,
+    </c:if><c:if test="${!empty n.isBookSell && n.isBookSell == 1}">,
         "blockStyle": "column-list yushou-list"
     </c:if>
         }<c:if test="${!i.last}">,</c:if>

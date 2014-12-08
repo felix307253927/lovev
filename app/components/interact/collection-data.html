@@ -20,20 +20,20 @@
         </c:if>
         <%-- 取图 --%>
         <c:set var="imgSrc" value=""/>
-        <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+        <c:forEach var="pic" items="${cont.fields.displayFileLists}">
             <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
                 <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
             </c:if>
         </c:forEach>
         <c:if test="${empty imgSrc}">
-            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+            <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                 <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
                     <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                 </c:if>
             </c:forEach>
         </c:if>
         <c:if test="${empty imgSrc}">
-            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+            <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                 <c:if test="${fn:contains(pic.dpFileName,'V_CONTENT')}">
                     <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                 </c:if>

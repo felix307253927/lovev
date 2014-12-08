@@ -6,7 +6,8 @@
  */
 angular.module('watchFilmTeam', ['utils'])
     .constant('watchFilmTeamConst',{
-        joinUrl : '/join_Group.msp'
+        joinUrl : '/join_Group.msp',
+        dataUrl : 'views/watchFilmTeam/watchFilmTeam-data.jsp'
     })
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/watchFilmTeam/:n?', {
@@ -16,6 +17,12 @@ angular.module('watchFilmTeam', ['utils'])
     }])
     .controller('watchFilmTeamCtrl', ['$scope', '$http', '$rootScope', 'tipServ','watchFilmTeamConst',
     function($scope, $http, $rootScope, tipSrv,constant){
+        var nodeid = $routeParams.n || '';
+        $http.get(constant.dataUrl + "?n=" + nodeid).success(function(data){
+            if(data){
+                angular.extend($scope, data);
+            }
+        });
         $scope.join = function(){
             if($rootScope.isLogin){
                 $http.get(constant.joinUrl + '?activityId=' + $scope.activityId).

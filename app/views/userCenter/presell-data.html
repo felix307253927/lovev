@@ -1,36 +1,35 @@
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page trimDirectiveWhitespaces="true" %>
 <%@ include file="../../../tagLib.jsp"%>
-<cms:search var="search" k="*:*" field="wwwcontent" q="idPath:${preSellNodeId}" sortPattern="publishTime"  pageSize="200"/>
+<%--预售--%>
+<cms:search var="search" k="*:*" field="wwwcontent" q="(salCategory:1 OR packSalCategory:1)" sortPattern="publishTime"  pageSize="200"/>
 {
 "presell":[
 <c:forEach var="r" items="${search.searchResult}">
     <c:if test="${!empty r.contentName}">
-        <cms:node  var="dramaNode" nodeid ="${r.nodeId}"/>
-        <c:set var="name" value="${dramaNode.name}"/>
-        <cms:nodecont var="conts" nodeid="${r.nodeId}"  dataobjectid="2" pagesize="1000" sortType="desc"/>
-        <c:set var="cont" value="${conts[0]}"/>
+        <cms:content var="cont" contid="${r.contentId}"/>
         <cms:hasBespeakTag var="hasBespeak" nodeId ="${r.nodeId}" contentId ="${cont.contId}"/>
         <c:if test="${hasBespeak.result && hasBespeak.isOrdered == '0000'}">
+            <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
             <c:if test="${!empty cont}">
                 <%-- 取图 --%>
                 <c:set var="imgSrc" value=""/>
                 <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
-                        <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                        <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
                 </c:forEach>
                 <c:if test="${empty imgSrc}">
                     <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                         <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
-                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                            <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                         </c:if>
                     </c:forEach>
                 </c:if>
                 <c:if test="${empty imgSrc}">
                     <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                         <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
-                            <c:set var="imgSrc" value="${contImagePath}${cont.fields.DISPLAYFILELISTS}/${cont.fields.HW_CID}/display/${pic.dpFileName}"/>
+                            <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                         </c:if>
                     </c:forEach>
                 </c:if>

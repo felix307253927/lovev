@@ -14,20 +14,20 @@
 <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
 <%-- 取默认名和图 --%>
 <c:set var="name" value="${cont.name}"/>
-<c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+<c:forEach var="pic" items="${cont.fields.displayFileLists}">
     <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
         <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
     </c:if>
 </c:forEach>
 <c:if test="${empty imgSrc}">
-    <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
         <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
             <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
         </c:if>
     </c:forEach>
 </c:if>
 <c:if test="${empty imgSrc}">
-    <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+    <c:forEach var="pic" items="${cont.fields.displayFileLists}">
         <c:if test="${fn:contains(pic.dpFileName,'V_CONTENT')}">
             <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
         </c:if>
@@ -35,12 +35,12 @@
 </c:if>
 <%-- 内容类型 --%>
 <c:set var="type" value="${cont.fields.CONT_SORT}"/>
-<c:if test="${!empty cont.fields.PropertyFileLists}">
+<c:if test="${!empty cont.fields.propertyFileLists}">
     <c:if test="${empty type}">
-        <c:set var="type" value="${cont.fields.PropertyFileLists['内容分类']}"/>
+        <c:set var="type" value="${cont.fields.propertyFileLists['内容分类']}"/>
     </c:if>
     <c:if test="${empty type}">
-        <c:set var="type" value="${cont.fields.PropertyFileLists['内容类型']}"/>
+        <c:set var="type" value="${cont.fields.propertyFileLists['内容类型']}"/>
     </c:if>
 </c:if>
 <%-- 设置收藏contid，因为电视剧收藏有些麻烦 --%>
@@ -69,7 +69,7 @@
     <c:set var="isPresell" value="true"/>
 </c:if>
 <%-- 是否为电视剧，若是则注意name,episode,visitCount取法，并且判断是否为动漫--%>
-<c:set var="isDrama" value="${cont.fields.FormType != 8}"/>
+<c:set var="isDrama" value="${cont.fields.FORMTYPE != 8}"/>
 <c:if test="${isDrama}">
     <%-- 电视剧应当以第一集的访问字数作为总访问次数.TODO这里存在一个问题，这个标签被用了两次， 所以可能存在多加1次的问题。不过反正也是假的东西 --%>
     <cms:contvisitadd var="visitCount" contid="${cid}"/>
@@ -82,26 +82,26 @@
 <%-- 版权判断--%>
 <cms:copyRightFilter var="noCopyright" contentId="${cid}"  nodeId="${nid}"/>
 {
-"name":"${name}",<c:if test="${!empty cont.fields.PropertyFileLists}">
+"name":"${name}",<c:if test="${!empty cont.fields.propertyFileLists}">
     <%-- 主演 --%>
-    <c:set var="actor" value="${cont.fields.PropertyFileLists['主演']}"/>
+    <c:set var="actor" value="${cont.fields.propertyFileLists['主演']}"/>
     <c:if test="${empty actor}">
-        <c:set var="actor" value="${cont.fields.PropertyFileLists['男主角']}"/>
+        <c:set var="actor" value="${cont.fields.propertyFileLists['男主角']}"/>
     </c:if>
-    "director":"${cont.fields.PropertyFileLists["导演"]}",
+    "director":"${cont.fields.propertyFileLists["导演"]}",
     "actor":"${actor}",
-    "area":"${cont.fields.PropertyFileLists["国家及地区"]}",
-    "year":"${cont.fields.PropertyFileLists["播出年代"]}",</c:if>
+    "area":"${cont.fields.propertyFileLists["国家及地区"]}",
+    "year":"${cont.fields.propertyFileLists["播出年代"]}",</c:if>
     "imgSrc":"${imgSrc}",
 <%-- 评分 --%>
-<c:set var="score" value="${cont.fields.PropertyFileLists['评分']}"/>
+<c:set var="score" value="${cont.fields.propertyFileLists['评分']}"/>
 <c:if test="${empty score}">
     <c:set var="score" value="${cont.fields.WATCH_POINT}"/>
 </c:if>
 <c:if test="${empty score}">
     <c:set var="score" value="7"/>
 </c:if>
-<c:set var="description" value="${cont.fields.Detail}"/>
+<c:set var="description" value="${cont.fields.DESCRIPTION}"/>
 <c:if test="${empty description || description=='[]'}">
     <c:set var="description" value="该影片暂无简介！"/>
 </c:if>

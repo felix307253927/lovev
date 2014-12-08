@@ -1,0 +1,97 @@
+<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../../../tagLib.jsp"%>
+<c:if var="_n" test="${empty param.n}">
+    <cms:node var='gyt' nodeid='40115916'/>
+    <c:set var="gytNodeId" value="${gyt.childNodeNets[0].node.nodeId}"/>
+</c:if>
+<c:if test="${!_n}">
+    <c:set var="gytNodeId" value="${param.n}"/>
+</c:if>
+<cms:node var="node" nodeid="${gytNodeId}"/>
+<c:forEach var="pic" items="${node.nodeImages}">
+    <c:set var="imgSrc" value="${portalUrl}${pic.src}"/>
+</c:forEach>
+{
+"imgSrc":"${imgSrc}",
+"curFilm":{
+<c:forEach var="nn" items="${node.childNodeNets}">
+    <c:if test="${fn:contains(nn.namePath,'本期观影')}">
+        <c:set var="n" value="${nn.node.nodeId}"/>
+    </c:if>
+</c:forEach>
+<cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+<c:set var="cont" value="${nc[0]}"/>
+<c:set var="imgSrc" value=""/>
+<c:if test="${!empty cont && fn:length(cont.fields.IMAGES)>0}">
+    <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+</c:if>
+<cms:nodecont var="monthMovies" nodeid="${dynodeId}" dataobjectid="2"/>
+<c:set var="whateverContid" value="${monthMovies[0].contId}"/>
+"imgSrc":"${imgSrc}",
+"link":"#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}",
+"name":"${cont.name}",
+"CONTENTS":"${cont.fields.CONTENTS}",
+"LABLE1":"${cont.fields.LABLE1}",
+"LABLE2":"${cont.fields.LABLE2}",
+"NAME_TWO":"${cont.fields.NAME_TWO}",
+"ABSTRACT":"${cont.fields.ABSTRACT}",
+},
+<c:set var="n" value=""/>
+<c:forEach var="nn" items="${node.childNodeNets}">
+    <c:if test="${fn:contains(nn.namePath,'下期预告')}">
+        <c:set var="n" value="${nn.node.nodeId}"/>
+    </c:if>
+</c:forEach>
+<c:if test="${!empty n}">
+    "nextFilm":[
+    <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+    <c:forEach var="cont" items="${nc}" varStatus="nf">
+        <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+        {
+        "link":"#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}",
+        "imgSrc":"${imgSrc}",
+        "name":"${cont.name}",
+        "CONTENTS":"${cont.fields.CONTENTS}"
+        }<c:if test="${!nf.last}">,</c:if>
+    </c:forEach>
+    ],
+</c:if>
+<c:set var="n" value=""/>
+<c:forEach var="nn" items="${node.childNodeNets}">
+    <c:if test="${fn:contains(nn.namePath,'往期活动')}">
+        <c:set var="n" value="${nn.node.nodeId}"/>
+    </c:if>
+</c:forEach>
+<c:if test="${!empty n}">
+    "prevFilm":[
+    <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+    <c:forEach var="cont" items="${nc}" varStatus="pf">
+        <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+        {
+        "link":"#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}",
+        "imgSrc":"${imgSrc}",
+        "name":"${cont.name}"
+        }<c:if test="${!pf.last}">,</c:if>
+    </c:forEach>
+    ],
+</c:if>
+<c:set var="n" value=""/>
+<c:forEach var="nn" items="${node.childNodeNets}">
+    <c:if test="${fn:contains(nn.namePath,'大片推荐')}">
+        <c:set var="n" value="${nn.node.nodeId}"/>
+    </c:if>
+</c:forEach>
+<c:if test="${!empty n}">
+    "films":[
+    <cms:nodecont var="nc" nodeid="${n}" dataobjectid="1"/>
+    <c:forEach var="cont" items="${nc}" varStatus="pf">
+        <c:set var="imgSrc" value="${portalUrl}${cont.fields.IMAGES[0].src}"/>
+        {
+        "link":"#/videoDetail/${cont.fields.AUTHOR}/${cont.fields.LINKS}",
+        "imgSrc":"${imgSrc}",
+        "name":"${cont.name}"
+        }<c:if test="${!pf.last}">,</c:if>
+    </c:forEach>
+    ]
+</c:if>
+}

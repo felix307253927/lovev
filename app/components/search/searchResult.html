@@ -7,20 +7,16 @@ java.util.Map pathToId = new java.util.HashMap();
 //默认搜索节点
 pathToId.put("all","");
 //各频道作为关键字时的idPath
-pathToId.put("movie","contFormType:8");
-pathToId.put("drama","contFormType:6");
-pathToId.put("microMovie","");
-pathToId.put("cartoon","");
-pathToId.put("free","");
-pathToId.put("正片","");
-pathToId.put("预告","");
-pathToId.put("免费","");
-pathToId.put("按次点播","");
-pathToId.put("包月","");
-pathToId.put("正片免费","");
-pathToId.put("正片按次点播","");
-pathToId.put("正片包月","");
-pathToId.put("预告免费","");
+pathToId.put("movie","contDisplayType:1000");
+pathToId.put("drama","contDisplayType:1001");
+pathToId.put("microMovie","contDisplayType:1000,mediaMovieForm:微电影");
+pathToId.put("cartoon","contDisplayType:1007");
+pathToId.put("free","(salCategory:3 OR packSalCategory:3)");//mediaShape
+pathToId.put("正片","mediaShape:全片");
+pathToId.put("预告","mediaShape:预告");
+pathToId.put("免费","(packFreeType:2028593060 OR productId:2028593060)");
+pathToId.put("按次点播","(packNumberType:2028595350 OR productId:2028595350)");
+pathToId.put("包月","packMonthType:2028593910");
 request.setAttribute("pathToId",pathToId);
 %>
 
@@ -37,10 +33,10 @@ request.setAttribute("pathToId",pathToId);
 </c:if>
 <c:if test="${!empty param.freeVideoType}">
     <c:if test="${param.freeVideoType == '电影'}">
-        <c:set var="idPath" value="contFormType:8"/>
+        <c:set var="idPath" value="contDisplayType:1000"/>
     </c:if>
     <c:if test="${param.freeVideoType == '电视剧'}">
-        <c:set var="idPath" value="contFormType:6"/>
+        <c:set var="idPath" value="contDisplayType:1001"/>
     </c:if>
 </c:if>
 
@@ -67,13 +63,13 @@ request.setAttribute("pathToId",pathToId);
 <%-- 设置过滤器 --%>
 <c:set var="filterKey" value=""/>
 <c:if test="${!empty param.type}">
-    <c:set var="filterKey" value="${filterKey}cont_sort:${param.type},"/>
+    <c:set var="filterKey" value="${filterKey}mediaType:${param.type},"/>
 </c:if>
 <c:if test="${!empty param.area}">
-    <c:set var="filterKey" value="${filterKey}distribut_area:${param.area},"/>
+    <c:set var="filterKey" value="${filterKey}mediaArea:${param.area},"/>
 </c:if>
 <c:if test="${!empty param.year}">
-    <c:set var="filterKey" value="${filterKey}distribut_year:${param.year},"/>
+    <c:set var="filterKey" value="${filterKey}mediaYear:${param.year},"/>
 </c:if>
 <%-- 根据resultType过滤结果类型 --%>
 <c:if test="${!empty param.version}">
@@ -98,7 +94,7 @@ request.setAttribute("pathToId",pathToId);
     </c:if>
     <%-- 如果是在搜索页搜索（搜索页不指定参数page，否则难以统计各分类数）TODO:固定100会有这样的问题，若搜"爱",有>=128部电影，怎么办 --%>
     <c:if test="${param.classify=='1'}">
-        <c:set var="pageSize" value="500"/>
+        <c:set var="pageSize" value="300"/>
         <c:set var="dramaCount" value="0"/>
         <c:set var="microMovieCount" value="0"/>
         <c:set var="cartoonCount" value="0"/>
@@ -115,23 +111,24 @@ request.setAttribute("pathToId",pathToId);
         <c:set var="cartoonCounted" value="false"/>
         <c:set var="videoKind" value=""/>
         <cms:content var="cont" contid="${r.contentId}"/>
+        <!---${cont.name}--${cont.fields.PRDPACK_ID}-------------------------->
         <c:set var="name" value="${cont.name}"/>
         <c:set var="imgCont" value="${fn:substring(cont.fields.MMS_ID,0,4)}/${fn:substring(cont.fields.MMS_ID,4,7)}/${fn:substring(cont.fields.MMS_ID,7,10)}"/>
-        <c:if test="${!empty cont && !empty cont.fields.propertyFileLists}">
-            <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+        <c:if var="_empty" test="${!empty cont && !empty cont.fields.propertyFileLists}">
+            <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                 <c:if test="${fn:contains(pic.dpFileName,'HSJ1080V')}">
                     <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                 </c:if>
             </c:forEach>
             <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'HSJ720V')}">
                         <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
                 </c:forEach>
             </c:if>
             <c:if test="${empty imgSrc}">
-                <c:forEach var="pic" items="${cont.fields.DisPlayFileLists}">
+                <c:forEach var="pic" items="${cont.fields.displayFileLists}">
                     <c:if test="${fn:contains(pic.dpFileName,'TV_CONTENT')}">
                         <c:set var="imgSrc" value="${portalUrl}${contImagePath}/${imgCont}/${pic.dpFileName}"/>
                     </c:if>
@@ -149,7 +146,7 @@ request.setAttribute("pathToId",pathToId);
                         <c:set var="videoKind" value="动漫"/>
                     </c:if>
                 </c:if>
-                <c:if test="${cont.fields.FormType!='8'}">
+                <c:if test="${cont.fields.FORMTYPE!='8'}">
                     <c:set var="dramaCount" value="${dramaCount+1}"/>
                     <c:set var="videoKind" value="电视剧"/>
                 </c:if>
@@ -191,11 +188,12 @@ request.setAttribute("pathToId",pathToId);
             }
             <c:set var="notFirst" value="true"/>
         </c:if>
-        <c:if test="${empty cont.fields.propertyFileLists}">
+        <c:if test="${!_empty}">
             <c:set var="emptyCount" value="${emptyCount+1}"/>
         </c:if>
     </c:forEach>
     ]
+        <!---emptyCount==${emptyCount}--->
     <c:if test="${param.classify=='1'}">,
         "classify":{
         "全部":${empty search.count ? 0 : search.count-emptyCount},

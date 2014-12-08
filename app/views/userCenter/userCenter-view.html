@@ -64,12 +64,12 @@
                 </div>
                 <!-- 收藏列表 -->
                 <div class="list-area" ng-repeat="record in collection">
-                    <a class="movie-picbody" href="#/videoDetail/{{record.nodeid}}/{{record.contid}}">
+                    <a class="movie-picbody" href="#/videoDetails/{{record.nodeid}}/{{record.contid}}">
                         <img ng-src="{{record.imgSrc}}">
                         <cite ng-show="favEditing" ng-click="cancelCollect($event,record.nodeid,record.contid)"></cite>
                     </a>
                     <div class="movie-infos">
-                        <a href="#/videoDetail/{{record.nodeid}}/{{record.contid}}">{{record.name}}</a>
+                        <a href="#/videoDetails/{{record.nodeid}}/{{record.contid}}">{{record.name}}</a>
                         <code>{{record.score}}分</code>
                         <p ng-show="!!record.totalEpisode">{{record.latestEpisode|episodeView:record.totalEpisode}}</p>
                         <p>导演：{{record.director}}</p>
@@ -83,12 +83,12 @@
                     <a href="">我的预约&gt;&gt;</a>
                 </div>
                 <div class="list-area" ng-repeat="record in presell">
-                    <a class="movie-picbody" href="#/videoDetail/{{record.nodeid}}/{{record.contid}}?play=true">
+                    <a class="movie-picbody" href="#/videoDetails/{{record.nodeid}}/{{record.contid}}?play=true">
                         <img ng-src="{{record.imgSrc}}">
                         <cite ng-show="favEditing" ng-click="cancelCollect($event,record.nodeid,record.contid)"></cite>
                     </a>
                     <div class="movie-infos">
-                        <a href="#/videoDetail/{{record.nodeid}}/{{record.contid}}?play=true">{{record.name}}</a>
+                        <a href="#/videoDetails/{{record.nodeid}}/{{record.contid}}?play=true">{{record.name}}</a>
                         <code>{{record.score}}分</code>
                         <p ng-show="!!record.totalEpisode">{{record.latestEpisode|episodeView:record.totalEpisode}}</p>
                         <p>导演：{{record.director}}</p>
@@ -110,13 +110,13 @@
                 </div>
                 <div class="history-list" ng-show="todayHistory.length">
                     <div class="list-area" ng-repeat="history in todayHistory">
-                        <a class="history-picbody" href="#/videoDetail/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
+                        <a class="history-picbody" href="#/videoDetails/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
                             <img ng-src="{{history.imgSrc}}">
                             <!-- 删除层 -->
                             <cite ng-show="historyEditing" ng-click="deleteHistory(history.contid);$event.preventDefault()"></cite>
                         </a>
                         <div class="movie-infos history-info">
-                            <a>{{history.name}}</a>
+                            <a href="#/videoDetails/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">{{history.name}}</a>
                             <p ng-show="history.currentEpisode">第{{history.currentEpisode}}集</p>
                             <p ng-show="history.director">导演：{{history.director}}</p>
                             <p ng-show="history.actor">主演：{{history.actor}}</p>
@@ -130,13 +130,13 @@
                 </div>
                 <div class="history-list" ng-show="serverHistory.length" infinite-scroll="loadHistory()" infinite-scroll-disabled="historyStatus.noMore || historyStatus.busy" infinite-scroll-immediate-check="false">
                     <div class="list-area" ng-repeat="history in serverHistory" >
-                        <a class="history-picbody" href="#/videoDetail/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
+                        <a class="history-picbody" href="#/videoDetails/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">
                             <img ng-src="{{history.imgSrc}}">
                             <!-- 删 除 层 -->
                             <cite ng-show="historyEditing" ng-click="deleteHistory(history.contid);$event.preventDefault()"></cite>
                         </a>
                         <div class="movie-infos history-info">
-                            <a>{{history.name}}</a>
+                            <a href="#/videoDetails/{{history.nodeid}}/{{history.contid}}?play=true&time={{history.time}}">{{history.name}}</a>
                             <p ng-show="history.currentEpisode">第{{history.currentEpisode}}集</p>
                             <p ng-show="history.director">导演：{{history.director}}</p>
                             <p ng-show="history.actor">主演：{{history.actor}}</p>
